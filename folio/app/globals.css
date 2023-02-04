@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .sidebar-icon-top {
+    @apply  py-3 pl-5 relative flex items-center
+            border-l-4 border-secondary hover:border-[#A3A0FB]
+            hover:bg-[#9290E2]/[.18]
+            hover:text-[#A3A0FB]
+            font-light
+  }
+
+  .sidebar-icon-bottom {
+    @apply  py-3 pl-5 relative flex items-center
+            hover:text-[#A3A0FB]
+            font-light
+  }
+}
