@@ -15,12 +15,12 @@ export default function Dashboard() {
                                     lg:grid-cols-2 
                                     xl:grid-cols-3 
                                     justify-items-center'>
-                    <ImageContainer />
-                    <ImageContainer />
-                    <ImageContainer />
-                    <ImageContainer />
-                    <ImageContainer />
-                    <ImageContainer />
+                      <ImageContainer />
+                      <ImageContainer />
+                      <ImageContainer />
+                      <ImageContainer />
+                      <ImageContainer />
+                      <ImageContainer />
                     </div>
                 </div>
             </div>
