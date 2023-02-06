@@ -5,9 +5,6 @@ import { HiTemplate, HiUsers } from 'react-icons/hi';
 import { IoSettingsSharp } from 'react-icons/io5';
 import { CgDarkMode } from "react-icons/cg";
 import Link from 'next/link';
-import colors from "../tailwind.config.js";
-
-const changeApperance = document.querySelector("#Apperance");
 
 const SideBar = () => {
     return(
