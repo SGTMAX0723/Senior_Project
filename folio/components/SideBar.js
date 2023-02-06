@@ -4,6 +4,10 @@ import { RiDashboard2Fill } from 'react-icons/ri';
 import { HiTemplate, HiUsers } from 'react-icons/hi';
 import { IoSettingsSharp } from 'react-icons/io5';
 import { CgDarkMode } from "react-icons/cg";
+import Link from 'next/link';
+import colors from "../tailwind.config.js";
+
+const changeApperance = document.querySelector("#Apperance");
 
 const SideBar = () => {
     return(
@@ -18,13 +22,13 @@ const SideBar = () => {
                     <h1>FOLIO</h1>
                 </div>
 
-                <SideBarIconTop icon={<AiFillHome size="20" /> } text={<p className='pl-2'>Home</p>} />
-                <SideBarIconTop icon={<RiDashboard2Fill size="20" />} text={<p className='pl-2'>Dashboard</p>} />
-                <SideBarIconTop icon={<HiTemplate size="20" />} text={<p className='pl-2'>Templates</p>} />
-                <SideBarIconTop icon={<HiUsers size="20" />} text={<p className='pl-2'>Following</p>} />
+                <SideBarIconTop icon={<AiFillHome size="20" /> } text={<Link href="/home" className='pl-2'>Home</Link>} />
+                <SideBarIconTop icon={<RiDashboard2Fill size="20" />} text={<Link href="/dashboard" className='pl-2'>Dashboard</Link>} />
+                <SideBarIconTop icon={<HiTemplate size="20" />} text={<Link href="/templates" className='pl-2'>Templates</Link>} />
+                <SideBarIconTop icon={<HiUsers size="20" />} text={<Link href="following" className='pl-2'>Following</Link>} />
                 <div className='fixed bottom-2 w-48'>
-                    <SideBarIconBottom icon={<IoSettingsSharp size="20" />} text={<p className='pl-2'>Settings</p>} />
-                    <SideBarIconBottom icon={<CgDarkMode size="20" />} text={<p className='pl-2'>Appearance</p>} />
+                    <SideBarIconBottom icon={<IoSettingsSharp size="20" />} text={<Link href="settings" className='pl-2'>Settings</Link>} />
+                    <SideBarIconBottom icon={<CgDarkMode size="20" />} text={<button id="Apperance" className='pl-2'>Appearance</button>} />
                 </div>
             </div>
         </main>
