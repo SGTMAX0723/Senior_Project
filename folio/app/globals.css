@@ -16,4 +16,15 @@
             hover:text-[#A3A0FB]
             font-light
   }
+
+  .navbar-icon{
+    @apply  py-3 pl-5 relative flex items-center
+            hover:text-[#A3A0FB]
+            text-black
+  }
+
+  .searchbar{
+    @apply  py-3 pl-5 relative flex items-center
+            text-black
+  }
 }
