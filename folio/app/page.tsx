@@ -4,23 +4,26 @@ import ImageContainer from '../components/ImageContainer';
 export default function Home() {
   return (
     <main>
-      <NavBar />
-      <div className='h-screen pt-16
+      <div className='xl:h-screen lg:h-full md:h-full sm:h-max pt-16
                       flex
                       bg-primary'>
 
-          <div className='flex w-full grid grid-flow-col grid-rows-2
-                          mx-4 gap-16
-                          justify-center items-center'>
-
-            <ImageContainer />
-            <ImageContainer />
-            <ImageContainer />
-            <ImageContainer />
-            <ImageContainer />
-            <ImageContainer />
+          <div className='container mx-auto my-auto'>
+            <div className='grid grid-cols-1 gap-16
+                            md:grid-cols-2 
+                            lg:grid-cols-2 
+                            xl:grid-cols-3 
+                            justify-items-center'>
+              <ImageContainer />
+              <ImageContainer />
+              <ImageContainer />
+              <ImageContainer />
+              <ImageContainer />
+              <ImageContainer />
+            </div>
           </div>
       </div>
+      <NavBar />
     </main>
   )
 }

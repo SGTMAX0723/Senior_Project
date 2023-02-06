@@ -21,6 +21,8 @@
     @apply  py-3 pl-5 relative flex items-center
             hover:text-[#A3A0FB]
             text-secondary
+            xl:visible lg:visible md:visible 
+            min-[0px]:invisible max-sm:invisible
   }
 
   .searchbar{
