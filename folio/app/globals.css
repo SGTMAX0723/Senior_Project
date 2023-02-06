@@ -20,11 +20,11 @@
   .navbar-icon{
     @apply  py-3 pl-5 relative flex items-center
             hover:text-[#A3A0FB]
-            text-black
+            text-secondary
   }
 
   .searchbar{
-    @apply  py-3 pl-5 relative flex items-center
-            text-black
+    @apply  relative flex items-center
+            text-zinc-500
   }
 }

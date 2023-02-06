@@ -12,12 +12,14 @@ const NavBarlogged = () => {
                     CREATE
                 </button>
                 
-                <SearchBar icon={<IoIosSearch size="20"/> } text={<p className='pr-8 items-center'> Search users or Projects</p>}/>
+                <div className='relative flex items-center justify-center'>
+                    <SearchBar icon={<IoIosSearch size="20"/> } text={<p className='pl-2 items-center text-zinc-500'> Search users or projects</p>}/>
+                </div>
 
-                <div class="mt-3 flex -space-x-2 overflow-hidden col-start-3 justify-self-end pr-8 items-center">
+                <div class="flex -space-x-2 overflow-hidden col-start-3 justify-self-end pr-8 items-center">
                     <NavBarIcon icon={<IoIosNotificationsOutline size="20"/> } text={<p className='pr-8'></p>}/>
 
-                    <p class = "text-black pr-8">John Doe</p>
+                    <p class = "text-secondary pr-8">John Doe</p>
 
                     <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" 
                     src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""/>

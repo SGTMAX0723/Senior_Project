@@ -1,5 +1,4 @@
-import SigninButton from '../../components/SigninButton'
-import NavBar from '../../components/NavBar';
+import Link from 'next/link';
 
 export default function page() {
     return (
@@ -14,11 +13,13 @@ export default function page() {
 
         <label className="sr-only">Password</label>
         <input name="password" type="password" className=" appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password"></input>
-       
+
 
 
         <div className='flex items-center justify-center' >
-        <SigninButton />
+        <Link href='/dashboard'>
+          <button className="bg-indigo-600 py-2 px-16 rounded text-white bold "> Sign in </button>
+        </Link>
         </div>
 
         <div className='flex items-center justify-center'>
@@ -30,7 +31,7 @@ export default function page() {
         </div>
 
         <div className='flex items-center justify-center'>
-           <button>Terms of Private Policy</button>
+            <button>Terms of Private Policy</button>
         </div>
       </div>
     )
