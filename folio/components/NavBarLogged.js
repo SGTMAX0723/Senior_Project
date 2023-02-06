@@ -24,7 +24,7 @@ const NavBarlogged = () => {
                     <NavBarIcon icon={<IoNotifications size="18"/> } text={<p className='pr-8'></p>}/>
                     <p class="flex pr-8 text-secondary justify-center xl:visible lg:visible md:visible md:w-36 min-[0px]:invisible max-sm:invisible">John Doe</p>
                     <img class="inline-block h-11 w-11 rounded-full" 
-                        src="https://cdn140.picsart.com/364832977021201.png" alt=""/>
+                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="https://cdn140.picsart.com/364832977021201.png"/>
                 </div>
             </div>
         </main>
