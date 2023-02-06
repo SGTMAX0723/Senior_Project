@@ -13,7 +13,7 @@ const SideBar = () => {
                             bg-secondary text-zinc-50">
 
                 <div className='relative flex items-center 
-                                h-16 pl-[26px] pt-2
+                                h-16 pl-[26px]
                                 text-l font-semibold tracking-[.20em]'>
                     <h1>FOLIO</h1>
                 </div>

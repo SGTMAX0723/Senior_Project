@@ -1,12 +1,14 @@
-import NavBar from "components/NavBarLogged";
-import SideBar from "components/SideBar";
+import SideBar from '../../components/SideBar';
+import NavBarLogged from '../../components/NavBarLogged.js';
 
 export default function Dashboard() {
-    return(
+    return (
         <main>
-            <div className="bg-primary h-screen" >
-                <NavBar/>
-                <SideBar/>
+            <NavBarLogged />
+            <SideBar />
+            <div className='h-screen
+                            flex
+                            bg-primary'>
             </div>
         </main>
     )
