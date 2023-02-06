@@ -11,9 +11,7 @@ const NavBarlogged = () => {
                                 font-semibold text-s tracking-[.20em] col-start-1">
                     CREATE
                 </button>
-                {/* <div className="relative flex items-center justify-center xl:visible lg:visible md:invisible min-[0px]:invisible max-sm:invisible">
-                    <SearchBar icon={<IoIosSearch size="20"/> } text={<p className='pl-2 items-center text-zinc-500'> Search users or projects</p>}/>
-                </div> */}
+                
                 <div className="flex relative mx-auto text-zinc-500 xl:visible lg:visible md:invisible min-[0px]:invisible max-sm:invisible">
                     <input className="bg-zinc-50 h-10 w-64 pl-10 text-sm focus:outline-none tracking-[.07em]" type="search" name="search" placeholder="Search users or projects"/>
                     <button type="submit" className="absolute inset-y-0 left-0 mx-auto items-center">

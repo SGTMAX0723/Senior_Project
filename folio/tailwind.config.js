@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
@@ -10,7 +12,7 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      'sans': 'Helvetica Neue'
+      'sans': ['Helvetica Neue', ...defaultTheme.fontFamily.sans]
     },
     extend: {
       colors: {
