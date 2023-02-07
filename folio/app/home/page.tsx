@@ -1,6 +1,6 @@
 import SideBar from '../../components/SideBar';
 import NavBarLogged from '../../components/NavBarLogged.js';
-import ImageContainer from '../../components/ImageContainer';
+import ImageContainerHome from '../../components/ImageContainerHome';
 
 export default function Dashboard() {
     return (
@@ -15,12 +15,12 @@ export default function Dashboard() {
                                     lg:grid-cols-2 
                                     xl:grid-cols-3 
                                     justify-items-center'>
-                        <ImageContainer />
-                        <ImageContainer />
-                        <ImageContainer />
-                        <ImageContainer />
-                        <ImageContainer />
-                        <ImageContainer />
+                        <ImageContainerHome />
+                        <ImageContainerHome />
+                        <ImageContainerHome />
+                        <ImageContainerHome />
+                        <ImageContainerHome />
+                        <ImageContainerHome />
                     </div>
                 </div>
             </div>
