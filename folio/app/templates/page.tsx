@@ -10,22 +10,31 @@ export default function Templates() {
                             flex
                             bg-primary'>
 
-                <div className='container mx-auto my-auto'>
-                    <div className='grid grid-cols-4 gap-4'>
+            <div className='container mx-auto my-auto'>
+                <div className='grid grid-cols-1 gap-4
+                                md:grid-cols-2 
+                                lg:grid-cols-3 
+                                xl:grid-cols-4 
+                                justify-items-center'>
+                    <div>
                         <div> Template 1 </div>
+                        <TemplateContainer />
+                    </div>
+                    <div>
                         <div> Template 2 </div>
+                        <TemplateContainer />
+                    </div>
+                    <div>
                         <div> Template 3 </div>
+                        <TemplateContainer />
+                    </div>
+                    <div>
                         <div> Template 4 </div>
-                    {/* <div className='
-                                    
-                                    justify-items-center'> */}
-                      <TemplateContainer />
-                      <TemplateContainer />
-                      <TemplateContainer />
-                      <TemplateContainer />
+                        <TemplateContainer />
                     </div>
                 </div>
             </div>
+        </div>
             <NavBarLogged />
             <SideBar />
         </main>
