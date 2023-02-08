@@ -29,4 +29,33 @@
     @apply  relative flex items-center
             text-zinc-500
   }
+
+  .panel__top {
+    @apply  h-10 flex items-center 
+            justify-between p-0;
+            position: initial;
+  }
+
+  .panel__basic-actions {
+            position: initial;
+  }
+
+  .panel__switcher {
+            position: initial;
+  }
+
+  .editor-row {
+    @apply  flex justify-start items-stretch 
+            flex-nowrap 
+            h-[300px];
+  }
+
+  .editor-canvas {
+    @apply  grow;
+  }
+
+  .panel__right {
+    @apply  basis-[230px] relative overflow-y-auto 
+            h-screen w-3/12 pt-[50px];
+  }
 }
