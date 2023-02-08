@@ -9,16 +9,16 @@ export default function page() {
         <p className=' flex items-center justify-center' >Welcome back! Please login to your account</p>
 
         <label className="sr-only">Email address</label>
-        <input name="email" type="email" className=" flex items-center justify-center appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address"></input>
+        <input name="email" type="email" className=" w-96  grid justify-items-stretch justify-self-center appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address"></input>
 
         <label className="sr-only">Password</label>
-        <input name="password" type="password" className=" appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password"></input>
+        <input name="password" type="password" className=" w-96  grid justify-items-stretch justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password"></input>
 
 
 
         <div className='flex items-center justify-center' >
         <Link href='/dashboard'>
-          <button className="bg-indigo-600 py-2 px-16 rounded text-white bold "> Sign in </button>
+          <button className="bg-indigo-900 py-2 px-16 rounded text-white bold "> Sign in </button>
         </Link>
         </div>
 
