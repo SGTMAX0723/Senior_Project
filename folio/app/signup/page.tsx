@@ -4,7 +4,7 @@ export default function page() {
     return (
       <div className='h-100 grid grid-cols-1 gap-4 content-around '>
         
-        <h1 className='flex items-center justify-center mt-5 font-bold text-3xl ' >FOLIO</h1>
+        <h1 className='flex items-center justify-center mt-20 font-bold text-3xl ' >FOLIO</h1>
         
         <p className=' flex items-center justify-center' > Please complete to create your account.</p>
 
@@ -35,9 +35,9 @@ export default function page() {
 
         </div>
 
-        <div className='flex items-center justify-center underline'>
-          <button> Already have an account? </button>
-        </div>
+        <Link href='/signin' className='flex items-center justify-center underline'>
+          Already have an account?
+        </Link>
 
         
 

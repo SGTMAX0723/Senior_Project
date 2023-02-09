@@ -4,7 +4,7 @@ export default function page() {
     return (
       <div className='h-100 grid grid-cols-1 gap-4 content-around '>
         
-        <h1 className='flex items-center justify-center mt-5 font-bold text-3xl ' >FOLIO</h1>
+        <h1 className='flex items-center justify-center mt-20 font-bold text-3xl ' >FOLIO</h1>
         
         <p className=' flex items-center justify-center' >Welcome back! Please login to your account</p>
 
@@ -22,13 +22,13 @@ export default function page() {
         </Link>
         </div>
 
-        <div className='flex items-center justify-center'>
-          <button> Create an account </button>
-        </div>
+        <Link href='/signup' className='flex items-center justify-center'>
+          Create an account 
+        </Link>
 
-        <div className='flex items-center justify-center'>
-          <button> Forgot Password? </button>
-        </div>
+
+          <Link href='/forgot-password' className='flex items-center justify-center'> Forgot Password? </Link>
+
 
         <div className='flex items-center justify-center'>
             <button>Terms of Private Policy</button>
