@@ -1,6 +1,7 @@
 const TemplateContainer = () => {
     return(
         <main>
+            <TemplateText text={<p className='pl-2'>Template Name</p>} />
             <div className='flex-rows w-[23rem] h-72 
                             lg:w-[16rem] lg:h-64 
                             md:w-[16rem] md:h-64 
@@ -21,4 +22,3 @@ const TemplateText = ({text}) =>
 );
 
 export default TemplateContainer;
-export default TemplateText;
