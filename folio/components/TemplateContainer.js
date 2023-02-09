@@ -13,4 +13,12 @@ const TemplateContainer = () => {
     );
 };
 
+const TemplateText = ({text}) =>
+(
+    <div className="template-text">
+        {text}
+    </div>
+);
+
 export default TemplateContainer;
+export default TemplateText;

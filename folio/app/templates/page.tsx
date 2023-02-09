@@ -2,6 +2,7 @@ import SideBar from '../../components/SideBar';
 import NavBarLogged from '../../components/NavBarLogged.js';
 import ImageContainer from '../../components/ImageContainer';
 import TemplateContainer from '../../components/TemplateContainer';
+import TemplateText from '../../components/TemplateContainer';
 
 export default function Templates() {
     return (
@@ -18,7 +19,7 @@ export default function Templates() {
                                 justify-items-center'>
                     <div>
                         <div> Template 1 </div>
-                        <TemplateContainer />
+                        <TemplateText text = {<p className='pl-1'>Template 1</p>}/>
                     </div>
                     <div>
                         <div> Template 2 </div>
