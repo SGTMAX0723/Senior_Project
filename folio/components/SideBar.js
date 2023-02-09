@@ -19,13 +19,25 @@ const SideBar = () => {
                     <h1>FOLIO</h1>
                 </div>
 
-                <SideBarIconTop icon={<AiFillHome size="20" /> } text={<Link href="/home" className='pl-2'>Home</Link>} />
-                <SideBarIconTop icon={<RiDashboard2Fill size="20" />} text={<Link href="/dashboard" className='pl-2'>Dashboard</Link>} />
-                <SideBarIconTop icon={<HiTemplate size="20" />} text={<Link href="/templates" className='pl-2'>Templates</Link>} />
-                <SideBarIconTop icon={<HiUsers size="20" />} text={<Link href="following" className='pl-2'>Following</Link>} />
+                <Link href="/home">
+                    <SideBarIconTop icon={<AiFillHome size="20" /> } text={<p className='pl-2'>Home</p>} />
+                </Link>
+                <Link href="/dashboard">
+                    <SideBarIconTop icon={<RiDashboard2Fill size="20" />} text={<p className='pl-2'>Dashboard</p>} />
+                </Link>
+                <Link href="/templates">
+                    <SideBarIconTop icon={<HiTemplate size="20" />} text={<p  className='pl-2'>Templates</p>} />
+                </Link>
+                <Link href="/following">
+                    <SideBarIconTop icon={<HiUsers size="20" />} text={<p  className='pl-2'>Following</p>} />
+                </Link>
                 <div className='fixed bottom-2 w-48'>
-                    <SideBarIconBottom icon={<IoSettingsSharp size="20" />} text={<Link href="settings" className='pl-2'>Settings</Link>} />
-                    <SideBarIconBottom icon={<CgDarkMode size="20" />} text={<button id="Apperance" className='pl-2'>Appearance</button>} />
+                    <Link href="/settings" >
+                        <SideBarIconBottom icon={<IoSettingsSharp size="20" />} text={<p className='pl-2'>Settings</p>} />
+                    </Link>
+                    
+                        <SideBarIconBottom icon={<CgDarkMode size="20" />} text={<button id="Apperance" className='pl-2'>Appearance</button>} />
+                    
                 </div>
             </div>
         </main>
