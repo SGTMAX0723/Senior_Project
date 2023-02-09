@@ -4,6 +4,7 @@ import { RiDashboard2Fill } from 'react-icons/ri';
 import { HiTemplate, HiUsers } from 'react-icons/hi';
 import { IoSettingsSharp } from 'react-icons/io5';
 import { CgDarkMode } from "react-icons/cg";
+import Link from 'next/link';
 
 const SideBar = () => {
     return(
@@ -18,13 +19,25 @@ const SideBar = () => {
                     <h1>FOLIO</h1>
                 </div>
 
-                <SideBarIconTop icon={<AiFillHome size="20" /> } text={<p className='pl-2'>Home</p>} />
-                <SideBarIconTop icon={<RiDashboard2Fill size="20" />} text={<p className='pl-2'>Dashboard</p>} />
-                <SideBarIconTop icon={<HiTemplate size="20" />} text={<p className='pl-2'>Templates</p>} />
-                <SideBarIconTop icon={<HiUsers size="20" />} text={<p className='pl-2'>Following</p>} />
+                <Link href="/home">
+                    <SideBarIconTop icon={<AiFillHome size="20" /> } text={<p className='pl-2'>Home</p>} />
+                </Link>
+                <Link href="/dashboard">
+                    <SideBarIconTop icon={<RiDashboard2Fill size="20" />} text={<p className='pl-2'>Dashboard</p>} />
+                </Link>
+                <Link href="/templates">
+                    <SideBarIconTop icon={<HiTemplate size="20" />} text={<p  className='pl-2'>Templates</p>} />
+                </Link>
+                <Link href="/following">
+                    <SideBarIconTop icon={<HiUsers size="20" />} text={<p  className='pl-2'>Following</p>} />
+                </Link>
                 <div className='fixed bottom-2 w-48'>
-                    <SideBarIconBottom icon={<IoSettingsSharp size="20" />} text={<p className='pl-2'>Settings</p>} />
-                    <SideBarIconBottom icon={<CgDarkMode size="20" />} text={<p className='pl-2'>Appearance</p>} />
+                    <Link href="/settings" >
+                        <SideBarIconBottom icon={<IoSettingsSharp size="20" />} text={<p className='pl-2'>Settings</p>} />
+                    </Link>
+                    
+                        <SideBarIconBottom icon={<CgDarkMode size="20" />} text={<button id="Apperance" className='pl-2'>Appearance</button>} />
+                    
                 </div>
             </div>
         </main>

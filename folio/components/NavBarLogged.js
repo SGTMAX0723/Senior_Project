@@ -29,13 +29,14 @@ const NavBarlogged = () => {
     );
 };
 
+//for NavBar icons notification button
 const NavBarIcon = ({ icon, text }) => (
     <div className='navbar-icon'>
         {icon}
         {text}
     </div>
 );
-
+//for creating the search bar
 const SearchBar = ({icon, text}) =>(
     <div className='searchbar'>
         {icon}
