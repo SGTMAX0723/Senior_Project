@@ -7,7 +7,7 @@ export default function Dashboard() {
         <main>
             <div className='xl:h-screen lg:h-full md:h-full sm:h-max pt-16 ml-48
                             flex
-                            bg-primary'>
+                            bg-primary dark:bg-black'>
 
                 <div className='container mx-auto my-auto'>
                     <div className='grid grid-cols-1 gap-16
