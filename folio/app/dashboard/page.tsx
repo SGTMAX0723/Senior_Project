@@ -1,8 +1,9 @@
 import SideBar from '../../components/SideBar';
 import NavBarLogged from '../../components/NavBarLogged.js';
 import ImageContainer from '../../components/ImageContainer';
-
+import useDarkMode from '../../hook/useDarkMode.js';
 export default function Dashboard() {
+    useDarkMode();
     return (
         <main>
             <div className='xl:h-screen lg:h-full md:h-full sm:h-max pt-16 ml-48
