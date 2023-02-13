@@ -1,6 +1,5 @@
 import SideBar from '../../components/SideBar';
 import NavBarLogged from '../../components/NavBarLogged.js';
-import ImageContainer from '../../components/ImageContainer';
 import TemplateContainer from '../../components/TemplateContainer';
 
 export default function Templates() {
@@ -17,20 +16,16 @@ export default function Templates() {
                                 xl:grid-cols-4 
                                 justify-items-center'>
                     <div>
-                        <div> Template 1 </div>
-                        <TemplateContainer />
+                        <TemplateContainer text={<p className='pl-1'>Template 1</p>} image={"https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg?auto=compress&cs=tinysrgb&w=1600"}/>
                     </div>
                     <div>
-                        <div> Template 2 </div>
-                        <TemplateContainer />
+                        <TemplateContainer text={<p className='pl-1'>Template 2</p>} image={"https://images.pexels.com/photos/161559/background-bitter-breakfast-bright-161559.jpeg?auto=compress&cs=tinysrgb&w=1600"}/>
                     </div>
                     <div>
-                        <div> Template 3 </div>
-                        <TemplateContainer />
+                        <TemplateContainer text={<p className='pl-1'>Template 3</p>} image={"https://images.pexels.com/photos/1313267/pexels-photo-1313267.jpeg?auto=compress&cs=tinysrgb&w=1600"}/>
                     </div>
                     <div>
-                        <div> Template 4 </div>
-                        <TemplateContainer />
+                        <TemplateContainer text={<p className='pl-1'>Template 4</p>} image={"https://images.pexels.com/photos/51312/kiwi-fruit-vitamins-healthy-eating-51312.jpeg?auto=compress&cs=tinysrgb&w=1600"}/>
                     </div>
                 </div>
             </div>
