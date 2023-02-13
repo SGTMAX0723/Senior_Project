@@ -35,7 +35,7 @@ export default function page() {
 
         </div>
 
-        <Link href='/signin' className='flex items-center justify-center underline'>
+        <Link href='/login' className='flex items-center justify-center underline'>
           Already have an account?
         </Link>
 

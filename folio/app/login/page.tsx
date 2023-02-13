@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export default function page() {
+export default function Login() {
     return (
       <div className='h-100 grid grid-cols-1 gap-4 content-around '>
         
@@ -17,17 +17,17 @@ export default function page() {
 
 
         <div className='flex items-center justify-center' >
-        <Link href='/dashboard'>
+        <Link href='/accounts/dashboard'>
           <button className="bg-indigo-900 py-2 px-16 rounded text-white bold "> Sign in </button>
         </Link>
         </div>
 
-        <Link href='/signup' className='flex items-center justify-center'>
+        <Link href='/accounts/email-signup' className='flex items-center justify-center'>
           Create an account 
         </Link>
 
 
-          <Link href='/forgot-password' className='flex items-center justify-center'> Forgot Password? </Link>
+          <Link href='/accounts/password-reset' className='flex items-center justify-center'> Forgot Password? </Link>
 
 
         <div className='flex items-center justify-center'>

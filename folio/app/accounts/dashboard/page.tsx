@@ -1,6 +1,6 @@
-import SideBar from '../../components/SideBar';
-import NavBarLogged from '../../components/NavBarLogged.js';
-import ImageContainer from '../../components/ImageContainer';
+import SideBar from '../../../components/SideBar';
+import NavBarLogged from '../../../components/NavBarLogged.js';
+import ImageContainer from '../../../components/ImageContainer';
 
 export default function Dashboard() {
     return (

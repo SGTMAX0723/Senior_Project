@@ -1,16 +1,20 @@
 import { IoNotifications } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 
+import Link from 'next/link';
+
 const NavBarlogged = () => {
     return(
         <main>
             <div className="fixed top-0 h-16 w-screen pl-48
-                            flex justify-center items-center grid grid-cols-3
+                            justify-center items-center grid grid-cols-3
                             bg-zinc-50 text-zinc-50">
-                <button class="text-gray-800 justify-self-start pl-16
-                                font-semibold text-s tracking-[.20em] col-start-1">
-                    CREATE
-                </button>
+                <Link href='/page-editor'>
+                    <button class="text-gray-800 justify-self-start pl-16
+                                    font-semibold text-s tracking-[.20em] col-start-1">
+                        CREATE
+                    </button>
+                </Link>
                 
                 <div className="flex relative mx-auto text-zinc-500 xl:visible lg:visible md:invisible min-[0px]:invisible max-sm:invisible">
                     <input className="bg-zinc-50 h-10 w-64 pl-10 text-sm focus:outline-none tracking-[.07em]" type="search" name="search" placeholder="Search users or projects"/>
