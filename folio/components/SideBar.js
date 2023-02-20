@@ -22,17 +22,17 @@ const SideBar = () => {
                 <Link href="/home">
                     <SideBarIconTop icon={<AiFillHome size="20" /> } text={<p className='pl-2'>Home</p>} />
                 </Link>
-                <Link href="/accounts/dashboard">
+                <Link href="/dashboard">
                     <SideBarIconTop icon={<RiDashboard2Fill size="20" />} text={<p className='pl-2'>Dashboard</p>} />
                 </Link>
                 <Link href="/templates">
                     <SideBarIconTop icon={<HiTemplate size="20" />} text={<p  className='pl-2'>Templates</p>} />
                 </Link>
-                <Link href="/accounts/connections">
-                    <SideBarIconTop icon={<HiUsers size="20" />} text={<p  className='pl-2'>Conections</p>} />
+                <Link href="/following">
+                    <SideBarIconTop icon={<HiUsers size="20" />} text={<p  className='pl-2'>Following</p>} />
                 </Link>
                 <div className='fixed bottom-2 w-48'>
-                    <Link href="/accounts/settings" >
+                    <Link href="/settings" >
                         <SideBarIconBottom icon={<IoSettingsSharp size="20" />} text={<p className='pl-2'>Settings</p>} />
                     </Link>
                     

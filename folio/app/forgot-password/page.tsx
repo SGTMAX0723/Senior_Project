@@ -14,7 +14,7 @@ function page() {
 
         <button className="bg-indigo-900 py-2 px-16 rounded text-white bold "> Reset </button>
 
-        <Link href='/login' className='underline'>Login</Link>
+        <Link href='/signin' className='underline'>sign in</Link>
 
     </div>
   )
