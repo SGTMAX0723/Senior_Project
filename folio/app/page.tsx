@@ -1,5 +1,5 @@
 import NavBar from '../components/NavBar';
-import ImageContainer from '../components/ImageContainerHome';
+import ImageContainer from '../components/ImageContainer';
 
 export default function Home() {
   return (
