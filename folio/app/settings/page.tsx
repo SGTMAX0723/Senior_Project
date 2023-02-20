@@ -14,7 +14,7 @@ function page() {
                         
                         <div className='grid sm:grid-cols-1 md:grid-cols-2 gap-3 mt-6'>
                             <div>
-                                <img class="inline-block h-36 w-36 rounded-full" 
+                                <img className="inline-block h-36 w-36 rounded-full" 
                                 src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="https://cdn140.picsart.com/364832977021201.png"/>
                             </div>
                             <button className='bg-indigo-900 w-40 h-9 self-center justify-self-center rounded text-white bold'> Upload new photo </button>
