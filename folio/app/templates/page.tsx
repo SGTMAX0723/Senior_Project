@@ -38,20 +38,16 @@ export default function Templates() {
                                     xl:grid-cols-4 
                                     justify-items-center'>
                         <div>
-                            <div> Template 1 </div>
-                            <TemplateContainer />
+                            <TemplateContainer text={<p className='pl-1'>Template 1</p>} image={"https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg?auto=compress&cs=tinysrgb&w=1600"}/>
                         </div>
                         <div>
-                            <div> Template 2 </div>
-                            <TemplateContainer />
+                            <TemplateContainer text={<p className='pl-1'>Template 1</p>} image={"https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg?auto=compress&cs=tinysrgb&w=1600"}/>
                         </div>
                         <div>
-                            <div> Template 3 </div>
-                            <TemplateContainer />
+                            <TemplateContainer text={<p className='pl-1'>Template 1</p>} image={"https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg?auto=compress&cs=tinysrgb&w=1600"}/>
                         </div>
                         <div>
-                            <div> Template 4 </div>
-                            <TemplateContainer />
+                            <TemplateContainer text={<p className='pl-1'>Template 1</p>} image={"https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg?auto=compress&cs=tinysrgb&w=1600"}/>
                         </div>
                     </div>
                 </div>
