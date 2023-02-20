@@ -7,7 +7,7 @@ const NavBar = () => {
                             flex justify-center items-center grid grid-cols-3
                             bg-zinc-50 text-zinc-50">
 
-                <Link href="/login" class="text-gray-800 justify-self-center mr-42 px-4 py-2
+                <Link href="/accounts/dashboard" class="text-gray-800 justify-self-center mr-42 px-4 py-2
                             font-semibold text-s tracking-[.20em]">
                     CREATE
                 </Link>
