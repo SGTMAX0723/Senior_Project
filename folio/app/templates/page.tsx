@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import SideBar from '../../components/SideBar';
 import NavBarLogged from '../../components/NavBarLogged.js';
-import ImageContainer from '../../components/ImageContainerHome';
 import TemplateContainer from '../../components/TemplateContainer';
 import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
