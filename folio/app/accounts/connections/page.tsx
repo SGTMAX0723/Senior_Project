@@ -30,7 +30,7 @@ export default function Connections() {
                                 flex
                                 bg-primary'>
     
-                         <div className="container container m-auto flex flex-wrap flex-col md:flex-row items-center justify-center"> 
+                <div className="container m-auto flex flex-wrap flex-col md:flex-row items-center justify-center"> 
         
 
                 <div className="w-2/3 lg:w-1/2 p-2 ">
