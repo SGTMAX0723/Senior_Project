@@ -38,13 +38,13 @@ export default function Connections() {
     const fetchAvatars = async () => {
         const promises = connections.map(({ followed }: any) => {
             return pb.collection('users').getOne(followed, {
-                expand: 'avatar, name, emailPublic, githubLink',
+                expand: 'avatar, name, email, githubLink',
             });
         });
         const records = await Promise.all(promises);
         setUsers(records.map((record: any) => record.avatar));
         setName(records.map((record: any) => record.name));
-        setEmail(records.map((record: any) => record.emailPublic));
+        setEmail(records.map((record: any) => record.email));
         setGithub(records.map((record: any) => record.githubLink));
         console.log(records);
     };
