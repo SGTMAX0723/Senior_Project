@@ -1,4 +1,4 @@
-const TemplateContainer = ({text, image}) => {
+const TemplateContainer = (props) => {
     return(
         <main>
 
@@ -9,27 +9,22 @@ const TemplateContainer = ({text, image}) => {
                             bg-[#43425f] drop-shadow-md'>
                 <div className="h-1/6 bg-zinc-50 self-end">
                     <div className="template-text">
-                        {text}
+                        <p className='pl-1'>{props.text}</p>
                     </div>
                     </div>
                 <div class="flex flex-wrap justify-center">
                     <img 
-                    src = {image}
+                    src = {`https://folio-database.fly.dev/api/files/r7hm900s98f9cmw/${props.id}/${props.img}`}
                     class='w-[23rem] h-72'
                     alt="..."
                     ></img>
                 </div>
+                
 
             </div>
         </main>
     );
 };
 
-const TemplateText = ({text}) =>
-(
-    <div className="template-text">
-        {text}
-    </div>
-);
 
 export default TemplateContainer;
