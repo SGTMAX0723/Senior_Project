@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import PocketBase from 'pocketbase';
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import UserAuthentication from './UserAuthentication';
 
 export const pb = new PocketBase('https://folio-database.fly.dev');
 pb.autoCancellation(false);
@@ -14,7 +15,6 @@ const UserRegistration =()=>{
     const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit, reset } = useForm();
     const [DoesExist, setDoesExist] = useState(true);
-    //const doesExists = pb.authStore.isValid;
 
     async function registerUser(data){
         const userInfo = {
@@ -28,7 +28,23 @@ const UserRegistration =()=>{
         console.log(data);
         console.log(userInfo);
         const record = await pb.collection('users').create(userInfo);
-        //router.push('/accounts/dashboard/');
+        console.log(record);
+        setTimeout(() => {login(userInfo)});
+    }
+
+    async function login(data) {
+        setIsLoading(true);
+        try {
+            const authData = await pb.collection('users').authWithPassword(
+                data.email,
+                data.password,
+            );
+            router.push('/accounts/dashboard/');
+        } catch (error) {
+            setIncorrectPassword(true);
+        }
+        setIsLoading(false);
+        reset();
     }
 
     async function checkIfExists(data) {
@@ -45,7 +61,6 @@ const UserRegistration =()=>{
         }
         setIsLoading(false);
     }
-
     
     
     
@@ -56,13 +71,14 @@ const UserRegistration =()=>{
             <h1 className='flex items-center justify-center mt-20 font-bold text-3xl ' >FOLIO</h1>
             
             <p className=' flex items-center justify-center' > Please complete to create your account.</p>
-    
+
+            <input name="username" type="text" {...register('username')} className=" w-96 grid justify-items-stretch 
+            justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
+            border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 
+            focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Username"></input>
+
             <div className='h-100 grid grid-cols-2 gap-1 content-around '>
             
-            <input name="username" type="text" {...register('username')}className=" place-self-end  w-48 appearance-none 
-            rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 
-            focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Username"></input>
-    
             <input name="firstname" type="text" {...register('fname')}className=" place-self-end  w-48 appearance-none 
             rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 
             focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="First name"></input>
@@ -102,9 +118,9 @@ const UserRegistration =()=>{
             </div>
           </form>
     
-          {/* <Link href='/login' className='flex items-center justify-center underline'>
+          <Link href='/login' className='flex items-center justify-center underline'>
             Already have an account?
-          </Link> */}
+          </Link>
     
           
     
