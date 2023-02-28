@@ -26,9 +26,11 @@ test('should be able to login and see dashboard page when logged in', async ({ p
     // Should be able to click "CREATE" and go to next page
     await page.getByText('CREATE').click()
     // The new page should be the sign-in page
-    await expect(page).toHaveURL('http://localhost:3000/signin')
+    await expect(page).toHaveURL('http://localhost:3000/login')
     // The new page should click Sign in button
-    await page.getByText('Sign in').click()
+    await page.getByPlaceholder('Email').fill('john.doe@gmail.com')
+    await page.getByPlaceholder('Password').fill('12345')
+    await page.getByText('Login').click()
     // The page should be the logged in dashboard
     await expect(page).toHaveURL('http://localhost:3000/dashboard')
     // Then page should show the sidebar with text "FOLIO"
