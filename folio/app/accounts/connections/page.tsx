@@ -27,7 +27,7 @@ export default function Connections() {
         try {
             const records = await pb.collection('connections').getList(1, 100000000, /* batch size */ {
                 sort: '-created',
-                expand: expandFollowers
+                filter: expandFollowers
             });
             setConnections(records.items);
         } catch(error) {
