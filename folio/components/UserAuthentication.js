@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import PocketBase from 'pocketbase';
 export const pb = new PocketBase('https://folio-database.fly.dev');
+pb.autoCancellation(false);
 
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
