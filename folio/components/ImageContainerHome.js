@@ -1,4 +1,4 @@
-const ImageContainer = () => {
+const ImageContainerHome = () => {
     return(
         <main>
             <div className='flex-rows w-[23rem] h-72 
@@ -13,4 +13,4 @@ const ImageContainer = () => {
     );
 };
 
-export default ImageContainer;
+export default ImageContainerHome;

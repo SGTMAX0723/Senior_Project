@@ -29,7 +29,7 @@ const SideBar = () => {
                     <SideBarIconTop icon={<HiTemplate size="20" />} text={<p  className='pl-2'>Templates</p>} />
                 </Link>
                 <Link href="/accounts/connections">
-                    <SideBarIconTop icon={<HiUsers size="20" />} text={<p  className='pl-2'>Conections</p>} />
+                    <SideBarIconTop icon={<HiUsers size="20" />} text={<p  className='pl-2'>Connections</p>} />
                 </Link>
                 <div className='fixed bottom-2 w-48'>
                     <Link href="/accounts/settings" >

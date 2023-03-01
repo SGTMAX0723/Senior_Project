@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import PocketBase from 'pocketbase';
 export const pb = new PocketBase('https://folio-database.fly.dev');
+pb.autoCancellation(false);
 
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -78,7 +79,7 @@ const UserAuthentication = () => {
                                     font-bold text-3xl pb-16'>
                         FOLIO
                     </h1>
-                    <p className=' flex items-center justify-center pb-8' >Welcome back! Please login to your account</p>
+                    <p className=' flex items-center justify-center pb-8' >Welcome back! Please log in to your account</p>
                     <input type="text" placeholder="Email" {...register('email')} className="appearance-none rounded-none rounded-t-md rounded-b-md border
                                                                                             border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 
                                                                                             focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"></input>
