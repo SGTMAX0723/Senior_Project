@@ -6,22 +6,58 @@ import SideBar from '../../../components/SideBar';
 import NavBarLogged from '../../../components/NavBarLogged.js';
 import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
+import ConnectionCards from '../../../components/ConnectionsCard';
 
 export default function Connections() {
-    // Re-renders the component after the first render
-    const [hydrated, setHydrated] = useState(false);
-    useEffect(() => {
-        // This forces a rerender, so the page is rendered
-        // the second time but not the first
-        setHydrated(true);
-    }, []);
-    if (!hydrated) {
-        // Returns null on first render, so the client and server match
-        return null;
-    }
-
     const isLoggedIn = pb.authStore.isValid;
     const router = useRouter();
+    const user: any = pb.authStore.model; 
+    pb.autoCancellation(false);
+
+    type MyRecord = Record<string, number>;
+    const [connections, setConnections] = useState([] as MyRecord[]);
+    const [users, setUsers] = useState([] as MyRecord[]);
+    const [name, setName] = useState([] as MyRecord[]);
+    const [email, setEmail] = useState([] as MyRecord[]);
+    const [github, setGithub] = useState([] as MyRecord[]);
+
+
+    const fetchConnections = async () => {
+        let expandFollowers = 'follows = "' + user.id + '"';
+        try {
+            const records = await pb.collection('connections').getList(1, 100000000, /* batch size */ {
+                sort: '-created',
+                filter: expandFollowers
+            });
+            setConnections(records.items);
+        } catch(error) {
+            console.error(error);
+        }
+    };
+
+    const fetchAvatars = async () => {
+        const promises = connections.map(({ followed }: any) => {
+            return pb.collection('users').getOne(followed, {
+                expand: 'avatar, name, email, githubLink',
+            });
+        });
+        const records = await Promise.all(promises);
+        setUsers(records.map((record: any) => record.avatar));
+        setName(records.map((record: any) => record.name));
+        setEmail(records.map((record: any) => record.email));
+        setGithub(records.map((record: any) => record.githubLink));
+        console.log(records);
+    };
+
+    useEffect(() => {
+        fetchConnections();
+    }, []);
+
+    useEffect(() => {
+        if (connections.length > 0) {
+            fetchAvatars();
+        }
+    }, [connections]);
 
     if (isLoggedIn) {
         return (
@@ -32,146 +68,14 @@ export default function Connections() {
     
                 <div className="container m-auto flex flex-wrap flex-col md:flex-row items-center justify-center"> 
         
-
-                <div className="w-2/3 lg:w-1/2 p-2 ">
-                    <div className="flex flex-col lg:flex-row rounded h-auto lg:h-32 border bg-white justify-between leading-normal">
-
-                        <img className="h-16 w-16 rounded-full place-self-center lg:ml-4 " 
-                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="https://cdn140.picsart.com/364832977021201.png"/>
-                        <div className="text-black font-bold text-l mb-2 leading-tight place-self-center">Alan Lopez</div>
-                        <p className="text-grey-darker place-self-center lg:mr-3 ">Email: Alan@utrgv.edu <br></br> Github: Alan3832</p>
-                        
-
-                    </div>
-
-
-                </div>
-
-                <div className="w-2/3 lg:w-1/2 p-2 ">
-                    <div className="flex flex-col lg:flex-row rounded h-auto lg:h-32 border bg-white justify-between leading-normal">
-
-                        <img className="h-16 w-16 rounded-full place-self-center lg:ml-4 " 
-                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="https://cdn140.picsart.com/364832977021201.png"/>
-                        <div className="text-black font-bold text-l mb-2 leading-tight place-self-center">Alan Lopez</div>
-                        <p className="text-grey-darker place-self-center lg:mr-3 ">Email: Alan@utrgv.edu <br></br> Github: Alan3832</p>
-                        
-
-                    </div>
-
-
-                </div>
-
-                <div className="w-2/3 lg:w-1/2 p-2 ">
-                    <div className="flex flex-col lg:flex-row rounded h-auto lg:h-32 border bg-white justify-between leading-normal">
-
-                        <img className="h-16 w-16 rounded-full place-self-center lg:ml-4 " 
-                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="https://cdn140.picsart.com/364832977021201.png"/>
-                        <div className="text-black font-bold text-l mb-2 leading-tight place-self-center">Ethan V</div>
-                        <p className="text-grey-darker place-self-center lg:mr-3 ">Email: Ethan.V@utrgv.edu <br></br> Github: Ethan_man</p>
-                        
-
-                    </div>
-
-
-                </div>
-
-                <div className="w-2/3 lg:w-1/2 p-2 ">
-                    <div className="flex flex-col lg:flex-row rounded h-auto lg:h-32 border bg-white justify-between leading-normal">
-
-                        <img className="h-16 w-16 rounded-full place-self-center lg:ml-4 " 
-                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="https://cdn140.picsart.com/364832977021201.png"/>
-                        <div className="text-black font-bold text-l mb-2 leading-tight place-self-center">Gabe</div>
-                        <p className="text-grey-darker place-self-center lg:mr-3 ">Email: Gabe@utrgv.edu <br></br> Github: GABE_SGT</p>
-                        
-
-                    </div>
-
-
-                </div>
-
-                <div className="w-2/3 lg:w-1/2 p-2 ">
-                    <div className="flex flex-col lg:flex-row rounded h-auto lg:h-32 border bg-white justify-between leading-normal">
-
-                        <img className="h-16 w-16 rounded-full place-self-center lg:ml-4 " 
-                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="https://cdn140.picsart.com/364832977021201.png"/>
-                        <div className="text-black font-bold text-l mb-2 leading-tight place-self-center">Max Million</div>
-                        <p className="text-grey-darker place-self-center lg:mr-3 ">Email: MAX@utrgv.edu <br></br> Github: MAX_SGT</p>
-                        
-
-                    </div>
-
-
-                </div>
-
-                <div className="w-2/3 lg:w-1/2 p-2 ">
-                    <div className="flex flex-col lg:flex-row rounded h-auto lg:h-32 border bg-white justify-between leading-normal">
-
-                        <img className="h-16 w-16 rounded-full place-self-center lg:ml-4 " 
-                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="https://cdn140.picsart.com/364832977021201.png"/>
-                        <div className="text-black font-bold text-l mb-2 leading-tight place-self-center">Alan Lopez</div>
-                        <p className="text-grey-darker place-self-center lg:mr-3 ">Email: Alan@utrgv.edu <br></br> Github: Alan3832</p>
-                        
-
-                    </div>
-
-
-                </div>
-
-                <div className="w-2/3 lg:w-1/2 p-2 ">
-                    <div className="flex flex-col lg:flex-row rounded h-auto lg:h-32 border bg-white justify-between leading-normal">
-
-                        <img className="h-16 w-16 rounded-full place-self-center lg:ml-4 " 
-                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="https://cdn140.picsart.com/364832977021201.png"/>
-                        <div className="text-black font-bold text-l mb-2 leading-tight place-self-center">Alan Lopez</div>
-                        <p className="text-grey-darker place-self-center lg:mr-3 ">Email: Alan@utrgv.edu <br></br> Github: Alan3832</p>
-                        
-
-                    </div>
-
-
-                </div>
-
-                <div className="w-2/3 lg:w-1/2 p-2 ">
-                    <div className="flex flex-col lg:flex-row rounded h-auto lg:h-32 border bg-white justify-between leading-normal">
-
-                        <img className="h-16 w-16 rounded-full place-self-center lg:ml-4 " 
-                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="https://cdn140.picsart.com/364832977021201.png"/>
-                        <div className="text-black font-bold text-l mb-2 leading-tight place-self-center">Ethan V</div>
-                        <p className="text-grey-darker place-self-center lg:mr-3 ">Email: Ethan.V@utrgv.edu <br></br> Github: Ethan_man</p>
-                        
-
-                    </div>
-
-
-                </div>
-
-                <div className="w-2/3 lg:w-1/2 p-2 ">
-                    <div className="flex flex-col lg:flex-row rounded h-auto lg:h-32 border bg-white justify-between leading-normal">
-
-                        <img className="h-16 w-16 rounded-full place-self-center lg:ml-4 " 
-                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="https://cdn140.picsart.com/364832977021201.png"/>
-                        <div className="text-black font-bold text-l mb-2 leading-tight place-self-center">Gabe</div>
-                        <p className="text-grey-darker place-self-center lg:mr-3 ">Email: Gabe@utrgv.edu <br></br> Github: GABE_SGT</p>
-                        
-
-                    </div>
-
-
-                </div>
-
-                <div className="w-2/3 lg:w-1/2 p-2 ">
-                    <div className="flex flex-col lg:flex-row rounded h-auto lg:h-32 border bg-white justify-between leading-normal">
-
-                        <img className="h-16 w-16 rounded-full place-self-center lg:ml-4 " 
-                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="https://cdn140.picsart.com/364832977021201.png"/>
-                        <div className="text-black font-bold text-l mb-2 leading-tight place-self-center">Max Million</div>
-                        <p className="text-grey-darker place-self-center lg:mr-3 ">Email: MAX@utrgv.edu <br></br> Github: MAX_SGT</p>
-                        
-
-                    </div>
-
-
-                    </div>
+                    {connections.map(({ followed }: any, index:number) => (
+                        <ConnectionCards    key={index} 
+                                            followers={followed} 
+                                            followerAvatar={users[index]} 
+                                            followerName={name[index]} 
+                                            followerEmail={email[index]}
+                                            githubLink={github[index]} />
+                    ))}
 
                 </div>
             </div>
