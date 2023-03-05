@@ -44,9 +44,16 @@ export default function Dashboard() {
                                         lg:grid-cols-2 
                                         xl:grid-cols-3 
                                         justify-items-center'>
-                            {projects.map(({ project_name, project_img, id }:any, index:number) => {
+                            {projects.map(({ project_name, project_img, project_url, id }:any, index:number) => {
+                                function loadProject() {
+                                    router.push(project_url);
+                                }
                                 return (
-                                    <ImageContainerDashboard key={index} project_name={project_name} project_img={project_img} id={id}/>
+                                    <>
+                                        <button onClick={loadProject}>
+                                            <ImageContainerDashboard key={index} project_name={project_name} project_img={project_img} id={id}/>
+                                        </button>
+                                    </>
                                 );
                             })}
                         </div>

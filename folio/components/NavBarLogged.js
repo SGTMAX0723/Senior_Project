@@ -30,7 +30,7 @@ const NavBarlogged = () => {
             <div className="fixed top-0 h-16 w-screen pl-48
                             justify-center items-center grid grid-cols-3
                             bg-zinc-50 text-zinc-50">
-                <Link href='/page-editor'>
+                <Link href='/templates'>
                     <button class="text-gray-800 justify-self-start pl-16
                                     font-semibold text-s tracking-[.20em] col-start-1">
                         CREATE
