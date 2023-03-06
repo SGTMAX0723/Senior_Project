@@ -36,7 +36,7 @@ const SideBar = () => {
                         <SideBarIconBottom icon={<IoSettingsSharp size="20" />} text={<p className='pl-2'>Settings</p>} />
                     </Link>
                     
-                        <SideBarIconBottom icon={<CgDarkMode size="20" />} text={<button id="Apperance" className='pl-2'>Appearance</button>} />
+                        {/* <SideBarIconBottom icon={<CgDarkMode size="20" />} text={<button id="Apperance" className='pl-2'>Appearance</button>} /> */}
                     
                 </div>
             </div>
