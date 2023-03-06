@@ -30,7 +30,7 @@
             text-zinc-500
   }
 
-  .panel__top {
+  /* .panel__top {
     @apply  h-10 flex items-center 
             justify-between p-0;
             position: initial;
@@ -57,5 +57,5 @@
   .panel__right {
     @apply  basis-[230px] relative overflow-y-auto 
             h-screen w-3/12 pt-[50px];
-  }
+  } */
 }

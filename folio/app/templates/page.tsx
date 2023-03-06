@@ -1,38 +1,73 @@
 'use client'
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import SideBar from '../../components/SideBar';
 import NavBarLogged from '../../components/NavBarLogged.js';
 import TemplateContainer from '../../components/TemplateContainer';
 import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
+import Link from 'next/link';
 
 export default function Templates() {
-
     const isLoggedIn = pb.authStore.isValid;
     const router = useRouter();
-    const user: any = pb.authStore.model;
+    const user:any = pb.authStore.model;
 
     if (isLoggedIn) {
         type MyRecord = Record<string, number>;
+        const [templates, setTemplates] = useState([] as MyRecord[]);
         const [projects, setProjects] = useState([] as MyRecord[]);
+        const [create, setCreate] = useState([] as MyRecord[]);
 
-        const fetchProjects = async () => {
+        const fetchTemplates = async () => {
             let filters = 'created >= "2022-01-01 00:00:00"';
             try {
-                const resultList = await pb.collection('templates').getList(1, 50, {
+                const templateList = await pb.collection('templates').getList(1, 50, {
                 filter: filters
                 });
-                setProjects(resultList.items);
+                setTemplates(templateList.items);
             } catch (error) {
                 console.error(error);
             }
         };
 
-        console.log(projects);
+        const fetchtProjects = async () => {
+            let filters = 'created >= "2022-01-01 00:00:00" && user_projects = "' + user.id + '"';
+            try {
+                const projectList = await pb.collection('projects').getList(1, 50, {
+                    filter: filters,
+                    sort: '-created',
+                });
+                setProjects(projectList.items);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        const createProject = async () => {
+            try {
+                const data = {
+                    "user_projects": user.id,
+                    "project_name": "New Project",
+                };
+                const project = await pb.collection('projects').create(data);
+                const projectId = project.id;
+                const projectUrl = `http://localhost:3001/page-editor/${user.username}/${projectId}`;
+                await pb.collection('projects').update(project.id, {'project_url': projectUrl});
+                setProjects([...projects, project]);
+                router.push(projectUrl)
+            }
+            catch (error) {
+                alert(error);
+            }
+        };
 
         useEffect(() => {
-            fetchProjects();
+            fetchTemplates();
+        }, []);
+
+        useEffect(() => {
+            fetchtProjects();
         }, []);
 
         return (
@@ -41,25 +76,26 @@ export default function Templates() {
                                 flex
                                 bg-primary'>
     
-                <div className='container mx-auto my-auto'>
+                <div className='container mx-4 my-auto'>
                     <div className='grid grid-cols-1 gap-4
                                     md:grid-cols-2 
                                     lg:grid-cols-3 
                                     xl:grid-cols-4 
                                     justify-items-center'>
-                            {projects.map(({template_name, template_img, id}: any, index:number) => {
-                                return (
-                            <TemplateContainer text={template_name} img={template_img} id={id}/>
-                            )})}
-                        {/* <div>
-                            <TemplateContainer text={<p className='pl-1'>Template 2</p>} image={"https://images.pexels.com/photos/161559/background-bitter-breakfast-bright-161559.jpeg?auto=compress&cs=tinysrgb&w=1600"}/>
-                        </div>
-                        <div>
-                            <TemplateContainer text={<p className='pl-1'>Template 3</p>} image={"https://images.pexels.com/photos/35629/bing-cherries-ripe-red-fruit.jpg?auto=compress&cs=tinysrgb&w=1600"}/>
-                        </div>
-                        <div>
-                            <TemplateContainer text={<p className='pl-1'>Template 4</p>} image={"https://images.pexels.com/photos/1313267/pexels-photo-1313267.jpeg?auto=compress&cs=tinysrgb&w=1600"}/>
-                        </div> */}
+                    <button onClick={createProject}>
+                        <TemplateContainer text={<p className='pl-1'>Blank Project</p>} />
+                    </button>
+                    </div>
+                    <div className='h-8' />
+                    <div className='grid grid-cols-1 gap-4
+                                    md:grid-cols-2 
+                                    lg:grid-cols-3 
+                                    xl:grid-cols-4 
+                                    justify-items-center'>
+                                {templates.map(({template_name, template_img, id}: any, index:number) => {
+                                    return (
+                                <TemplateContainer key={index} text={template_name} img={template_img} id={id}/>
+                                )})}
                     </div>
                 </div>
             </div>
@@ -68,7 +104,6 @@ export default function Templates() {
             </main>
         )
     } else {
-        console.log('Not logged in');
         router.push('/login');
     }
 }
