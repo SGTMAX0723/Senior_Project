@@ -183,6 +183,28 @@ const GrapesJS = () => {
                         // This triggers `active` event on dropped components and the `image`
                         // reacts by opening the AssetManager
                         activate: true,
+                        }, {
+                            id: 'div',
+                            label: 'div',
+                            // Select the component once it's dropped
+                            select: true,
+                            // You can pass components as a JSON instead of a simple HTML string,
+                            // in this case we also use a defined component type `image`
+                            content: { type: 'div' },
+                            // This triggers `active` event on dropped components and the `image`
+                            // reacts by opening the AssetManager
+                            activate: true,
+                        }, {
+                            id: 'title',
+                            label: 'Title',
+                            // Select the component once it's dropped
+                            select: true,
+                            // You can pass components as a JSON instead of a simple HTML string,
+                            // in this case we also use a defined component type `image`
+                            content: { type: 'title' },
+                            // This triggers `active` event on dropped components and the `image`
+                            // reacts by opening the AssetManager
+                            activate: true,
                         }
                     ]
                 },
@@ -209,21 +231,30 @@ const GrapesJS = () => {
                     }, {
                         name: 'Extra',
                         open: false,
-                        buildProps: ['background-color', 'box-shadow', 'custom-prop'],
+                        buildProps: ['background-color', 'box-shadow'],
                         properties: [
-                        {
-                            id: 'custom-prop',
-                            name: 'Custom Label',
-                            property: 'font-size',
-                            type: 'select',
-                            defaults: '32px',
-                            // List of options, available only for 'select' and 'radio'  types
-                            options: [
-                                { value: '12px', name: 'Tiny' },
-                                { value: '18px', name: 'Medium' },
-                                { value: '32px', name: 'Big' },
-                            ],
-                        }
+                            
+                        ]
+                    },
+                    {
+                        name: 'Typography',
+                        open: false,
+                        buildProps: ['Font-size', 'font-family','text-align' ],
+                        properties: [
+                            'font-weight',
+                            'letter-spacing',
+                            'line-height',
+                            'color',
+                            {
+                                id: 'Font-size',
+                                type: 'number',
+                                label: 'Font size',
+                                property: 'font-size',
+                                default: '8px',
+                                units: ['px', '%'],
+                                min: 8,
+                            },
+                            
                         ]
                     }]
                 },
