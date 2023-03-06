@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import GrapesJS from '../../../../components/GrapesJS_Init.js';
 import  { pb } from 'components/UserAuthentication';
+import GrapesJS_Init from '../../../../components/GrapesJS_Init.js';
 
 const Editor = () => {
     const isLoggedIn = pb.authStore.isValid;
@@ -10,7 +11,7 @@ const Editor = () => {
 
     if (isLoggedIn) {
         return (
-            <html lang="en">
+            <html>
             <head>
                 <meta charSet="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -49,7 +50,7 @@ const Editor = () => {
                             justify-content: flex-start;
                             align-items: stretch;
                             flex-wrap: nowrap;
-                            height: 300px;
+                            height: calc(100vh - 40px);
                         }
                         .editor-canvas {
                             flex-grow: 1;
@@ -68,23 +69,23 @@ const Editor = () => {
                     `}
                 </style>
             </head>
-            <body>
-            <div className="panel__top">
-                <div className="panel__basic-actions"></div>
-                <div className="panel__devices"></div>
-                <div className="panel__switcher"></div>
-            </div>
-            <div className="editor-row">
-                <div className="editor-canvas">
-                <GrapesJS />
-            </div>
-                <div className="panel__right">
-                    <div className="layers-container"></div>
-                    <div className="styles-container"></div>
-                    <div className="traits-container"></div>
+            <body className='h-screen'>
+                <div className="panel__top">
+                    <div className="panel__basic-actions"></div>
+                    <div className="panel__devices"></div>
+                    <div className="panel__switcher"></div>
                 </div>
-            </div>
-            <div id="blocks"></div>
+                <div className="editor-row">
+                    <div className="editor-canvas">
+                        <GrapesJS_Init />
+                    </div>
+                    <div className="panel__right">
+                        <div className="layers-container"></div>
+                        <div className="styles-container"></div>
+                        <div className="traits-container"></div>
+                        <div id="blocks"></div>
+                    </div>
+                </div>
             </body>
         </html>
         );

@@ -13,50 +13,16 @@
 'use client'
 
 // Importing the required libraries and dependencies
-import { useRouter } from 'next/router';
 import React, { useEffect, useState, useRef } from 'react';
 import grapesjs from 'grapesjs';
-import  { pb } from 'components/UserAuthentication';
 
 const GrapesJS = () => {
-    const user = pb.authStore.model;
     // Use hooks 'useRef' and 'useEffect' to create the editor instance and manage the state of the component.
     const editorRef = useRef(null);
 
     const url = window.location.href;
     const parts = url.split('/');
     const projectId = parts[parts.length - 1];
-
-    const fetchProjects = async () => {
-        try {
-            console.log('fetchProjects');
-            const projectList = await pb.collection('projects').getList(1, 50, {
-                filter: `created >= "2022-01-01 00:00:00" && id="${projectId}"`,
-            });
-            const project = projectList.items[0];
-            if (project) {
-                const projectContent = project.project_content;
-                // Get the editor instance from the ref
-                const editor = editorRef.current;
-                // Check if the editor instance is ready
-                if (editor && editor.isReady) {
-                // Update the editor content
-                    editor.setComponents(projectContent);
-                }
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const updateProject = async (data) => {
-        try {
-            console.log(data);
-            await pb.collection('projects').update(projectId, {'project_content': data});
-        } catch (error) {
-            console.log("failed to update project");
-        }
-    };
 
     // Sets up the editor instance when the component is first rendered and sets up the layout, blocks, and 
     // panels for the editor. The editor instance is stored in a ref so that it can be used across multiple renders.
@@ -67,7 +33,27 @@ const GrapesJS = () => {
                 container: '#gjs',
                 // Get the content for the canvas directly from the element
                 // As an alternative we could use: `components: '<h1>Hello World Component!</h1>'`,
-                fromElement: true,
+                pageManager: {
+                    appendTo: '#gjs',
+                    // Enable the possibility to load and store on the server
+                    // `storeOnChange` - store data automatically when the canvas is changed
+                    // `storeAfterLoad` - store data automatically after loading the page
+                    // `autoload` - load stored data automatically on init
+                    storeOnChange: true,
+                    storeAfterLoad: true,
+                    autoload: true,
+                    // `type` - the name of the property of the model
+                    // `urlStore` - url for storing the model
+                    // `urlLoad` - url for loading the model
+                    type: 'remote',
+                    stepsBeforeSave: 1,
+                    options: {
+                        remote: {
+                            urlStore: `http://localhost:3001/api/update-project/${projectId}`,
+                            urlLoad: `http://localhost:3001/api/fetch-project/${projectId}`,
+                        }
+                    }
+                },
                 // Size of the editor
                 height: '100%',
                 width: 'auto',
@@ -75,13 +61,10 @@ const GrapesJS = () => {
                 storageManager: {
                     type: 'remote',
                     stepsBeforeSave: 1,
-                    stepsBeforeLoad: 1,
                     options: {
                         remote: {
                             urlStore: `http://localhost:3001/api/update-project/${projectId}`,
                             urlLoad: `http://localhost:3001/api/fetch-project/${projectId}`,
-                            onStore: data => JSON.stringify(data),
-                            onLoad: data => JSON.parse(data),
                         }
                     }
                 },
@@ -314,15 +297,14 @@ const GrapesJS = () => {
             ],
             });
 
+            console.log('Editor created');
             editorRef.current = editor;
-        } else {
-            editorRef.current.setComponents(`<h1>Test Component</h1>`);
         }
     }, []);
 
     return (
         <div id="gjs">
-            <h1>Hello World Component!</h1>
+            <h1>Hello World Component!</h1>,
         </div>
     );
 };
