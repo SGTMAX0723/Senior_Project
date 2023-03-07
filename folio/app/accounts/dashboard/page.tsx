@@ -6,6 +6,7 @@ import NavBarLogged from '../../../components/NavBarLogged.js';
 import ImageContainerDashboard from '../../../components/ImageContainerDashboard';
 import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
+import Link from 'next/link';
 
 export default function Dashboard() {
     const isLoggedIn = pb.authStore.isValid;
@@ -45,14 +46,11 @@ export default function Dashboard() {
                                         xl:grid-cols-3 
                                         justify-items-center'>
                             {projects.map(({ project_name, project_img, project_url, id }:any, index:number) => {
-                                function loadProject() {
-                                    router.push(project_url);
-                                }
                                 return (
                                     <>
-                                        <button onClick={loadProject}>
+                                        <Link href={project_url}>
                                             <ImageContainerDashboard key={index} project_name={project_name} project_img={project_img} id={id}/>
-                                        </button>
+                                        </Link>
                                     </>
                                 );
                             })}

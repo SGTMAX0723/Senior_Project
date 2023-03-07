@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import GrapesJS from '../../../../components/GrapesJS_Init.js';
 import  { pb } from 'components/UserAuthentication';
@@ -8,6 +9,17 @@ import GrapesJS_Init from '../../../../components/GrapesJS_Init.js';
 const Editor = () => {
     const isLoggedIn = pb.authStore.isValid;
     const router = useRouter();
+
+    const [hydrated, setHydrated] = useState(false);
+    useEffect(() => {
+        // This forces a rerender, so the page is rendered
+        // the second time but not the first
+        setHydrated(true);
+    }, []);
+    if (!hydrated) {
+        // Returns null on first render, so the client and server match
+        return null;
+    }
 
     if (isLoggedIn) {
         return (
@@ -32,7 +44,7 @@ const Editor = () => {
                             position: initial;
                         }                      
                         #gjs {
-                            border: 3px solid #444;
+                            border: none;
                         }
                         /* Reset some default styling */
                         .gjs-cv-canvas {

@@ -52,7 +52,7 @@ export default function Templates() {
                 };
                 const project = await pb.collection('projects').create(data);
                 const projectId = project.id;
-                const projectUrl = `http://localhost:3001/page-editor/${user.username}/${projectId}`;
+                const projectUrl = `http://localhost:3001/page-editor/${user.id}/${projectId}`;
                 await pb.collection('projects').update(project.id, {'project_url': projectUrl});
                 setProjects([...projects, project]);
                 router.push(projectUrl)
