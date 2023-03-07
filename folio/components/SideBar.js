@@ -3,8 +3,9 @@ import { AiFillHome } from 'react-icons/ai';
 import { RiDashboard2Fill } from 'react-icons/ri';
 import { HiTemplate, HiUsers } from 'react-icons/hi';
 import { IoSettingsSharp } from 'react-icons/io5';
-import { CgDarkMode } from "react-icons/cg";
+import { IoIosLogOut } from "react-icons/io";
 import Link from 'next/link';
+import { logoutWhileLoggedIn } from "./UserAuthentication";
 
 const SideBar = () => {
     return(
@@ -35,9 +36,9 @@ const SideBar = () => {
                     <Link href="/accounts/settings" >
                         <SideBarIconBottom icon={<IoSettingsSharp size="20" />} text={<p className='pl-2'>Settings</p>} />
                     </Link>
-                    
-                        {/* <SideBarIconBottom icon={<CgDarkMode size="20" />} text={<button id="Apperance" className='pl-2'>Appearance</button>} /> */}
-                    
+                    <Link href='/' onClick={logoutWhileLoggedIn} >
+                        <SideBarIconBottom icon={<IoIosLogOut size="20" />} text={<p className='pl-2'>Logout</p>} /> 
+                    </Link>
                 </div>
             </div>
         </main>
