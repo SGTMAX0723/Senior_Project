@@ -49,8 +49,8 @@ const GrapesJS = () => {
                     stepsBeforeSave: 1,
                     options: {
                         remote: {
-                            urlStore: `http://localhost:3001/api/update-project/${projectId}`,
-                            urlLoad: `http://localhost:3001/api/fetch-project/${projectId}`,
+                            urlStore: `http://localhost:3000/api/update-project/${projectId}`,
+                            urlLoad: `http://localhost:3000/api/fetch-project/${projectId}`,
                         }
                     }
                 },
@@ -63,8 +63,8 @@ const GrapesJS = () => {
                     stepsBeforeSave: 1,
                     options: {
                         remote: {
-                            urlStore: `http://localhost:3001/api/update-project/${projectId}`,
-                            urlLoad: `http://localhost:3001/api/fetch-project/${projectId}`,
+                            urlStore: `http://localhost:3000/api/update-project/${projectId}`,
+                            urlLoad: `http://localhost:3000/api/fetch-project/${projectId}`,
                         }
                     }
                 },

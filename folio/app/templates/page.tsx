@@ -48,11 +48,11 @@ export default function Templates() {
             try {
                 const data = {
                     "user_projects": user.id,
-                    "project_name": "New Project",
+                    "project_name": `Project ${projects.length + 1}`,
                 };
                 const project = await pb.collection('projects').create(data);
                 const projectId = project.id;
-                const projectUrl = `http://localhost:3001/page-editor/${user.username}/${projectId}`;
+                const projectUrl = `http://localhost:3000/page-editor/${user.username}/${projectId}`;
                 await pb.collection('projects').update(project.id, {'project_url': projectUrl});
                 setProjects([...projects, project]);
                 router.push(projectUrl)
@@ -72,11 +72,11 @@ export default function Templates() {
 
         return (
             <main>
-                <div className='xl:h-screen lg:h-full md:h-full sm:h-max pt-16 ml-48
+                <div className='xl:h-screen lg:h-full md:h-full sm:h-max min-h-screen pt-16 ml-48
                                 flex
                                 bg-primary'>
     
-                <div className='container mx-4 my-auto'>
+                <div className='container mx-16 my-auto'>
                     <div className='grid grid-cols-1 gap-4
                                     md:grid-cols-2 
                                     lg:grid-cols-3 
