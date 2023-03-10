@@ -10,10 +10,8 @@ import  { pb } from 'components/UserAuthentication';
 export default function Templates() {
     type MyRecord = Record<string, number>;
     const [templates, setTemplates] = useState([] as MyRecord[]);
-    const [projects, setProjects] = useState([] as MyRecord[]);
     const router = useRouter();
     const isLoggedIn = pb.authStore.isValid;
-    const user:any = pb.authStore.model;
 
     if (isLoggedIn) {
         const fetchTemplates = async () => {
@@ -28,43 +26,8 @@ export default function Templates() {
             }
         };
 
-        const fetchProjects = async () => {
-            let filters = 'created >= "2022-01-01 00:00:00" && user_projects = "' + user.id + '"';
-            try {
-                const projectList = await pb.collection('projects').getList(1, 50, {
-                    filter: filters,
-                    sort: '-created',
-                });
-                setProjects(projectList.items);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        const createProject = async () => {
-            try {
-                const data = {
-                    "user_projects": user.id,
-                    "project_name": `Project ${projects.length + 1}`,
-                };
-                const project = await pb.collection('projects').create(data);
-                const projectId = project.id;
-                const projectUrl = `http://localhost:3000/page-editor/${user.username}/${projectId}`;
-                await pb.collection('projects').update(project.id, {'project_url': projectUrl});
-                setProjects([...projects, project]);
-                router.push(projectUrl)
-            }
-            catch (error) {
-                alert(error);
-            }
-        };
-
         useEffect(() => {
             fetchTemplates();
-        }, []);
-
-        useEffect(() => {
-            fetchProjects();
         }, []);
 
         const topicList = [
@@ -92,9 +55,9 @@ export default function Templates() {
                         <div className='px-6 pt-12 col-span-1'>
                             <h1 className='text-3xl font-bold text-zinc-900 ml-6 pb-1'>Your portfolio, your way.</h1>
                             <p className='text-lg text-zinc-900 ml-6'>Choose a template to get started</p>
-                            <p className='text-xs text-zinc-500 ml-6 py-4'>OR</p>
-                            <p className='text-lg text-zinc-900 ml-6 pb-6'>Filter by topic.</p>
-                            <div className='container'>
+                            <p className='text-xs text-zinc-500 ml-6 py-4 max-lg:hidden'>OR</p>
+                            <p className='text-lg text-zinc-900 ml-6 pb-6 max-lg:hidden'>Filter by topic.</p>
+                            <div className='container max-lg:hidden'>
                                 <ul className='overflow-y-auto grid overflow-auto h-96 px-4'>
                                     {topicList.map(({ name, value }: any, index: number) => {
                                         return (
@@ -120,13 +83,13 @@ export default function Templates() {
                             </div>
                         </div>
                         <div className='col-span-2 justify-self-end w-full h-auto bg-primary rounded-l-xl my-6 drop-shadow-lg overflow-auto'>
-                            <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 h-full w-full justify-items-center items-center px-4'>
+                            <div className='grid grid-cols-1 py-8 min-[0px]:gap-y-10 sm:grid-cols-1 sm:gap-y-10 md:grid-cols-1 md:gap-y-10 lg:grid-cols-2 lg:gap-y-10 xl:grid-cols-3 h-full w-full justify-items-center items-center px-4'>
                                 {templates.map(({ template_name, template_img, id }: any, index: number) => {
                                     return (
                                         <TemplateContainer key={index} template_name={template_name} template_img={template_img} id={id} text={<p className="text-sm text-gray-600 mt-2">Template - Category</p>} alt_img={"flex w-full h-full bg-gradient-to-r from-[#A3A0FB] to-[#E53F71] justify-center items-center"} />
                                     );
                                 })}
-                                <TemplateContainer template_name={<p>Blank Project</p>} create_proj={createProject} text={<p className="text-sm text-gray-600 mt-2">A clean slate</p>} alt_img={"flex w-full h-full bg-gradient-to-r from-zinc-800 to-zinc-600 justify-center items-center"} />
+                                <TemplateContainer template_name={<p>Blank Project</p>} text={<p className="text-sm text-gray-600 mt-2">A clean slate</p>} alt_img={"flex w-full h-full bg-gradient-to-r from-zinc-800 to-zinc-600 justify-center items-center"} />
                             </div>
                         </div>
                     </div>
