@@ -15,7 +15,6 @@ const ProjectDropdown = (props) => {
     }
     return (
         <main className="h-screen">
-            
             <div className="relative">
                 <div className={`absolute right-2 mt-2 whitespace-nowrap w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5`}>
                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">

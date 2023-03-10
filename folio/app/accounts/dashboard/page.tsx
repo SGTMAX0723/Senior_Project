@@ -39,7 +39,7 @@ export default function Dashboard() {
 
         return (
             <main className='min-h-screen'>
-                <div className='min-h-screen ml-48 py-36
+                <div className='min-h-screen ml-48 pt-36 pb-16
                                 flex justify-center items-center
                                 bg-primary'>
 

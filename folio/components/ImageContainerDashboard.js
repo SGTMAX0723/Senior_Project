@@ -1,7 +1,5 @@
 'use client'
 
-// import { FcLike } from "react-icons/fc";
-// import  { pb } from 'components/UserAuthentication';
 import { BsThreeDots } from "react-icons/bs";
 import { useState, useEffect, useRef } from 'react';
 import ProjectDropdown from './ProjectDropdown';
