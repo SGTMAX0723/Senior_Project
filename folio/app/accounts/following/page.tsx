@@ -66,7 +66,7 @@ export default function Following() {
                                 flex
                                 bg-primary'>
     
-                    <div className="container w-auto m-auto flex md:flex-row shrink:0 items-center justify-center"> 
+                    <div className="container max-w-7xl  m-auto flex md:flex-row shrink:0 items-center justify-center"> 
         
                      {connections.map(({ followed }: any, index:number) => (
                         <ConnectionCards    key={index} 

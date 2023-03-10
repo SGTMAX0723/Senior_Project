@@ -61,11 +61,11 @@ export default function Followers() {
     if (isLoggedIn) {
         return (
             <main>
-                <div className='xl:h-screen lg:h-screen md:h-screen sm:h-screen pt-16 ml-48
+                <div className='xl:h-screen lg:h-screen md:h-screen sm:h-screen min-h-screen pt-16 ml-48
                                 flex
                                 bg-primary'>
     
-                    <div className="container w-auto m-auto flex md:flex-row shrink:0 items-center justify-center"> 
+                    <div className="container max-w-7xl  m-auto flex md:flex-row shrink:0 items-center justify-center"> 
                     
                      {connections.map(({ follows }: any, index:number) => (
                         <ConnectionCards    key={index} 

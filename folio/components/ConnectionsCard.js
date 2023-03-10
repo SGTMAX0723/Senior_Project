@@ -12,7 +12,7 @@ const ConnectionsCard = (props) => {
                 <div className="text-black font-bold text-l mb-2 leading-tight place-self-center">{props.followerName}</div> 
                 <div>
                     <IconText icon={<AiFillMail size='20' />} text={<p className="text-grey-darker lg:mr-3 " >{props.followerEmail}</p>}/>
-                    <IconText icon={<SiGithub size='20' />} text={<a className="text-blue-500" href={props.githubLink}>{props.githubLink} </a>}/>
+                    <IconText icon={<SiGithub size='20' />} text={<a className="text-blue-500 mr-3" href={props.githubLink}>{props.githubLink} </a>}/>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@ const ConnectionsCard = (props) => {
 // React components that take an icon and text component as input props and renders
 // out a div class of sidebar-icon-top and bottom with the icon and text inside it.
 const IconText = ({ icon, text }) => (
-    <div className='icon-text flex items-center space-x-2 ml-1'>
+    <div className='icon-text flex items-center space-x-2 ml-1 mr-3'>
         {icon}
         {text}
     </div>
