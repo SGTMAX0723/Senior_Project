@@ -58,7 +58,7 @@ export default function Templates() {
                             <p className='text-xs text-zinc-500 ml-6 py-4 max-lg:hidden'>OR</p>
                             <p className='text-lg text-zinc-900 ml-6 pb-6 max-lg:hidden'>Filter by topic.</p>
                             <div className='container max-lg:hidden'>
-                                <ul className='overflow-y-auto grid overflow-auto h-96 px-4'>
+                                <ul className='overflow-y-auto grid overflow-auto h-[32rem] px-4'>
                                     {topicList.map(({ name, value }: any, index: number) => {
                                         return (
                                             <li

@@ -64,7 +64,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                        <div className='grid grid-cols-1 justify-items-center gap-10 '>
+                        <div className='grid grid-cols-1 justify-items-center gap-10'>
                             {projects.map(({ project_name, project_img, project_url, updated, id }:any, index:number) => {
                                 function loadProject() {
                                     router.push(project_url);

@@ -68,6 +68,7 @@ const CreateForm = () => {
                 type="text"
                 name="project-name"
                 id="project-name"
+                placeholder={`Project ${projects.length + 1}`}
                 value={projectName}
                 onChange={handleProjectNameChange}
                 className="mt-1 mb-4 p-2 w-full border border-gray-300 rounded-md"
