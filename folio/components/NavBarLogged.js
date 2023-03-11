@@ -5,6 +5,7 @@ import { IoIosSearch } from "react-icons/io";
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { pb } from "./UserAuthentication";
+import Default from '../public/Default_PFP.jpg'
 import MenuDropdown from "./MenuDropdown";
 
 const NavBarlogged = () => {
@@ -50,7 +51,7 @@ const NavBarlogged = () => {
             <button onClick={handleImageClick}>
               <img
                 className="h-full w-full rounded-full"
-                src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${user.id}/${user.avatar}`}
+                src={user.avatar?`https://folio-database.fly.dev/api/files/_pb_users_auth_/${user.id}/${user.avatar}`: Default}
               />
             </button>
             {isImageClicked && (
