@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
 import ConnectionCards from '../../../components/ConnectionsCard';
 
-export default function Connections() {
+export default function Following() {
     const isLoggedIn = pb.authStore.isValid;
     const router = useRouter();
     const user: any = pb.authStore.model; 
@@ -66,19 +66,19 @@ export default function Connections() {
                                 flex
                                 bg-primary'>
     
-                <div className="container m-auto flex flex-wrap flex-col md:flex-row items-center justify-center"> 
+                    <div className="container m-auto flex flex-wrap flex-col md:flex-row items-center justify-center"> 
         
-                    {connections.map(({ followed }: any, index:number) => (
+                     {connections.map(({ followed }: any, index:number) => (
                         <ConnectionCards    key={index} 
                                             followers={followed} 
                                             followerAvatar={users[index]} 
                                             followerName={name[index]} 
                                             followerEmail={email[index]}
                                             githubLink={github[index]} />
-                    ))}
+                        ))}
 
+                    </div>
                 </div>
-            </div>
                 <NavBarLogged />
                 <SideBar />
             </main>
