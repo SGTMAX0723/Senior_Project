@@ -9,6 +9,7 @@ import Link from 'next/link';
 
 import { pb } from "./UserAuthentication";
 import { logoutWhileLoggedIn } from "./UserAuthentication";
+import Default from '../public/Default_PFP.jpg'
 
 const NavBarlogged = () => {
     // Re-renders the component after the first render
@@ -47,7 +48,7 @@ const NavBarlogged = () => {
                     <NavBarIcon icon={<IoNotifications size="18"/> } text={<p className='pr-8'></p>}/>
                     <p class="flex pr-8 text-secondary justify-center xl:visible lg:visible md:visible md:w-36 min-[0px]:invisible max-sm:invisible">{user.name}</p>
                     <Link href='/' onClick={logoutWhileLoggedIn}>
-                        <img class="inline-block h-11 w-11 rounded-full" src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${user.id}/${user.avatar}`} />
+                        <img class="inline-block h-11 w-11 rounded-full" src={user.avatar?`https://folio-database.fly.dev/api/files/_pb_users_auth_/${user.id}/${user.avatar}`: Default} />
                     </Link>
                 </div>
             </div>

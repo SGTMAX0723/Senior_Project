@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import PocketBase from 'pocketbase';
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import UserAuthentication from './UserAuthentication';
 
 export const pb = new PocketBase('https://folio-database.fly.dev');
 pb.autoCancellation(false);
@@ -25,7 +24,6 @@ const UserRegistration =()=>{
             "passwordConfirm": data.confirm_pass,
             "name": data.fname + ' '+ data.lname,
         };
-        console.log(data);
         console.log(userInfo);
         const record = await pb.collection('users').create(userInfo);
         console.log(record);
