@@ -8,7 +8,7 @@ import { pb } from "./UserAuthentication";
 import MenuDropdown from "./MenuDropdown";
 
 const NavBarlogged = () => {
-  let user = pb.authStore.model;
+  const user = pb.authStore.model;
   const [isImageClicked, setIsImageClicked] = useState(false);
   const dropdownRef = useRef(null);
 

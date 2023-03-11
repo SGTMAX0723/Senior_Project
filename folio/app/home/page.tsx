@@ -78,22 +78,3 @@ export default function Home() {
       </main>
     );
 }
-
-
-{/* <div className='grid grid-cols-1 w-full mx-16 my-auto h-screen-64'>
-                <div className='flex px-2 h-24 max-w-7xl justify-self-center justify-center w-full'>
-                    <h1 className='text-4xl text-center text-secondary font-semi-bold'>Featured User Portfolios</h1>
-                </div>
-                <div className='grid grid-cols-1 justify-items-center gap-10'>
-                    {projects.map(({ user_projects, project_name, project_img, project_url, updated, id }:any, index:number) => {
-                        function loadProject() {
-                            router.push(project_url);
-                        }
-                        return (
-                            <div className='rounded-md w-full max-w-7xl'>
-                                <ImageContainerHome key={index} user_name={users.map(({ id, name }:any, uKey:number) => {if (user_projects == id) {return <p key={uKey}>{name}</p>}})} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id}/>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div> */}
