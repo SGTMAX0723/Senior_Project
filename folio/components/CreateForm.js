@@ -37,12 +37,21 @@ const CreateForm = () => {
 
     async function handleSubmit(event) {
         event.preventDefault();
-        const data = {
-            'project_name': projectName === '' ? `Project ${projects.length + 1}` : projectName,
-            'description': description,
-            'user_projects': user.id
-        };
-        createProject(data);
+        inDb = false;
+        projects.map((project) => {
+            if (project.project_name === projectName) {
+                setShowAlert(true);
+                inDb = true;
+            }
+        });
+        if (!inDb) {
+            const data = {
+                'project_name': projectName === '' ? `Project ${projects.length + 1}` : projectName,
+                'description': description,
+                'user_projects': user.id
+            };
+            createProject(data);
+        }
     }
 
     const createProject = async (data) => { 
