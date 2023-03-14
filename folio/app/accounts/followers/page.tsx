@@ -6,12 +6,13 @@ import SideBar from '../../../components/SideBar';
 import NavBarLogged from '../../../components/NavBarLogged.js';
 import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
-import ConnectionCards from '../../../components/ConnectionsCard';
+import ConnectionCardsV2 from '../../../components/ConnectionsCardV2';
 
 export default function Followers() {
     const isLoggedIn = pb.authStore.isValid;
     const router = useRouter();
-    const user: any = pb.authStore.model; 
+    const user: any = pb.authStore.model;
+
     pb.autoCancellation(false);
 
     type MyRecord = Record<string, number>;
@@ -21,7 +22,9 @@ export default function Followers() {
     const [email, setEmail] = useState([] as MyRecord[]);
     const [github, setGithub] = useState([] as MyRecord[]);
 
-    const fetchConnections = async () => {
+
+    // Get users who follow logged in user 
+    const fetchFollowers = async () => {
         let expandFollowers = 'followed = "' + user.id + '"';
         try {
             const records = await pb.collection('connections').getList(1, 100000000, /* batch size */ {
@@ -34,7 +37,7 @@ export default function Followers() {
         }
     };
 
-    const fetchAvatars = async () => {
+    const fetchFollowersInfo = async () => {
         const promises = connections.map(({ follows }: any) => {
             return pb.collection('users').getOne(follows, {
                 expand: 'avatar, name, email, githubLink',
@@ -49,12 +52,12 @@ export default function Followers() {
     };
 
     useEffect(() => {
-        fetchConnections();
+        fetchFollowers();
     }, []);
 
     useEffect(() => {
         if (connections.length > 0) {
-            fetchAvatars();
+            fetchFollowersInfo();
         }
     }, [connections]);
 
@@ -68,7 +71,7 @@ export default function Followers() {
                     <div className="container max-w-7xl  m-auto flex md:flex-row shrink:0 items-center justify-center"> 
                     
                      {connections.map(({ follows }: any, index:number) => (
-                        <ConnectionCards    key={index} 
+                        <ConnectionCardsV2    key={index} 
                                             followers={follows} 
                                             followerAvatar={users[index]} 
                                             followerName={name[index]} 

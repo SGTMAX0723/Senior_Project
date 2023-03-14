@@ -2,6 +2,7 @@ import { AiFillMail } from "react-icons/ai";
 import { SiGithub } from "react-icons/si"
 
 
+
 const ConnectionsCard = (props) => {
     return (
         <div className="w-2/3 lg:w-1/2 p-2 ">
