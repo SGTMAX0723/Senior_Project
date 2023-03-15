@@ -12,14 +12,10 @@ const ConnectionsCardV2 = (props) => {
     const [isFollowing, setIsFollowing] = useState(false);
     user = pb.authStore.model;
 
-    useEffect(() => {
-        
-
-    });
 
     return (
 
-        <div class="dark:!bg-navy-800 shadow-shadow-500 shadow-3xl rounded-primary relative mx-auto flex h-full w-full max-w-[550px] flex-col items-center bg-white bg-cover bg-clip-border p-[16px] dark:text-white dark:shadow-none">
+        <div class="dark:!bg-navy-800 shadow-shadow-500 shadow-3xl rounded-primary relative mx-auto flex h-full w-full max-w-[550px] flex-col items-center bg-white bg-cover bg-clip-border p-[16px] dark:text-white dark:shadow-none rounded">
             <div class="relative mt-1 flex h-32 w-full justify-center rounded-xl bg-cover" style={{backgroundImage: "url('https://i.ibb.co/FWggPq1/banner.png')"}}>
                 <div class="absolute -bottom-12 flex h-[88px] w-[88px] items-center justify-center rounded-full border-[4px] border-white bg-pink-400">
                  <img class="h-full w-full rounded-full" src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${props.followers}/${props.followerAvatar}`}/> 
@@ -27,13 +23,12 @@ const ConnectionsCardV2 = (props) => {
             </div>
             <div class="mt-16 flex flex-col items-center">
                 <h4 class="text-bluePrimary text-xl font-bold">{props.followerName}</h4>
-                <p class="text-lightSecondary text-base font-normal">Undergrad</p>
                 <IconText icon={<AiFillMail size='20' />} text={<p className="text-grey-darker lg:mr-3 " >{props.followerEmail}</p>}/>
                 <IconText icon={<SiGithub size='20' />} text={<a className="text-blue-500 mr-3" href={props.githubLink}>{props.githubLink} </a>}/>
 
             </div>
             <div >
-                <FollowButton isFollowing={isFollowing} userId={props.currentUserId} followId={props.followers} setIsFollowing={setIsFollowing}/>
+                <FollowButton /*isFollowing={isFollowing} userId={props.currentUserId} followId={props.followers} setIsFollowing={setIsFollowing} */ />
             </div>
 
         </div>

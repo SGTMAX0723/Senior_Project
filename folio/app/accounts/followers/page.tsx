@@ -6,7 +6,10 @@ import SideBar from '../../../components/SideBar';
 import NavBarLogged from '../../../components/NavBarLogged.js';
 import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
+import Link from 'next/link';
 import ConnectionCardsV2 from '../../../components/ConnectionsCardV2';
+import ConnectionsButtonFollowers from '../../../components/ConnectionsButtonFollowers';
+
 
 export default function Followers() {
     const isLoggedIn = pb.authStore.isValid;
@@ -16,7 +19,7 @@ export default function Followers() {
     pb.autoCancellation(false);
 
     type MyRecord = Record<string, number>;
-    const [connections, setConnections] = useState([] as MyRecord[]);
+    const [followers, setFollowers] = useState([] as MyRecord[]);
     const [users, setUsers] = useState([] as MyRecord[]);
     const [name, setName] = useState([] as MyRecord[]);
     const [email, setEmail] = useState([] as MyRecord[]);
@@ -31,14 +34,14 @@ export default function Followers() {
                 sort: '-created',
                 filter: expandFollowers
             });
-            setConnections(records.items);
+            setFollowers(records.items);
         } catch(error) {
             console.error(error);
         }
     };
 
     const fetchFollowersInfo = async () => {
-        const promises = connections.map(({ follows }: any) => {
+        const promises = followers.map(({ follows }: any) => {
             return pb.collection('users').getOne(follows, {
                 expand: 'avatar, name, email, githubLink',
             });
@@ -56,21 +59,26 @@ export default function Followers() {
     }, []);
 
     useEffect(() => {
-        if (connections.length > 0) {
+        if (followers.length > 0) {
             fetchFollowersInfo();
         }
-    }, [connections]);
+    }, [followers]);
+
+    const [followingPage, setFollowingPage] = useState(false)
+
 
     if (isLoggedIn) {
         return (
             <main>
+               
                 <div className='xl:h-screen lg:h-screen md:h-screen sm:h-screen min-h-screen pt-16 ml-48
                                 flex
                                 bg-primary'>
-    
+
+                    
                     <div className="container max-w-7xl  m-auto flex md:flex-row shrink:0 items-center justify-center"> 
                     
-                     {connections.map(({ follows }: any, index:number) => (
+                     {followers.map(({ follows }: any, index:number) => (
                         <ConnectionCardsV2    key={index} 
                                             followers={follows} 
                                             followerAvatar={users[index]} 
@@ -80,7 +88,9 @@ export default function Followers() {
                         ))}
                     </div>
                 </div>
+                
                 <NavBarLogged />
+                <ConnectionsButtonFollowers />
                 <SideBar />
             </main>
         )
