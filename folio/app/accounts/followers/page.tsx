@@ -76,7 +76,7 @@ export default function Followers() {
                                 bg-primary'>
 
                     
-                    <div className="container max-w-7xl  m-auto flex md:flex-row shrink:0 items-center justify-center"> 
+                    <div className="container max-w-7xl  m-auto flex md:flex-row shrink:0 items-center justify-center space-x-4 "> 
                     
                      {followers.map(({ follows }: any, index:number) => (
                         <ConnectionCardsV2    key={index} 
