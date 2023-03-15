@@ -6,7 +6,12 @@ import SideBar from '../../../components/SideBar';
 import NavBarLogged from '../../../components/NavBarLogged.js';
 import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
-import ConnectionCards from '../../../components/ConnectionsCard';
+import Link from 'next/link';
+import ConnectionsButtonFollowing from '../../../components/ConnectionsButtonFollowing';
+import ConnectionCardsV2 from '../../../components/ConnectionsCardV2';
+
+
+
 
 export default function Following() {
     const isLoggedIn = pb.authStore.isValid;
@@ -59,17 +64,19 @@ export default function Following() {
         }
     }, [connections]);
 
+
+
     if (isLoggedIn) {
         return (
             <main>
                 <div className='xl:h-screen lg:h-screen md:h-screen sm:h-screen pt-16 ml-48
                                 flex
                                 bg-primary'>
-    
-                    <div className="container max-w-7xl  m-auto flex md:flex-row shrink:0 items-center justify-center"> 
+                    
+                    <div className="container max-w-7xl  m-auto flex md:flex-row shrink:0 items-center justify-center space-x-4"> 
         
                      {connections.map(({ followed }: any, index:number) => (
-                        <ConnectionCards    key={index} 
+                        <ConnectionCardsV2    key={index} 
                                             followers={followed} 
                                             followerAvatar={users[index]} 
                                             followerName={name[index]} 
@@ -80,6 +87,7 @@ export default function Following() {
                     </div>
                 </div>
                 <NavBarLogged />
+                <ConnectionsButtonFollowing />
                 <SideBar />
             </main>
         )

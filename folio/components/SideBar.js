@@ -29,12 +29,10 @@ const SideBar = () => {
                 <Link href="/templates">
                     <SideBarIconTop icon={<HiTemplate size="20" />} text={<p  className='pl-2'>Templates</p>} />
                 </Link>
-                <Link href="/accounts/following">
-                    <SideBarIconTop icon={<HiUser size="20" />} text={<p  className='pl-2'>Following</p>} />
+                <Link href="/accounts/connections">
+                    <SideBarIconTop icon={<HiUsers size="20" />} text={<p  className='pl-2'>Connections</p>} />
                 </Link>
-                <Link href="/accounts/followers">
-                    <SideBarIconTop icon={<HiUsers size="20" />} text={<p  className='pl-2'>Followers</p>} />
-                </Link>
+                
                 <div className='fixed bottom-2 w-48'>
                     <Link href="/accounts/settings" >
                         <SideBarIconBottom icon={<IoSettingsSharp size="20" />} text={<p className='pl-2'>Settings</p>} />

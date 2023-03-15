@@ -6,36 +6,42 @@ import SideBar from '../../../components/SideBar';
 import NavBarLogged from '../../../components/NavBarLogged.js';
 import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
-import ConnectionCards from '../../../components/ConnectionsCard';
+import Link from 'next/link';
+import ConnectionCardsV2 from '../../../components/ConnectionsCardV2';
+import ConnectionsButtonFollowers from '../../../components/ConnectionsButtonFollowers';
+
 
 export default function Followers() {
     const isLoggedIn = pb.authStore.isValid;
     const router = useRouter();
-    const user: any = pb.authStore.model; 
+    const user: any = pb.authStore.model;
+
     pb.autoCancellation(false);
 
     type MyRecord = Record<string, number>;
-    const [connections, setConnections] = useState([] as MyRecord[]);
+    const [followers, setFollowers] = useState([] as MyRecord[]);
     const [users, setUsers] = useState([] as MyRecord[]);
     const [name, setName] = useState([] as MyRecord[]);
     const [email, setEmail] = useState([] as MyRecord[]);
     const [github, setGithub] = useState([] as MyRecord[]);
 
-    const fetchConnections = async () => {
+
+    // Get users who follow logged in user 
+    const fetchFollowers = async () => {
         let expandFollowers = 'followed = "' + user.id + '"';
         try {
             const records = await pb.collection('connections').getList(1, 100000000, /* batch size */ {
                 sort: '-created',
                 filter: expandFollowers
             });
-            setConnections(records.items);
+            setFollowers(records.items);
         } catch(error) {
             console.error(error);
         }
     };
 
-    const fetchAvatars = async () => {
-        const promises = connections.map(({ follows }: any) => {
+    const fetchFollowersInfo = async () => {
+        const promises = followers.map(({ follows }: any) => {
             return pb.collection('users').getOne(follows, {
                 expand: 'avatar, name, email, githubLink',
             });
@@ -49,26 +55,31 @@ export default function Followers() {
     };
 
     useEffect(() => {
-        fetchConnections();
+        fetchFollowers();
     }, []);
 
     useEffect(() => {
-        if (connections.length > 0) {
-            fetchAvatars();
+        if (followers.length > 0) {
+            fetchFollowersInfo();
         }
-    }, [connections]);
+    }, [followers]);
+
+    const [followingPage, setFollowingPage] = useState(false)
+
 
     if (isLoggedIn) {
         return (
             <main>
+               
                 <div className='xl:h-screen lg:h-screen md:h-screen sm:h-screen min-h-screen pt-16 ml-48
                                 flex
                                 bg-primary'>
-    
-                    <div className="container max-w-7xl  m-auto flex md:flex-row shrink:0 items-center justify-center"> 
+
                     
-                     {connections.map(({ follows }: any, index:number) => (
-                        <ConnectionCards    key={index} 
+                    <div className="container max-w-7xl  m-auto flex md:flex-row shrink:0 items-center justify-center space-x-4 "> 
+                    
+                     {followers.map(({ follows }: any, index:number) => (
+                        <ConnectionCardsV2    key={index} 
                                             followers={follows} 
                                             followerAvatar={users[index]} 
                                             followerName={name[index]} 
@@ -77,7 +88,9 @@ export default function Followers() {
                         ))}
                     </div>
                 </div>
+                
                 <NavBarLogged />
+                <ConnectionsButtonFollowers />
                 <SideBar />
             </main>
         )
