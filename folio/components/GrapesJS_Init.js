@@ -58,7 +58,7 @@ const GrapesJS = () => {
                     }
                 },
                 plugins: [
-                    editor => thePlugin(editor, { btnLabel }),
+                    editor => thePlugin(editor, { btnLabel: 'export-zip' }),
                   ],
                 // Size of the editor
                 height: '100%',
@@ -313,7 +313,6 @@ const GrapesJS = () => {
                 label: '<u>B</u>',
                 command: 'sw-visibility', // Built-in command
                 }, 
-                { id: 'export',    className: 'fa fa-code',  command: 'export-template', attributes: { title: 'View code' }, },
                 {
                 id: 'export',
                 className: 'btn-open-export',
