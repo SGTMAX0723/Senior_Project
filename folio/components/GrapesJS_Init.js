@@ -15,6 +15,8 @@
 // Importing the required libraries and dependencies
 import React, { useEffect, useState, useRef } from 'react';
 import grapesjs from 'grapesjs';
+import thePlugin from 'grapesjs-plugin-export';
+
 
 const GrapesJS = () => {
     // Use hooks 'useRef' and 'useEffect' to create the editor instance and manage the state of the component.
@@ -35,6 +37,7 @@ const GrapesJS = () => {
                 // As an alternative we could use: `components: '<h1>Hello World Component!</h1>'`,
                 pageManager: {
                     appendTo: '#gjs',
+                    
                     // Enable the possibility to load and store on the server
                     // `storeOnChange` - store data automatically when the canvas is changed
                     // `storeAfterLoad` - store data automatically after loading the page
@@ -54,6 +57,9 @@ const GrapesJS = () => {
                         }
                     }
                 },
+                plugins: [
+                    editor => thePlugin(editor, { btnLabel: 'export-zip' }),
+                  ],
                 // Size of the editor
                 height: '100%',
                 width: 'auto',
@@ -306,7 +312,8 @@ const GrapesJS = () => {
                 className: 'btn-toggle-borders',
                 label: '<u>B</u>',
                 command: 'sw-visibility', // Built-in command
-                }, {
+                }, 
+                {
                 id: 'export',
                 className: 'btn-open-export',
                 label: 'Exp',
