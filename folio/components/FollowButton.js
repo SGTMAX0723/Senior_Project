@@ -18,7 +18,7 @@ function FollowButton({ /* following, userId, followId */ }) {
   };
 
   return (
-    <button onClick={handleClick} className={'border-2 w-32 bg-gradient-to-r from-green-400 to-blue-500 mt-2 rounded bg-blue-400 hover:from-pink-500 hover:to-yellow-500 text-white'}>
+    <button onClick={handleClick} className={'border-2 w-32 bg-blue-500 mt-2 rounded-full bg-blue-400 hover:from-pink-500 hover:bg-blue-600 text-white'}>
        {isFollowing ? 'Unfollow' : 'Follow'}
     </button>
   );
