@@ -35,44 +35,32 @@ const GrapesJS = () => {
                 container: '#gjs',
                 // Get the content for the canvas directly from the element
                 // As an alternative we could use: `components: '<h1>Hello World Component!</h1>'`,
-                pageManager: {
-                    appendTo: '#gjs',
-                    
-                    // Enable the possibility to load and store on the server
-                    // `storeOnChange` - store data automatically when the canvas is changed
-                    // `storeAfterLoad` - store data automatically after loading the page
-                    // `autoload` - load stored data automatically on init
-                    storeOnChange: true,
-                    storeAfterLoad: true,
-                    autoload: true,
-                    // `type` - the name of the property of the model
-                    // `urlStore` - url for storing the model
-                    // `urlLoad` - url for loading the model
-                    type: 'remote',
-                    stepsBeforeSave: 1,
-                    options: {
-                        remote: {
-                            urlStore: `http://localhost:3000/api/update-project/${projectId}`,
-                            urlLoad: `http://localhost:3000/api/fetch-project/${projectId}`,
-                        }
-                    }
-                },
                 plugins: [
                     editor => thePlugin(editor, { btnLabel: 'export-zip' }),
-                  ],
+                ],
                 // Size of the editor
                 height: '100%',
                 width: 'auto',
-                // Disable the storage manager for the moment
                 storageManager: {
-                    type: 'remote',
-                    stepsBeforeSave: 1,
+                    type: "local" && "remote",
                     options: {
+                        local: {
+                            stepsBeforeSave: 1,
+                            autosave: true,
+                            autoload: true,
+                            autoloadCallback: (data) => {
+                                Object.assign(localData, data);
+                            },
+                        },
                         remote: {
+                            stepsBeforeSave: 1000000000,
                             urlStore: `http://localhost:3000/api/update-project/${projectId}`,
                             urlLoad: `http://localhost:3000/api/fetch-project/${projectId}`,
-                        }
-                    }
+                        },
+                    },
+                },
+                pageManager: {
+                    appendTo: '#gjs',
                 },
                 // Avoid any default panel
                 layerManager: {
@@ -131,13 +119,13 @@ const GrapesJS = () => {
                         el: '.panel__devices',
                         buttons: [{
                             id: 'device-desktop',
-                            label: 'D',
+                            label: '<i class="fa fa-desktop"></i>',
                             command: 'set-device-desktop',
                             active: true,
                             togglable: false,
                         }, {
                             id: 'device-mobile',
-                            label: 'M',
+                            label: '<i class="fa fa-mobile" style="font-size: 1.25em;"></i>',
                             command: 'set-device-mobile',
                             togglable: false,
                         }],
@@ -218,10 +206,10 @@ const GrapesJS = () => {
                             {
                                 extend: 'text-align',
                                 options: [
-                                  { id : 'left',  label : 'Left',    className: 'fa fa-align-left'},
-                                  { id : 'center',  label : 'Center',  className: 'fa fa-align-center' },
-                                  { id : 'right',   label : 'Right',   className: 'fa fa-align-right'},
-                                  { id : 'justify', label : 'Justify',   className: 'fa fa-align-justify'}
+                                    { id : 'left',  label : 'Left',    className: 'fa fa-align-left'},
+                                    { id : 'center',  label : 'Center',  className: 'fa fa-align-center' },
+                                    { id : 'right',   label : 'Right',   className: 'fa fa-align-right'},
+                                    { id : 'justify', label : 'Justify',   className: 'fa fa-align-justify'}
                                 ],
                             },
                             {
@@ -238,9 +226,9 @@ const GrapesJS = () => {
                                 type: 'radio',
                                 default: 'none',
                                 options: [
-                                  { id: 'none', label: 'None', className: 'fa fa-times'},
-                                  { id: 'underline', label: 'underline', className: 'fa fa-underline' },
-                                  { id: 'line-through', label: 'Line-through', className: 'fa fa-strikethrough'}
+                                    { id: 'none', label: 'None', className: 'fa fa-times'},
+                                    { id: 'underline', label: 'underline', className: 'fa fa-underline' },
+                                    { id: 'line-through', label: 'Line-through', className: 'fa fa-strikethrough'}
                                 ],
                             },
                         ]
@@ -260,18 +248,17 @@ const GrapesJS = () => {
                 attributes: { class:'fa fa-link' },
                 // category: 'Basic',
                 onRender: function() {
-                  var $block = this.getEl();
-                  var $saveBtn = $block.querySelector('.gjs-block-btn-save');
-                  var $input = $block.querySelector('[name="href"]');
-                  $saveBtn.addEventListener('click', function() {
-                    var href = $input.value;
-                    if (href) {
-                      $block.innerHTML = '<a href="' + href + '"><span data-gjs-editable="true">' + $block.textContent + '</span></a>';
-                    }
-                  });
+                    var $block = this.getEl();
+                    var $saveBtn = $block.querySelector('.gjs-block-btn-save');
+                    var $input = $block.querySelector('[name="href"]');
+                    $saveBtn.addEventListener('click', function() {
+                        var href = $input.value;
+                        if (href) {
+                        $block.innerHTML = '<a href="' + href + '"><span data-gjs-editable="true">' + $block.textContent + '</span></a>';
+                        }
+                    });
                 }
-            });
-              
+            }); 
 
             // Define commands
             editor.Commands.add('show-layers', {
@@ -331,19 +318,19 @@ const GrapesJS = () => {
                 id: 'visibility',
                 active: true, // active by default
                 className: 'btn-toggle-borders',
-                label: '<u>B</u>',
+                label: '<i class="fa fa-eye"></i>',
                 command: 'sw-visibility', // Built-in command
                 }, 
                 {
                 id: 'export',
                 className: 'btn-open-export',
-                label: 'Exp',
+                label: '<i class="fa fa-download"></i>',
                 command: 'export-template',
                 context: 'export-template', // For grouping context of buttons from the same panel
                 }, {
                 id: 'show-json',
                 className: 'btn-show-json',
-                label: 'JSON',
+                label: '<i class="fa fa-code"></i>',
                 context: 'show-json',
                 command(editor) {
                         editor.Modal.setTitle('Components JSON')
@@ -352,7 +339,16 @@ const GrapesJS = () => {
                         </textarea>`)
                         .open();
                     },
-                }
+                }, {}, // Separator
+                {
+                    id: 'save-project',
+                    className: 'btn-save-project',
+                    label: 'Save',
+                    context: 'save-project',
+                    command(editor) {
+                        editor.store();
+                    },
+                },
             ],
             });
 
