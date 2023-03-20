@@ -151,7 +151,8 @@ const GrapesJS = () => {
                         {
                         id: 'section', // id is mandatory
                         label: '<b>Section</b>', // You can use HTML/SVG inside labels
-                        attributes: { class:'gjs-block-section' },
+                        // category: 'Basic',
+                        attributes: { class:'fa fa-square-o' },
                         content: `
                         <section>
                             <h1>This is a simple title</h1>
@@ -160,10 +161,14 @@ const GrapesJS = () => {
                         }, {
                         id: 'text',
                         label: 'Text',
+                        // category: 'Basic',
+                        attributes: { class:'fa fa-font' },
                         content: '<div data-gjs-type="text">Insert your text here</div>',
                         }, {
                         id: 'image',
                         label: 'Image',
+                        attributes: { class:'fa fa-picture-o' },
+                        // category: 'Basic',
                         // Select the component once it's dropped
                         select: true,
                         // You can pass components as a JSON instead of a simple HTML string,
@@ -221,19 +226,26 @@ const GrapesJS = () => {
                         name: 'Extra',
                         open: false,
                         buildProps: ['background-color', 'box-shadow'],
-                        properties: [
-                            
-                        ]
+                        property: 'href'
                     },
                     {
                         name: 'Typography',
                         open: false,
-                        buildProps: ['Font-size', 'font-family','text-align' ],
+                        buildProps: ['Font-size', 'font-family' ],
                         properties: [
                             'font-weight',
                             'letter-spacing',
                             'line-height',
                             'color',
+                            {
+                                extend: 'text-align',
+                                options: [
+                                  { id : 'left',  label : 'Left',    className: 'fa fa-align-left'},
+                                  { id : 'center',  label : 'Center',  className: 'fa fa-align-center' },
+                                  { id : 'right',   label : 'Right',   className: 'fa fa-align-right'},
+                                  { id : 'justify', label : 'Justify',   className: 'fa fa-align-justify'}
+                                ],
+                            },
                             {
                                 id: 'Font-size',
                                 type: 'number',
@@ -243,14 +255,45 @@ const GrapesJS = () => {
                                 units: ['px', '%'],
                                 min: 8,
                             },
-                            
+                            {
+                                property: 'text-decoration',
+                                type: 'radio',
+                                default: 'none',
+                                options: [
+                                  { id: 'none', label: 'None', className: 'fa fa-times'},
+                                  { id: 'underline', label: 'underline', className: 'fa fa-underline' },
+                                  { id: 'line-through', label: 'Line-through', className: 'fa fa-strikethrough'}
+                                ],
+                            },
                         ]
                     }]
                 },
                 traitManager: {
                     appendTo: '.traits-container',
+                    property: 'link'
                 },
             });
+            
+            //Allows user to add link
+            editor.BlockManager.add('link', {
+                id: 'link',
+                label: 'Link',
+                content: '<a href="#"><span data-gjs-editable="true">Link text</span></a>',
+                attributes: { class:'fa fa-link' },
+                // category: 'Basic',
+                onRender: function() {
+                  var $block = this.getEl();
+                  var $saveBtn = $block.querySelector('.gjs-block-btn-save');
+                  var $input = $block.querySelector('[name="href"]');
+                  $saveBtn.addEventListener('click', function() {
+                    var href = $input.value;
+                    if (href) {
+                      $block.innerHTML = '<a href="' + href + '"><span data-gjs-editable="true">' + $block.textContent + '</span></a>';
+                    }
+                  });
+                }
+            });
+              
 
             // Define commands
             editor.Commands.add('show-layers', {
