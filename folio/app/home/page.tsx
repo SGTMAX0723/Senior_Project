@@ -47,6 +47,17 @@ export default function Home() {
         fetchProjects();
     }, []);
 
+    const [hydrated, setHydrated] = useState(false);
+    useEffect(() => {
+		// This forces a rerender, so the page is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
+
     const sortedProjects = projects.sort((a, b) => b.favorites - a.favorites);
     const topProjects = sortedProjects.slice(0, 10);
 

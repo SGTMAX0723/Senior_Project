@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { IoIosSearch } from "react-icons/io";
 import  { pb } from 'components/UserAuthentication';
-const user = pb.authStore.model;
 
 const SearchBarDashboard = () => {
     const [projects, setProjects] = useState([]);
+    const user = pb.authStore.model;
 
     useEffect(() => {
         const fetchProjects = async () => {
