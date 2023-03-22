@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { IoIosSearch } from "react-icons/io";
 import  { pb } from 'components/UserAuthentication';
+const user = pb.authStore.model;
 
 const SearchBarDashboard = () => {
     const [projects, setProjects] = useState([]);
 
     useEffect(() => {
         const fetchProjects = async () => {
-        let filters = 'created >= "2022-01-01 00:00:00"';
+        let filters = 'created >= "2022-01-01 00:00:00" && user_projects = "' + user.id + '"';
         try {
             const projectList = await pb.collection('projects').getList(1, 100000, {
             filter: filters,

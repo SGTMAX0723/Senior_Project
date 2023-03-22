@@ -89,7 +89,7 @@ export default function Dashboard() {
                         <div className='px-2 h-36 max-w-7xl justify-self-center w-full'>
                             <div className='flex flex-row justify-between'>
                                 <h1 className='text-4xl text-secondary font-semi-bold'>Welcome back, <span className="font-light italic">{first_name}</span></h1>
-                                <div className="flex z-10 relative text-zinc-500 w-2/5 xl:visible lg:visible md:invisible min-[0px]:invisible max-sm:invisible">
+                                <div className="flex relative text-zinc-500 w-2/5 xl:visible lg:visible md:invisible min-[0px]:invisible max-sm:invisible">
                                     <div className='flex space-x-3 pr-3 items-start justify-center'>
                                         <button onClick={() => {setView('list')}} className='bg-zinc-50 hover:bg-[#A3A0FB] hover:text-zinc-50 rounded-md h-10 w-10'><BsListUl className='mx-auto my-auto' size={26}/></button>
                                         <button onClick={() => {setView('grid')}} className='bg-zinc-50 hover:bg-[#A3A0FB] hover:text-zinc-50 rounded-md h-10 w-10'><BsViewList className='mx-auto my-auto' size={26}/></button>

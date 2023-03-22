@@ -9,7 +9,7 @@ const isLoggedIn = pb.authStore.isValid;
 
 const ImageContainerHome = (props) => {
     const [favorite, setFavorite] = useState(
-        localStorage.getItem(`${props.id}-favorite`) === "true"
+        localStorage.getItem(`${props.id}-favorite`) === "false"
     );
     const [favorites, setFavorites] = useState(props.favorites);
 
