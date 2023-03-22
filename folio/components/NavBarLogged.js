@@ -8,7 +8,7 @@ import { pb } from "./UserAuthentication";
 import Default from '../public/Default_PFP.jpg'
 import MenuDropdown from "./MenuDropdown";
 
-const SearchBar = ({ icon, text }) => {
+const SearchBar = ({ icon }) => {
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
   
@@ -93,15 +93,17 @@ const SearchBar = ({ icon, text }) => {
         ref={searchInputRef}
       />
       {showDropdown && (
-        <div className='searchbar-dropdown absolute z-50 top-10 mt-[.813rem] left-0 w-full rounded-b-md bg-zinc-50 border-l-2 border-r-2 border-b-2 border-gray-200'>
+        <div className='searchbar-dropdown absolute z-50 top-10 mt-[.813rem] max-h-64 overflow-auto opacity-90 left-0 w-full rounded-b-md bg-zinc-50 border-l-2 border-r-2 border-b-2 border-gray-200'>
           {searchResults.length === 0 && <div className='p-3 text-sm'>No results found</div>}
           {searchResults.length > 0 &&
             searchResults.map((result) => (
-            <div key={result.id} className='p-3'>
-              <a className="text-sm" href={`/search/${result.id}`}>
-                {result.username ? result.username : result.project_name}
-              </a>
-            </div>
+            <a href={`/search/${result.id}`}>
+              <div key={result.id} className='p-3'>
+                <p className="text-sm truncate">
+                  {result.username ? result.username : result.project_name}
+                </p>
+              </div>
+            </a>
           ))}
         </div>
       )}
