@@ -4,10 +4,10 @@ import { useRouter } from 'next/navigation';
 import SideBar from '../../../components/SideBar';
 import NavBarLogged from '../../../components/NavBarLogged.js';
 import ImageContainerDashboard from '../../../components/ImageContainerDashboard';
+import SearchBarDashboard from '../../../components/SearchBarDashboard';
 import ProjectContainerGrid from '../../../components/ProjectContainerGrid';
 import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
-import { IoIosSearch } from "react-icons/io";
 import { BsViewList } from "react-icons/bs";
 import { BsListUl } from "react-icons/bs";
 
@@ -89,24 +89,18 @@ export default function Dashboard() {
                         <div className='px-2 h-36 max-w-7xl justify-self-center w-full'>
                             <div className='flex flex-row justify-between'>
                                 <h1 className='text-4xl text-secondary font-semi-bold'>Welcome back, <span className="font-light italic">{first_name}</span></h1>
-                                <div className="flex relative text-zinc-500 w-2/5 xl:visible lg:visible md:invisible min-[0px]:invisible max-sm:invisible">
-                                    <div className='flex space-x-3 pr-3'>
-                                        <button onClick={() => {setView('list')}} className='bg-zinc-50 hover:bg-[#A3A0FB] hover:text-zinc-50 rounded-md h-9 w-9 self-center'><BsListUl className='mx-auto my-auto' size={26}/></button>
-                                        <button onClick={() => {setView('grid')}} className='bg-zinc-50 hover:bg-[#A3A0FB] hover:text-zinc-50 rounded-md h-9 w-9 self-center'><BsViewList className='mx-auto my-auto' size={26}/></button>
+                                <div className="flex z-10 relative text-zinc-500 w-2/5 xl:visible lg:visible md:invisible min-[0px]:invisible max-sm:invisible">
+                                    <div className='flex space-x-3 pr-3 items-start justify-center'>
+                                        <button onClick={() => {setView('list')}} className='bg-zinc-50 hover:bg-[#A3A0FB] hover:text-zinc-50 rounded-md h-10 w-10'><BsListUl className='mx-auto my-auto' size={26}/></button>
+                                        <button onClick={() => {setView('grid')}} className='bg-zinc-50 hover:bg-[#A3A0FB] hover:text-zinc-50 rounded-md h-10 w-10'><BsViewList className='mx-auto my-auto' size={26}/></button>
                                     </div>
-                                    <input
-                                        className="bg-zinc-50 h-10 w-full pl-4 rounded-md text-sm font-light focus:outline-none tracking-[.07em]"
-                                        type="search"
-                                        name="search"
-                                        placeholder="Search projects"
-                                    />
-                                    <button type="submit" className="flex absolute inset-y-0 right-0 mx-1 justify-center items-center h-full">
-                                        <IoIosSearch className='pr-2' size={28} />
-                                    </button>
+                                    <SearchBarDashboard />
                                 </div>
                             </div>
                         </div>
-                        {view === 'list' ? listView() : gridView()}
+                        <div className='w-full h-full z-0'>
+                            {view === 'list' ? listView() : gridView()}
+                        </div>
                     </div>
                 </div>
                 <NavBarLogged />
