@@ -146,7 +146,7 @@ const NavBarlogged = () => {
         grid justify-self-center 
         font-semibold text-s tracking-[.20em] 
         col-start-1
-        hover:bg-indigo-100 hover:text-black hover:rounded-full">
+        hover:bg-indigo-100 hover:text-black hover:rounded">
           CREATE
           
         </Link>
