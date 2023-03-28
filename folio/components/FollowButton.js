@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { pb } from 'components/UserAuthentication';
 
-function FollowButton({ /* following, userId, followId */ }) {
+function FollowButton(props) {
+  async function deleteProject() {
+    await pb.collection('connections').delete(props.connection);
+  }
 
-
-
-  const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(true);
 
   const handleClick = async () => {
     if (!isFollowing) {
@@ -18,7 +19,7 @@ function FollowButton({ /* following, userId, followId */ }) {
   };
 
   return (
-    <button onClick={handleClick} className={'border-2 w-32 bg-blue-500 mt-2 rounded-full bg-blue-400 hover:from-pink-500 hover:bg-blue-600 text-white'}>
+    <button onClick={() => {handleClick; deleteProject()}} className={'border-2 w-32 bg-blue-500 mt-2 rounded-full bg-blue-400 hover:from-pink-500 hover:bg-blue-600 text-white'}>
        {isFollowing ? 'Unfollow' : 'Follow'}
     </button>
   );

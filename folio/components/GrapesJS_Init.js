@@ -39,8 +39,8 @@ const GrapesJS = () => {
                     editor => thePlugin(editor, { btnLabel: 'export-zip' }),
                 ],
                 // Size of the editor
-                height: '100%',
-                width: 'auto',
+                // height: '100%',
+                // width: 'auto',
                 storageManager: {
                     type: "local" && "remote",
                     options: {
@@ -134,40 +134,152 @@ const GrapesJS = () => {
                         appendTo: '.styles-container'
                     },
                     blockManager: {
-                    appendTo: '#blocks',
-                    blocks: [
-                        {
-                        id: 'section', // id is mandatory
-                        label: '<b>Section</b>', // You can use HTML/SVG inside labels
-                        // category: 'Basic',
-                        attributes: { class:'fa fa-square-o' },
-                        content: `
-                        <section>
-                            <h1>This is a simple title</h1>
-                            <div>This is just a Lorem text: Lorem ipsum dolor sit amet</div>
-                        </section>`,
-                        }, {
-                        id: 'text',
-                        label: 'Text',
-                        // category: 'Basic',
-                        attributes: { class:'fa fa-font' },
-                        content: '<div data-gjs-type="text">Insert your text here</div>',
-                        }, {
-                        id: 'image',
-                        label: 'Image',
-                        attributes: { class:'fa fa-picture-o' },
-                        // category: 'Basic',
-                        // Select the component once it's dropped
-                        select: true,
-                        // You can pass components as a JSON instead of a simple HTML string,
-                        // in this case we also use a defined component type `image`
-                        content: { type: 'image' },
-                        // This triggers `active` event on dropped components and the `image`
-                        // reacts by opening the AssetManager
-                        activate: true,
-                        }, 
-                    ]
-                },
+                        appendTo: '#blocks',
+                        blocks: [
+                            {
+                                id: 'body',
+                                label: 'Body',
+                                category: 'Layout',
+                                attributes: { class:'fa fa-square' },
+                                content: `
+                                    <body>
+                                        <header style="height: 50px; background-color: #ddd;"></header>
+                                        <main style="height: calc(100vh - 100px);"></main>
+                                        <footer style="height: 50px; background-color: #ddd;"></footer>
+                                    </body>
+                                `,
+                                style: {
+                                    width: '100%',
+                                    height: '100%',
+                                    margin: 0,
+                                    padding: 0
+                                }
+                            },
+                            {
+                                id: 'section',
+                                label: 'Section',
+                                category: 'Layout',
+                                attributes: { class: 'fa fa-square-o' },
+                                content: `
+                                    <section style="padding: 60px 0; background-color: #f8f9fa;">
+                                        <div class="container">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-8">
+                                                    <h2 style="font-size: 36px; font-weight: 700; margin-bottom: 30px; text-align: center;">Section Title</h2>
+                                                    <p style="font-size: 18px; line-height: 1.6; margin-bottom: 30px; text-align: center;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                `,
+                            },   
+                            {
+                                id: 'one-column',
+                                label: '1 Column',
+                                category: 'Layout',
+                                attributes: { class:'fa fa-square' },
+                                content: `
+                                    <section style="padding: 50px;">
+                                        <div style="display: flex; flex-direction: row;">
+                                            <div class="col-md-4" style="padding: 20px;">
+                                                <h3>Column 1</h3>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut mi et ex feugiat faucibus.</p>
+                                            </div>
+                                        </div>
+                                    </section>
+                                `
+                            },
+                            {
+                                id: 'two-column',
+                                label: '2 Column',
+                                category: 'Layout',
+                                attributes: { class:'fa fa-columns' },
+                                content: `
+                                    <section style="padding: 50px;">
+                                        <div style="display: flex; flex-direction: row;">
+                                            <div class="col-md-4" style="padding: 20px;">
+                                                <h3>Column 1</h3>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut mi et ex feugiat faucibus.</p>
+                                            </div>
+                                            <div class="col-md-4" style="padding: 20px;">
+                                                <h3>Column 2</h3>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut mi et ex feugiat faucibus.</p>
+                                            </div>
+                                        </div>
+                                    </section>
+                                `
+                            },
+                            {
+                                id: 'three-column',
+                                label: '3 Column',
+                                category: 'Layout',
+                                attributes: { class:'fa fa-th-large' },
+                                content: `
+                                    <section style="padding: 50px;">
+                                        <div style="display: flex; flex-direction: row;">
+                                            <div class="col-md-4" style="padding: 20px;">
+                                                <h3>Column 1</h3>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut mi et ex feugiat faucibus.</p>
+                                            </div>
+                                            <div class="col-md-4" style="padding: 20px;">
+                                                <h3>Column 2</h3>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut mi et ex feugiat faucibus.</p>
+                                            </div>
+                                            <div class="col-md-4" style="padding: 20px;">
+                                                <h3>Column 3</h3>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut mi et ex feugiat faucibus.</p>
+                                            </div>
+                                        </div>
+                                    </section>
+                                `
+                            },                                                                                                               
+                            {
+                                id: 'image',
+                                label: 'Image',
+                                attributes: { class:'fa fa-picture-o' },
+                                // Use `image` component
+                                content: { type: 'image' },
+                                // The component `image` is activatable (shows the Asset Manager).
+                                // We want to activate it once dropped in the canvas.
+                                activate: true,
+                                // select: true, // Default with `activate: true`
+                            },
+                            {
+                                id: 'video',
+                                label: 'Video',
+                                attributes: { class:'fa fa-video-camera' },
+                                // Use `image` component
+                                content: { type: 'video' },
+                                // The component `image` is activatable (shows the Asset Manager).
+                                // We want to activate it once dropped in the canvas.
+                                activate: true,
+                                // select: true, // Default with `activate: true`
+                            },                                                                                                                                                                                             
+                            {
+                                id: 'text',
+                                label: 'Text',
+                                category: 'Basic',
+                                attributes: { class:'fa fa-font' },
+                                content: `
+                                    <div style="max-width: 800px; margin: 0 auto;">
+                                        <h2 style="text-align: center; font-size: 30px; margin-bottom: 50px;">Title goes here</h2>
+                                        <p style="font-size: 18px; line-height: 1.5;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam at turpis malesuada, posuere risus quis, congue magna. Nunc id odio quis tellus bibendum varius sit amet quis nisi. Duis a dui vel nisl fermentum elementum. Integer non tellus vel tellus posuere sollicitudin sit amet sed metus. Aenean eget risus vitae tortor laoreet ullamcorper. Sed non dolor non quam venenatis bibendum. Donec nec interdum quam. Aliquam erat volutpat. Morbi in cursus libero. Donec nec justo odio. Ut ut mi sed ipsum faucibus feugiat sit amet eu enim. </p>
+                                    </div>
+                                `
+                            },   
+                            {
+                                id: 'button',
+                                    label: 'Button',
+                                    category: 'Basic',
+                                    attributes: { class: 'fa fa-toggle-on' },
+                                    content: '<a href="#" class="btn btn-primary" style="background-color: #c495cb; border: none; border-radius: 4px; color: #fff; font-size: 16px; padding: 12px 24px; text-align: center; text-decoration: none; display: inline-block; cursor: pointer; transition-duration: 0.4s; box-shadow: 0px 8px 16px rgba(0,0,0,0.2)">Click me</a>',
+                                    hoverStyle: {
+                                        'background-color': '#b27cbb',
+                                        'box-shadow': '0px 8px 16px rgba(0,0,0,0.4)'
+                                    }
+                                }                                                 
+                        ]
+                    },                      
                 styleManager: {
                     appendTo: '.styles-container',
                     sectors: [{
@@ -334,7 +446,7 @@ const GrapesJS = () => {
                 context: 'show-json',
                 command(editor) {
                         editor.Modal.setTitle('Components JSON')
-                        .setContent(`<textarea style="width:100%; height: 250px;">
+                        .setContent(`<textarea style="width:100%; height: 250px; background-color: #322e2f;">
                             ${JSON.stringify(editor.getComponents())}
                         </textarea>`)
                         .open();

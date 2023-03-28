@@ -28,7 +28,7 @@ const ConnectionsCardV2 = (props) => {
 
             </div>
             <div >
-                <FollowButton /*isFollowing={isFollowing} userId={props.currentUserId} followId={props.followers} setIsFollowing={setIsFollowing} */ />
+                <FollowButton userId={props.currentUserId} connection={props.connection} followId={props.followers} setIsFollowing={!isFollowing} isFollowing={isFollowing} />
             </div>
 
         </div>
