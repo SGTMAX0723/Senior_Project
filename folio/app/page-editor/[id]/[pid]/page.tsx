@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import GrapesJS from '../../../../components/GrapesJS_Init.js';
 import  { pb } from 'components/UserAuthentication';
 import GrapesJS_Init from '../../../../components/GrapesJS_Init.js';
 
@@ -62,7 +61,7 @@ const Editor = () => {
                             justify-content: flex-start;
                             align-items: stretch;
                             flex-wrap: nowrap;
-                            height: calc(100vh - 40px);
+                            height: calc(100% - 40px);
                         }
                         .editor-canvas {
                             flex-grow: 1;
@@ -71,13 +70,35 @@ const Editor = () => {
                             flex-basis: 230px;
                             position: relative;
                             overflow-y: auto;
+                            height: 100%;
                         } 
                         .panel__devices {
                             position: initial;
                         }       
                         .panel__switcher {
                             position: initial;
-                        }                                                                                                
+                        }    
+                        /* Primary color for the background */
+                        .gjs-one-bg {
+                            background-color: #141015;
+                        }
+
+                        /* Secondary color for the text color */
+                        .gjs-two-color {
+                            color: rgba(255, 255, 255, 0.7);
+                        }
+
+                        /* Tertiary color for the background */
+                        .gjs-three-bg {
+                            background-color: #ec5896;
+                            color: white;
+                        }
+
+                        /* Quaternary color for the text color */
+                        .gjs-four-color,
+                        .gjs-four-color-h:hover {
+                            color: #c495cb;
+                        }                                                                                            
                     `}
                 </style>
             </head>
@@ -88,7 +109,7 @@ const Editor = () => {
                     <div className="panel__switcher"></div>
                 </div>
                 <div className="editor-row">
-                    <div className="editor-canvas">
+                    <div className="editor-canvas overflow-auto">
                         <GrapesJS_Init />
                     </div>
                     <div className="panel__right">
