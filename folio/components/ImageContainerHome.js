@@ -39,7 +39,7 @@ const ImageContainerHome = (props) => {
                     <div className="flex w-full h-full bg-gradient-to-r from-[#A3A0FB] to-[#E53F71] justify-center items-center"/>
                 </div>
                 <div className="flex flex-col justify-center items-start mx-16 flex-grow">
-                    <Link href={`projects/${props.user_projects}/${props.project_name}`}>
+                    <Link href={`projects/${props.user_id}/${props.project_name}`}>
                         <h2 className="text-xl font-medium"><span className="hover:text-[#A3A0FB]">{props.project_name}</span></h2>
                     </Link>
                     <div className="flex justify-between items-center w-full">
@@ -48,7 +48,7 @@ const ImageContainerHome = (props) => {
                 </div>
                 <div className="h-full">
                     <button className="text-sm place-self-start pt-8 pr-12">
-                        <p>{props.user_name}</p>
+                        <Link href={`/accounts/${props.user_id}/profile`}>{props.user_name}</Link>
                     </button>
                     <div className="flex flex-row">
                         <p className="text-sm text-gray-600 absolute bottom-0 right-0 pb-8 pr-20 pt-3.5">{favorites}</p>

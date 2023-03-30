@@ -76,12 +76,12 @@ const ImageContainerDashboard = (props) => {
                     <button onClick={handleIconClick} className="place-self-start pt-4 pr-6" ref={projDropdownRef}>
                         <BsThreeDots className="text-lg" />
                         {isIconClicked && (
-                            <div className="dropdown-menu">
+                            <div className="z-10">
                                 <ProjectDropdown id={props.id} />
                             </div>
                         )}
                     </button>
-                    <p className="text-sm text-gray-600 absolute bottom-0 right-0 pb-8 pr-12">{diffText}</p>
+                    <p className="text-sm text-gray-600 absolute bottom-0 right-0 pb-8 pr-12 z-0">{diffText}</p>
                 </div>
             </div>
         </main>

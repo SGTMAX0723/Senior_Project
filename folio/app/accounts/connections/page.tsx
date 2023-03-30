@@ -74,17 +74,15 @@ export default function Following() {
                                 bg-primary'>
                     
                     <div className="container mt-5 sm:mt place-items-center grid lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 space-x-2 space-y-2 pt-16 ml-4 "> 
-        
-                     {connections.map(({ followed, id }: any, index:number) => (
-                        <ConnectionCardsV2  key={index} 
-                                            connection={id}
-                                            followers={followed} 
-                                            followerAvatar={users[index]} 
-                                            followerName={name[index]} 
-                                            followerEmail={email[index]}
-                                            githubLink={github[index]} />
+                        {connections.map(({ followed, id }: any, index:number) => (
+                            <ConnectionCardsV2  key={index} 
+                                                connection={id}
+                                                followers={followed} 
+                                                followerAvatar={users[index]} 
+                                                followerName={name[index]} 
+                                                followerEmail={email[index]}
+                                                githubLink={github[index]} />
                         ))}
-
                     </div>
                 </div>
                 <NavBarLogged />
