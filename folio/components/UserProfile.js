@@ -10,7 +10,6 @@ import ImageContainerDashboard from './ImageContainerDashboard';
 import ImageContainerHome from './ImageContainerHome';
 
 const UserProfile = () => {
-    const isLoggedIn = pb.authStore.isValid;
     const router = useRouter();
     const user = pb.authStore.model;
 
@@ -58,7 +57,7 @@ const UserProfile = () => {
     useEffect(() => {
         fetchUsers();
         fetchProjects();
-    }, [projects, isPublic]);      
+    }, [isPublic]);   
     
     const listView = () => {
         return(
@@ -114,16 +113,14 @@ const UserProfile = () => {
                                         banner ?
                                         <img className='rounded-t-2xl' src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${banner}`} />
                                         :
-                                        <img className='rounded-t-2xl bg-slate-400' />
+                                        <div className='w-full h-full rounded-t-2xl bg-zinc-400' />
                                     }
                                 </div>
                                 <div className='absolute flex flex-col w-full h-full items-center justify-center gap-y-8'>
-                                    <h1 className='absolute text-xs text-zinc-400 font-regular z-10'>PROFILE</h1>
                                     <div className='flex h-36 w-36 z-10'>
                                         <img
                                             className='flex h-36 w-36 rounded-full'
-                                            // src={avatar ? `https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${avatar}`: Default}
-                                            src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${avatar}`}
+                                            src={avatar ? `https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${avatar}`: '/Default_PFP.jpg'}
                                         />
                                         <button
                                             onClick={handleProfilePictureChange}
@@ -175,7 +172,7 @@ const UserProfile = () => {
                                 }
                             })}
                         </div>
-                        {listView()}
+                        {listView}
                     </div>
                 </div>
             </div>

@@ -50,7 +50,7 @@ const ProjectContainerGrid = (props) => {
     const [showButton, setShowButton] = useState(false);
 
     return (
-        <main className="w-full max-w-7xl rounded-md">
+        <main className="max-w-7xl rounded-md">
             <div className="flex flex-col h-60 rounded-md bg-zinc-50 drop-shadow-md">
                 <div className="h-3/5 w-full overflow-hidden overflow-y-auto rounded-t-md">
                     {/* <img src={`https://folio-database.fly.dev/api/files/zncdy0gkg9xd30m/${props.id}/${props.project_img}`}/> */}
