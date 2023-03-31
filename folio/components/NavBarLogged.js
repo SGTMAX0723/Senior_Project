@@ -49,20 +49,6 @@ const SearchBar = ({ icon }) => {
   const [searchResults, setSearchResults] = useState([]);
   const searchInputRef = useRef(null);
 
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (searchInputRef.current && !searchInputRef.current.contains(e.target)) {
-        setShowDropdown(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleOutsideClick);
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
-
   const handleInputChange = async (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
@@ -97,7 +83,7 @@ const SearchBar = ({ icon }) => {
           {searchResults.length === 0 && <div className='p-3 text-sm'>No results found</div>}
           {searchResults.length > 0 &&
             searchResults.map((result) => (
-            <a href={`/search/${result.id}`}>
+            <a href={`/accounts/${result.id}/profile`}>
               <div key={result.id} className='p-3'>
                 <p className="text-sm truncate">
                   {result.username ? result.username : result.project_name}

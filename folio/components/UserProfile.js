@@ -117,7 +117,7 @@ const UserProfile = () => {
                                     }
                                 </div>
                                 <div className='absolute flex flex-col w-full h-full items-center justify-center gap-y-8'>
-                                    <div className='flex h-36 w-36 z-10'>
+                                    <div className='flex h-36 w-36 z-10 pt-10'>
                                         <img
                                             className='flex h-36 w-36 rounded-full'
                                             src={avatar ? `https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${avatar}`: '/Default_PFP.jpg'}
@@ -129,7 +129,7 @@ const UserProfile = () => {
                                             <HiCamera size={24} />
                                         </button>
                                     </div>
-                                    <div className='flex flex-col items-center justify-center'>
+                                    <div className='flex flex-col items-center justify-center pt-8'>
                                         <h1 className='text-2xl text-secondary font-regular'>{name}</h1>
                                         <h1 className='text-sm text-zinc-700 font-regular'>Student at UTRGV</h1>
                                     </div>
