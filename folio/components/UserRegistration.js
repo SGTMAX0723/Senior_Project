@@ -14,6 +14,20 @@ const UserRegistration =()=>{
     const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit, reset } = useForm();
     const [DoesExist, setDoesExist] = useState(true);
+    // useEffect(()=>{
+    //     setDoesExist(true);
+    // })
+
+    const [hydrated, setHydrated] = useState(false);
+    useEffect(() => {
+		// This forces a rerender, so the page is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
 
     async function registerUser(data){
         const userInfo = {
@@ -50,14 +64,17 @@ const UserRegistration =()=>{
         try {
             const authData = await pb.collection('users').authWithPassword(
                 data.email,
+                data.username
             );
-            alert(error);
-            
+            registerUser(data);
+            setDoesExist(true);
         } catch (error) {
             setDoesExist(false);
-            registerUser(data);
+            reset();
+            //alert(error);
         }
         setIsLoading(false);
+        
     }
     
     
@@ -70,10 +87,10 @@ const UserRegistration =()=>{
             
             <p className=' flex items-center justify-center' > Please complete to create your account.</p>
 
-            <input name="username" type="text" {...register('username')} className=" w-96 grid justify-items-stretch 
+            <input name="username" type="text" {...register('username')} className= {`w-96 grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
-            border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 
-            focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Username"></input>
+            border border-gray-300 px-3 py-2 ${DoesExist ? 'text-gray-900' : 'text-red-500'} placeholder-gray-500 focus:z-10 focus:border-indigo-500 
+            focus:outline-none focus:ring-indigo-500 sm:text-sm`} placeholder={DoesExist ? 'Username' : 'Username already exists'}></input>
 
             <div className='h-100 grid grid-cols-2 gap-1 content-around '>
             
