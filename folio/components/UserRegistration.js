@@ -66,11 +66,12 @@ const UserRegistration =()=>{
                 data.email,
                 data.username
             );
-            registerUser(data);
             setDoesExist(true);
+            reset();
         } catch (error) {
             setDoesExist(false);
-            reset();
+            registerUser(data);
+            
             //alert(error);
         }
         setIsLoading(false);
