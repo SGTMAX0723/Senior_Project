@@ -13,7 +13,8 @@ const UserRegistration =()=>{
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit, reset } = useForm();
-    const [DoesExist, setDoesExist] = useState(true);
+    const [DoesExist, setDoesExist] = useState(false);
+    
     // useEffect(()=>{
     //     setDoesExist(true);
     // })
@@ -39,9 +40,17 @@ const UserRegistration =()=>{
             "name": data.fname + ' '+ data.lname,
         };
         console.log(userInfo);
-        const record = await pb.collection('users').create(userInfo);
-        console.log(record);
-        setTimeout(() => {login(userInfo)});
+        try{
+            setDoesExist(false);
+            const record = await pb.collection('users').create(userInfo);
+            console.log(record);
+            setTimeout(() => {login(userInfo)});
+        }
+        catch{
+            reset(); 
+            setDoesExist(true);
+        }
+        
     }
 
     async function login(data) {
@@ -60,22 +69,18 @@ const UserRegistration =()=>{
     }
 
     async function checkIfExists(data) {
-        setIsLoading(true);
-        try {
-            const authData = await pb.collection('users').authWithPassword(
-                data.email,
-                data.username
-            );
-            setDoesExist(true);
-            reset();
-        } catch (error) {
-            setDoesExist(false);
-            registerUser(data);
-            
-            //alert(error);
-        }
-        setIsLoading(false);
-        
+    setIsLoading(true);
+
+    try{
+        const authData = await pb.collection('users').authWithPassword(
+            data.email
+        );
+    }
+    catch(error){
+        registerUser(data);
+    }
+
+    setIsLoading(false);
     }
     
     
@@ -90,8 +95,8 @@ const UserRegistration =()=>{
 
             <input name="username" type="text" {...register('username')} className= {`w-96 grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
-            border border-gray-300 px-3 py-2 ${DoesExist ? 'text-gray-900' : 'text-red-500'} placeholder-gray-500 focus:z-10 focus:border-indigo-500 
-            focus:outline-none focus:ring-indigo-500 sm:text-sm`} placeholder={DoesExist ? 'Username' : 'Username already exists'}></input>
+            border border-gray-300 px-3 py-2 ${DoesExist ? 'text-red-500' : 'text-gray-900'} placeholder-gray-500 focus:z-10 focus:border-indigo-500 
+            focus:outline-none focus:ring-indigo-500 sm:text-sm`} placeholder={DoesExist ? 'Username already exists' : 'Username'}></input>
 
             <div className='h-100 grid grid-cols-2 gap-1 content-around '>
             
