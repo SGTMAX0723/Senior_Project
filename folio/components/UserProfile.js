@@ -57,7 +57,7 @@ const UserProfile = () => {
     useEffect(() => {
         fetchUsers();
         fetchProjects();
-    }, [isPublic]);   
+    }, [isPublic]);
     
     const listView = () => {
         return(
@@ -172,7 +172,7 @@ const UserProfile = () => {
                                 }
                             })}
                         </div>
-                        {listView}
+                        {listView()}
                     </div>
                 </div>
             </div>
