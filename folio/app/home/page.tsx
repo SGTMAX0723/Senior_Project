@@ -87,6 +87,7 @@ export default function Home() {
                                                 return <p key={uKey}>{name}</p>;
                                             }
                                         })}
+                                        user_id={user_projects}
                                         project_name={project_name}
                                         project_img={project_img}
                                         updated={updated}

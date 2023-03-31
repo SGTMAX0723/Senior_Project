@@ -145,8 +145,7 @@ const NavBarlogged = () => {
         <Link href='/templates' className="text-gray-800 
         grid justify-self-center 
         font-semibold text-s tracking-[.20em] 
-        col-start-1
-        hover:bg-indigo-100 hover:text-black hover:rounded">
+        col-start-1">
           CREATE
           
         </Link>

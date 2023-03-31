@@ -64,13 +64,13 @@ export default function Dashboard() {
         }
         const gridView = () => {
             return(
-                <div className='grid gap-10 min-[0px]:gap-y-10 sm:grid-cols-1 sm:gap-y-10 md:grid-cols-1 md:gap-y-10 lg:grid-cols-2 lg:gap-y-10 xl:grid-cols-3 h-full w-full justify-items-center items-center'>
+                <div className='grid gap-10 min-[0px]:gap-y-10 sm:grid-cols-1 sm:gap-y-10 md:grid-cols-1 md:gap-y-10 lg:grid-cols-2 lg:gap-y-10 xl:grid-cols-3 max-w-7xl place-self-center items-center'>
                     {projects.map(({ project_name, project_img, project_url, updated, id }:any, index:number) => {
                             function loadProject() {
                                 router.push(project_url);
                             }
                             return (
-                                <div key={id + view} className='w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.1}s`}}>
+                                <div key={id + view} className='w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
                                     <ProjectContainerGrid key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id}/>
                                 </div>
                             );
@@ -98,7 +98,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                        <div className='w-full h-full z-0'>
+                        <div className='grid w-full h-full z-0'>
                             {view === 'list' ? listView() : gridView()}
                         </div>
                     </div>
