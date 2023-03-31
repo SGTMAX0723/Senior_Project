@@ -106,7 +106,7 @@ const UserProfile = () => {
                 <div className='grid grid-cols-3 gap-x-6 w-full max-w-7xl h-full'>
                     <div className='w-full h-full drop-shadow-lg rounded-2xl bg-zinc-50'>
                         <div className='grid grid-rows-2 gap-2 w-full h-full'>
-                            {users.map(({ name, avatar, banner, id }, index) => (
+                            {users.map(({ name, username, avatar, banner, id }, index) => (
                             <div key={index} className='flex w-full h-full items-center justify-center'>
                                 <div className='h-40 w-full self-start z-0 overflow-hidden'>
                                     {
@@ -122,17 +122,27 @@ const UserProfile = () => {
                                             className='flex h-36 w-36 rounded-full'
                                             src={avatar ? `https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${avatar}`: '/Default_PFP.jpg'}
                                         />
-                                        <button
-                                            onClick={handleProfilePictureChange}
-                                            className='absolute flex items-center justify-center h-10 w-10 place-self-end ml-24 bg-[#A3A0FB] text-white rounded-full shadow-md hover:bg-[#b1aff1] hover:text-white focus:outline-none'
-                                        >
-                                            <HiCamera size={24} />
+                                        <button className='absolute hover:bg-zinc-900 hover:opacity-50 text-transparent hover:text-zinc-200 flex h-36 w-36 rounded-full items-center justify-center'>
+                                            <HiCamera size={36} />
                                         </button>
                                     </div>
-                                    <div className='flex flex-col items-center justify-center pt-8'>
-                                        <h1 className='text-2xl text-secondary font-regular'>{name}</h1>
-                                        <h1 className='text-sm text-zinc-700 font-regular'>Student at UTRGV</h1>
-                                    </div>
+                                    {
+                                        user.id === userId ?
+                                        <div className='flex flex-col items-center justify-center pt-8'>
+                                            <h1 className='text-2xl text-secondary font-regular'>{name}</h1>
+                                            <h1 className='text-sm text-zinc-700 font-regular'>@{username}</h1>
+                                        </div>
+                                        :
+                                        <div className='grid grid-cols-3 w-full px-10 items-center'>
+                                            <div className='flex flex-col col-span-2 pt-8'>
+                                                <h1 className='text-2xl text-secondary font-regular'>{name}</h1>
+                                                <h1 className='text-sm text-zinc-700 font-regular'>@{username}</h1>
+                                            </div>
+                                            <button className='flex items-center justify-center w-22 mt-9 ml-6 bg-zinc-900 hover:bg-zinc-700 text-zinc-50 h-8 rounded-full'>
+                                                Follow
+                                            </button>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                             ))}
