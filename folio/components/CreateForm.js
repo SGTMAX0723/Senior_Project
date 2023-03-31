@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { pb } from './UserAuthentication';
 
-const CreateForm = () => {
+const CreateForm = (props) => {
     const [projectName, setProjectName] = useState('');
     const [description, setDescription] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [projects, setProjects] = useState([]);
+    const [templates, setTemplates] = useState([]);
     const router = useRouter();
     const user = pb.authStore.model;
 
@@ -31,8 +32,21 @@ const CreateForm = () => {
         }
     };
 
+    const fetchTemplates = async () => {
+        let filters = 'created >= "2022-01-01 00:00:00"';
+        try {
+            const templateList = await pb.collection('templates').getList(1, 50, {
+                filter: filters,
+            });
+            setTemplates(templateList.items);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         fetchProjects();
+        fetchTemplates();
     }, []);
 
     async function handleSubmit(event) {
@@ -44,11 +58,16 @@ const CreateForm = () => {
                 inDb = true;
             }
         });
+
+        const selectedTemplate = templates.find(({ id }) => id === props.templateId);
+        const templateJson = selectedTemplate ? selectedTemplate.template_json : {};
+
         if (!inDb) {
             const data = {
                 'project_name': projectName === '' ? `Project ${projects.length + 1}` : projectName,
                 'description': description,
-                'user_projects': user.id
+                'user_projects': user.id,
+                'page_contents': templateJson,
             };
             createProject(data);
         }

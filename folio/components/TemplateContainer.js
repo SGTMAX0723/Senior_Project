@@ -74,7 +74,7 @@ const TemplateContainer = (props) => {
                             e.stopPropagation();
                         }}
                     >
-                        <CreateForm onClose={handleFormSubmit} ref={saveFormRef} />
+                        <CreateForm templateId={props.templateId} onClose={handleFormSubmit} ref={saveFormRef} />
                     </div>
                 </div>
             )}
