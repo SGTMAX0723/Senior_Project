@@ -29,7 +29,7 @@ const SideBar = () => {
                 <Link href="/templates">
                     <SideBarIconTop icon={<HiTemplate size="20" />} text={<p  className='pl-2'>Templates</p>} />
                 </Link>
-                <Link href="/accounts/connections">
+                <Link href="/accounts/following">
                     <SideBarIconTop icon={<HiUsers size="20" />} text={<p  className='pl-2'>Connections</p>} />
                 </Link>
                 

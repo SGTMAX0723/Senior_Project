@@ -1,21 +1,39 @@
 import { AiFillMail } from "react-icons/ai";
 import { SiGithub } from "react-icons/si"
+import FollowButton from './FollowButton'
+import { useEffect, useState } from 'react';
+import {pb} from "./UserAuthentication";
 
 
 
 const ConnectionsCard = (props) => {
+    user = pb.authStore.model;
+
     return (
-        <div className="w-2/3 lg:w-1/2 p-2 ">
-            <div className="flex flex-col lg:flex-row rounded h-auto lg:h-32 border bg-white justify-between leading-normal flex items-center">
-
-                <img className="h-16 w-16 rounded-full place-self-center lg:ml-4 " src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${props.followers}/${props.followerAvatar}`}/>
-
-                <div className="text-black font-bold text-l mb-2 leading-tight place-self-center">{props.followerName}</div> 
-                <div>
-                    <IconText icon={<AiFillMail size='20' />} text={<p className="text-grey-darker lg:mr-3 " >{props.followerEmail}</p>}/>
-                    <IconText icon={<SiGithub size='20' />} text={<a className="text-blue-500 mr-3" href={props.githubLink}>{props.githubLink} </a>}/>
+        <div class="shadow-shadow-500 shadow-3xl rounded-primary mx-2 flex h-80 w-96 flex-col items-center bg-white bg-cover bg-clip-border p-[16px] rounded-xl border hover:shadow-2xl">
+            <div class="relative mt-1 flex h-32 w-full justify-center rounded-xl bg-cover" style={{backgroundImage: "url('https://i.ibb.co/FWggPq1/banner.png')"}}>
+                <div class="absolute -bottom-10 flex h-[120px] w-[120px] items-center justify-center rounded-full border-[4px] border-white bg-pink-400">
+                    <img class="h-full w-full rounded-full" src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${props.followers}/${props.followerAvatar}`}/> 
                 </div>
             </div>
+            <div class="mt-16 flex flex-col items-center">
+                <h4 class="text-bluePrimary text-xl font-bold">{props.followerName}</h4>
+                <IconText icon={<AiFillMail size='20' />} text={<p className="text-grey-darker lg:mr-3 " >{props.followerEmail}</p>}/>
+                <IconText icon={<SiGithub size='20' />} text={<a className="text-blue-500 mr-3" href={props.githubLink}>{props.githubLink} </a>}/>
+
+            </div>
+            <div >
+                <FollowButton   userId={props.currentUserId} 
+                                cardType={props.cardType}
+                                connection={props.connection} 
+                                followId={props.followers} 
+                                follows={props.follows}
+                                following={props.following} 
+                                match={props.match}
+                                onFollow={() => props.onFollow(props.followers)}
+                                onUnfollow={() => props.onUnfollow(props.followers)} />
+            </div>
+
         </div>
     );
 };
