@@ -54,6 +54,8 @@ const UserProfile = () => {
         setIsPublic(!isPublic);
     }
 
+    const [following, setFollowing] = useState([]);
+
     useEffect(() => {
         fetchUsers();
         fetchProjects();
@@ -92,7 +94,25 @@ const UserProfile = () => {
                 })}
             </div>
         );
-    }
+    };
+
+    const fetchFollowing = async () => {
+        let expandFollowers = 'follows = "' + user.id + '"';
+        try {
+            const records = await pb.collection('connections').getList(1, 100000000, /* batch size */ {
+                sort: '-created',
+                filter: expandFollowers
+            });
+            setFollowing(records.items);
+        } catch(error) {
+            console.error(error);
+        }
+    };
+
+    const [refresh, setRefresh] = useState(false);
+    useEffect(() => {
+        fetchFollowing();
+    }, [refresh]);
 
     const handleProfilePictureChange = () => {
         // Implement the functionality to change the profile picture
@@ -106,46 +126,69 @@ const UserProfile = () => {
                 <div className='grid grid-cols-3 gap-x-6 w-full max-w-7xl h-full'>
                     <div className='w-full h-full drop-shadow-lg rounded-2xl bg-zinc-50'>
                         <div className='grid grid-rows-2 gap-2 w-full h-full'>
-                            {users.map(({ name, username, avatar, banner, id }, index) => (
-                            <div key={index} className='flex w-full h-full items-center justify-center'>
-                                <div className='h-40 w-full self-start z-0 overflow-hidden'>
-                                    {
-                                        banner ?
-                                        <img className='rounded-t-2xl' src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${banner}`} />
-                                        :
-                                        <div className='w-full h-full rounded-t-2xl bg-zinc-400' />
-                                    }
-                                </div>
-                                <div className='absolute flex flex-col w-full h-full items-center justify-center gap-y-8'>
-                                    <div className='flex h-36 w-36 z-10 pt-10'>
-                                        <img
-                                            className='flex h-36 w-36 rounded-full'
-                                            src={avatar ? `https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${avatar}`: '/Default_PFP.jpg'}
-                                        />
-                                        <button className='absolute hover:bg-zinc-900 hover:opacity-50 text-transparent hover:text-zinc-200 flex h-36 w-36 rounded-full items-center justify-center'>
-                                            <HiCamera size={36} />
-                                        </button>
-                                    </div>
-                                    {
-                                        user.id === userId ?
-                                        <div className='flex flex-col items-center justify-center pt-8'>
-                                            <h1 className='text-2xl text-secondary font-regular'>{name}</h1>
-                                            <h1 className='text-sm text-zinc-700 font-regular'>@{username}</h1>
+                            {users.map(({ name, username, avatar, banner, id }, index) => {
+                                function unfollow() {
+                                    following.map(async ({ follows, followed, id }) => {
+                                        console.log(follows, followed, id);
+                                        if (follows === user.id && followed === userId) {
+                                            await pb.collection('connections').delete(id);
+                                            setRefresh(!refresh);
+                                        }
+                                    });
+                                }
+                                
+                                async function follow() {
+                                    await pb.collection('connections').create({
+                                        'follows': user.id,
+                                        'followed': id,
+                                    });
+                                    setRefresh(!refresh);
+                                }
+                                return (
+                                    <div key={index} className='flex w-full h-full items-center justify-center'>
+                                        <div className='h-40 w-full self-start z-0 overflow-hidden'>
+                                            {
+                                                banner ?
+                                                <img className='rounded-t-2xl' src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${banner}`} />
+                                                :
+                                                <div className='w-full h-full rounded-t-2xl bg-zinc-400' />
+                                            }
                                         </div>
-                                        :
-                                        <div className='grid grid-cols-3 w-full px-10 items-center'>
-                                            <div className='flex flex-col col-span-2 pt-8'>
-                                                <h1 className='text-2xl text-secondary font-regular'>{name}</h1>
-                                                <h1 className='text-sm text-zinc-700 font-regular'>@{username}</h1>
+                                        <div className='absolute flex flex-col w-full h-full items-center justify-center gap-y-8'>
+                                            <div className='flex h-36 w-36 z-10 pt-10'>
+                                                <img
+                                                    className='flex h-36 w-36 rounded-full'
+                                                    src={avatar ? `https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${avatar}`: '/Default_PFP.jpg'}
+                                                />
+                                                <button className='absolute hover:bg-zinc-900 hover:opacity-50 text-transparent hover:text-zinc-200 flex h-36 w-36 rounded-full items-center justify-center'>
+                                                    <HiCamera size={36} />
+                                                </button>
                                             </div>
-                                            <button className='flex items-center justify-center w-22 mt-9 ml-6 bg-zinc-900 hover:bg-zinc-700 text-zinc-50 h-8 rounded-full'>
-                                                Follow
-                                            </button>
+                                            {
+                                                user.id === userId ?
+                                                <div className='flex flex-col items-center justify-center pt-8'>
+                                                    <h1 className='text-2xl text-secondary font-regular'>{name}</h1>
+                                                    <h1 className='text-sm text-zinc-700 font-regular'>@{username}</h1>
+                                                </div>
+                                                :
+                                                <div className='grid grid-cols-3 w-full px-10 items-center'>
+                                                    <div className='flex flex-col col-span-2 pt-8'>
+                                                        <h1 className='text-2xl text-secondary font-regular'>{name}</h1>
+                                                        <h1 className='text-sm text-zinc-700 font-regular'>@{username}</h1>
+                                                    </div>
+                                                    <button onClick={() => {following.find(({ followed }) => followed === id) ? unfollow() : follow()}} className={`flex items-center justify-center w-22 mt-9 ml-6 ${following.find(({ followed }) => followed === id) ? 'bg-[#A3A0FB] hover:bg-[#b8b5ff]' : 'bg-zinc-900 hover:bg-zinc-700'} text-sm text-zinc-50 h-8 rounded-full`}>
+                                                        {
+                                                            following.find(({ followed }) => followed === id) ?
+                                                            <p>Unfollow</p>
+                                                            :
+                                                            <p>Follow</p>
+                                                        }
+                                                    </button>
+                                                </div>
+                                            }
                                         </div>
-                                    }
-                                </div>
-                            </div>
-                            ))}
+                                    </div>
+                            )})}
                             <div className='w-full h-full'>
                                 {users.map(({ email, githubLink, bio }, index) => (
                                     <div key={index}>

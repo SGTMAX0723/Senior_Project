@@ -2,25 +2,30 @@ import { useState, useEffect } from 'react';
 import { pb } from 'components/UserAuthentication';
 
 function FollowButton(props) {
-  async function deleteProject() {
+  const [hydrated, setHydrated] = useState(false);
+    useEffect(() => {
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		return null;
+	}
+
+  async function unfollow() {
     await pb.collection('connections').delete(props.connection);
+    props.onUnfollow();
   }
 
-  const [isFollowing, setIsFollowing] = useState(true);
-
-  const handleClick = async () => {
-    if (!isFollowing) {
-      
-      setIsFollowing(true);
-    } else {
-     
-      setIsFollowing(false);
-    }
-  };
+  async function follow() {
+    await pb.collection('connections').create({
+      'follows': props.userId,
+      'followed': props.followId,
+    });
+    props.onFollow();
+  }
 
   return (
-    <button onClick={() => {handleClick; deleteProject()}} className={'border-2 w-32 bg-blue-500 mt-2 rounded-full bg-blue-400 hover:from-pink-500 hover:bg-blue-600 text-white'}>
-       {isFollowing ? 'Unfollow' : 'Follow'}
+    <button onClick={() => {props.following && props.match || props.cardType === 'following'? unfollow() : follow()}} className={'border-2 w-32 bg-blue-500 mt-2 rounded-full hover:from-pink-500 hover:bg-blue-600 text-white'}>
+        {props.following && props.match || props.cardType === 'following' ? 'Unfollow' : 'Follow'}
     </button>
   );
 }

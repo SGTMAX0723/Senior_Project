@@ -2,13 +2,13 @@
 'use client'
 
 import { useRouter } from 'next/navigation';
-import SideBar from '../../../components/SideBar';
-import NavBarLogged from '../../../components/NavBarLogged.js';
+import SideBar from '../../../../components/SideBar';
+import NavBarLogged from '../../../../components/NavBarLogged.js';
 import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
 import Link from 'next/link';
-import ConnectionsButtonFollowing from '../../../components/ConnectionsButtonFollowing';
-import ConnectionCardsV2 from '../../../components/ConnectionsCardV2';
+import ConnectionsButtonFollowing from '../../../../components/ConnectionsButtonFollowing';
+import ConnectionCards from '../../../../components/ConnectionsCard';
 
 
 
@@ -20,28 +20,44 @@ export default function Following() {
     pb.autoCancellation(false);
 
     type MyRecord = Record<string, number>;
-    const [connections, setConnections] = useState([] as MyRecord[]);
+    const [following, setFollowing] = useState([] as MyRecord[]);
+    const [followers, setFollowers] = useState([] as MyRecord[]);
     const [users, setUsers] = useState([] as MyRecord[]);
     const [name, setName] = useState([] as MyRecord[]);
     const [email, setEmail] = useState([] as MyRecord[]);
     const [github, setGithub] = useState([] as MyRecord[]);
 
+    let match = false;
 
-    const fetchConnections = async () => {
+    const fetchFollowing = async () => {
         let expandFollowers = 'follows = "' + user.id + '"';
         try {
             const records = await pb.collection('connections').getList(1, 100000000, /* batch size */ {
                 sort: '-created',
                 filter: expandFollowers
             });
-            setConnections(records.items);
+            setFollowing(records.items);
+        } catch(error) {
+            console.error(error);
+        }
+    };
+
+    // Get users who follow logged in user 
+    const fetchFollowers = async () => {
+        let expandFollowers = 'followed = "' + user.id + '"';
+        try {
+            const records = await pb.collection('connections').getList(1, 100000000, /* batch size */ {
+                sort: '-created',
+                filter: expandFollowers
+            });
+            setFollowers(records.items);
         } catch(error) {
             console.error(error);
         }
     };
 
     const fetchAvatars = async () => {
-        const promises = connections.map(({ followed }: any) => {
+        const promises = following.map(({ followed }: any) => {
             return pb.collection('users').getOne(followed, {
                 expand: 'avatar, name, email, githubLink',
             });
@@ -55,16 +71,15 @@ export default function Following() {
     };
 
     useEffect(() => {
-        fetchConnections();
+        fetchFollowing();
+        fetchFollowers();
     }, []);
 
     useEffect(() => {
-        if (connections.length > 0) {
+        if (following.length > 0) {
             fetchAvatars();
         }
-    }, [connections]);
-
-
+    }, [following]);
 
     if (isLoggedIn) {
         return (
@@ -74,15 +89,27 @@ export default function Following() {
                                 bg-primary'>
                     
                     <div className="container mt-5 sm:mt place-items-center grid lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 space-x-2 space-y-2 pt-16 ml-4 "> 
-                        {connections.map(({ followed, id }: any, index:number) => (
-                            <ConnectionCardsV2  key={index} 
+                        {following.map(({ follows, followed, id }: any, index:number) => {
+                            followers.map(({ follows, followed }: any) => {
+                                if (followed === user.id && follows === followers[index].follows) {
+                                    match = true;
+                                }
+                            })
+                            return (
+                            <ConnectionCards    key={index} 
+                                                cardType='following'
+                                                currentUserId={user.id}
                                                 connection={id}
-                                                followers={followed} 
+                                                match={match}
+                                                following={follows === user.id}
+                                                followers={followed}
                                                 followerAvatar={users[index]} 
                                                 followerName={name[index]} 
                                                 followerEmail={email[index]}
-                                                githubLink={github[index]} />
-                        ))}
+                                                githubLink={github[index]}
+                                                onFollow={() => fetchFollowing()}
+                                                onUnfollow={() => fetchFollowing()} />
+                        )})}
                     </div>
                 </div>
                 <NavBarLogged />

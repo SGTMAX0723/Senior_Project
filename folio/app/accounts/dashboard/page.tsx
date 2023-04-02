@@ -24,7 +24,7 @@ export default function Dashboard() {
             let filters = 'created >= "2022-01-01 00:00:00" && user_projects = "' + user.id + '"';
             try {
                 const resultList = await pb.collection('projects').getList(1, 1000000, {
-                    filters: filters,
+                    filter: filters,
                     sort: '-created',
                 });
                 setProjects(resultList.items);
