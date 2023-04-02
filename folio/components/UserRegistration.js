@@ -16,6 +16,7 @@ const UserRegistration =()=>{
     const [DoesExist, setDoesExist] = useState(true);
 
     const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const passPattern  = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;;
 
     async function registerUser(data){
         const userInfo = {
@@ -70,8 +71,15 @@ const UserRegistration =()=>{
         }
         return true;
     };
-    
+
     const passwordValidation = (value) => {
+        if (!passPattern.test(value)) {
+          return 'Password does not contiain requirements';
+        }
+        return true;
+    };
+    
+    const passwordMatch = (value) => {
         if (value !== watch('password')) {
           return 'Passwords do not match';
         }
@@ -85,7 +93,7 @@ const UserRegistration =()=>{
           <form onSubmit={handleSubmit(checkIfExists)} className=" w-96 grid justify-items-stretch justify-self-center space-y-2">
             <h1 className='flex items-center justify-center mt-20 font-bold text-3xl ' >FOLIO</h1>
             
-            <p className=' flex items-center justify-center' > Please complete to create your account.</p>
+            <p className=' flex items-center justify-center'> Please complete to create your account.</p>
 
             {formState.errors.username && <p className="text-red-500">Username is required.</p>}
             <input name="username" type="text" {...register('username', {required: true}, )} className=" w-96 grid justify-items-stretch 
@@ -117,15 +125,18 @@ const UserRegistration =()=>{
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address"></input>
     
 
-
+            <p style={{ fontSize: '12px', textAlign: 'center' }}>Password must contain Upper case, lower case, special character and number</p>
+            
             <label className="sr-only">Password</label>
             {formState.errors.password && <span className='text-red-500'> 
             {formState.errors.password.type === 'minLength'
             ? formState.errors.password.message
             : formState.errors.password.type === 'maxLength'
             ? formState.errors.password.message
-            : 'Password is required'}</span>}
-            <input name="password" type="password" {...register('password' , { required: true, minLength: { value: 8, message: 'Password must be 8 or more characters'}, 
+            : formState.errors.password.type === 'validate'
+            ? formState.errors.password.message
+            :'Password is required'}</span>}
+            <input name="password" type="password" {...register('password' , { required: true, validate: passwordValidation, minLength: { value: 8, message: 'Password must be 8 or more characters'}, 
             maxLength:{value: 16, message: 'Password must be 16 or less characters'} })}className="w-96  grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
             border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500
@@ -133,7 +144,7 @@ const UserRegistration =()=>{
 
             {formState.errors.confirm_pass && <span className='text-red-500'>{formState.errors.confirm_pass.message}</span>}
             <label className="sr-only">ConfirmPassword</label>
-            <input name="confirmpassword" type="password" {...register('confirm_pass', { required: true, validate: passwordValidation })}className="w-96  grid justify-items-stretch 
+            <input name="confirmpassword" type="password" {...register('confirm_pass', { required: true, validate: passwordMatch })}className="w-96  grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
             border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Confirm Password"></input>
@@ -150,16 +161,8 @@ const UserRegistration =()=>{
           <Link href='/login' className='flex items-center justify-center underline'>
             Already have an account?
           </Link>
-    
-          
-    
-          {/*<div className='flex items-center justify-center'>
-              <button>Terms of Private Policy</button>
-            </div>    */}
         </div>
       )
     }
 
 export default UserRegistration;
-// (optional) send an email verification request
-//await pb.collection('users').requestVerification('test@example.com');
