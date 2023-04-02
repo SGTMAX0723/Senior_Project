@@ -61,6 +61,14 @@ const UserRegistration =()=>{
         }
         setIsLoading(false);
     }
+
+    const emailValidation = (value) => {
+        const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        if (!emailPattern.test(value)) {
+          return "Invalid email address";
+        }
+        return true;
+      };
     
     const passwordValidation = (value) => {
         if (value !== watch('password')) {
@@ -100,8 +108,9 @@ const UserRegistration =()=>{
     
             
             <label className="sr-only">Email address</label>
-                {formState.errors.email && <p className='text-red-500'>Email is required </p>}
-            <input name="email" type="text" {...register('email', {required: true })} className=" w-96 grid justify-items-stretch 
+                {formState.errors.email && <p className='text-red-500'>
+                {formState.errors.email.type === "required" ? "Email is required": formState.errors.email.message} </p>}
+            <input name="email" type="text" {...register('email', {required: true,  validate: emailValidation})} className=" w-96 grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
             border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address"></input>
@@ -109,8 +118,10 @@ const UserRegistration =()=>{
 
 
             <label className="sr-only">Password</label>
-            {formState.errors.password && <span className='text-red-500'>password is required</span>}
-            <input name="password" type="password" {...register('password' , { required: true })}className="w-96  grid justify-items-stretch 
+            {formState.errors.password && <span className='text-red-500'> {formState.errors.password.type === 'minLength'
+            ? formState.errors.password.message
+            : 'Password is required'}</span>}
+            <input name="password" type="password" {...register('password' , { required: true, minLength: { value: 8, message: 'Password must be at least 8 characters'} })}className="w-96  grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
             border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password"></input>
