@@ -12,8 +12,10 @@ pb.autoCancellation(false);
 const UserRegistration =()=>{
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
-    const { register, handleSubmit, reset } = useForm();
+    const { register, handleSubmit, formState, watch, reset } = useForm();
     const [DoesExist, setDoesExist] = useState(true);
+
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
     async function registerUser(data){
         const userInfo = {
@@ -60,6 +62,12 @@ const UserRegistration =()=>{
         setIsLoading(false);
     }
     
+    const passwordValidation = (value) => {
+        if (value !== watch('password')) {
+          return 'Passwords do not match';
+        }
+        return true;
+      };
     
     
     
@@ -70,39 +78,50 @@ const UserRegistration =()=>{
             
             <p className=' flex items-center justify-center' > Please complete to create your account.</p>
 
-            <input name="username" type="text" {...register('username')} className=" w-96 grid justify-items-stretch 
+            {formState.errors.username && <p className="text-red-500">Username is required.</p>}
+            <input name="username" type="text" {...register('username', {required: true}, )} className=" w-96 grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
             border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Username"></input>
 
             <div className='h-100 grid grid-cols-2 gap-1 content-around '>
-            
-            <input name="firstname" type="text" {...register('fname')}className=" place-self-end  w-48 appearance-none 
+                {formState.errors.firstname && <p className="text-red-500">firstname is required.</p>} 
+                {formState.errors.lastname && <p className="text-red-500">lastname is required.</p>} 
+            </div>
+            <div className='h-100 grid grid-cols-2 gap-1 content-around '>
+                   
+                <input name="firstname" type="text" {...register('firstname', {required: true})}className=" place-self-end  w-48 appearance-none 
             rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 
             focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="First name"></input>
-            <input name="lastname" type="text" {...register('lname')}className=" w-48 flex justify-items-end appearance-none 
+                <input name="lastname" type="text" {...register('lastname', {required: true})}className=" w-48 flex justify-items-end appearance-none 
             rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 
             focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Last name"></input>
             </div>
     
             
             <label className="sr-only">Email address</label>
-            <input name="email" type="text" {...register('email')} className=" w-96 grid justify-items-stretch 
+                {formState.errors.email && <p className='text-red-500'>Email is required </p>}
+            <input name="email" type="text" {...register('email', {required: true })} className=" w-96 grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
             border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address"></input>
     
+
+
             <label className="sr-only">Password</label>
-            <input name="password" type="password" {...register('password')}className="w-96  grid justify-items-stretch 
+            {formState.errors.password && <span className='text-red-500'>password is required</span>}
+            <input name="password" type="password" {...register('password' , { required: true })}className="w-96  grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
             border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password"></input>
-    
+
+            {formState.errors.confirm_pass && <span className='text-red-500'>{formState.errors.confirm_pass.message}</span>}
             <label className="sr-only">ConfirmPassword</label>
-            <input name="confirmpassword" type="password" {...register('confirm_pass')}className="w-96  grid justify-items-stretch 
+            <input name="confirmpassword" type="password" {...register('confirm_pass', { required: true, validate: passwordValidation })}className="w-96  grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
             border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Confirm Password"></input>
+             
     
     
             <div className='flex items-center justify-center' >
@@ -118,9 +137,9 @@ const UserRegistration =()=>{
     
           
     
-          <div className='flex items-center justify-center'>
+          {/*<div className='flex items-center justify-center'>
               <button>Terms of Private Policy</button>
-          </div>
+            </div>    */}
         </div>
       )
     }
