@@ -62,20 +62,21 @@ const UserRegistration =()=>{
         setIsLoading(false);
     }
 
+    
+
     const emailValidation = (value) => {
-        const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         if (!emailPattern.test(value)) {
           return "Invalid email address";
         }
         return true;
-      };
+    };
     
     const passwordValidation = (value) => {
         if (value !== watch('password')) {
           return 'Passwords do not match';
         }
         return true;
-      };
+    };
     
     
     
@@ -118,10 +119,14 @@ const UserRegistration =()=>{
 
 
             <label className="sr-only">Password</label>
-            {formState.errors.password && <span className='text-red-500'> {formState.errors.password.type === 'minLength'
+            {formState.errors.password && <span className='text-red-500'> 
+            {formState.errors.password.type === 'minLength'
+            ? formState.errors.password.message
+            : formState.errors.password.type === 'maxLength'
             ? formState.errors.password.message
             : 'Password is required'}</span>}
-            <input name="password" type="password" {...register('password' , { required: true, minLength: { value: 8, message: 'Password must be at least 8 characters'} })}className="w-96  grid justify-items-stretch 
+            <input name="password" type="password" {...register('password' , { required: true, minLength: { value: 8, message: 'Password must be 8 or more characters'}, 
+            maxLength:{value: 16, message: 'Password must be 16 or less characters'} })}className="w-96  grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
             border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password"></input>
