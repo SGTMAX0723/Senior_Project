@@ -25,11 +25,11 @@ const UserRegistration =()=>{
             "emailVisibility": true,
             "password": data.password,
             "passwordConfirm": data.confirm_pass,
-            "name": data.fname + ' '+ data.lname,
+            "name": data.firstname + ' '+ data.lastname,
         };
-        //console.log(userInfo);
+        console.log(userInfo);
         const record = await pb.collection('users').create(userInfo);
-        //console.log(record);
+        console.log(record);
         setTimeout(() => {login(userInfo)});
     }
 
@@ -91,8 +91,8 @@ const UserRegistration =()=>{
     }
 
 
-    const userValidation = (value) => {
-        if (inDb == true) {
+    const userValidation = () => {
+        if (inDb === true) {
           return "Username already exists";
         }
         return true;
