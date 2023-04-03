@@ -25,7 +25,7 @@ const UserRegistration =()=>{
             "emailVisibility": true,
             "password": data.password,
             "passwordConfirm": data.confirm_pass,
-            "name": data.fname + ' '+ data.lname,
+            "name": data.firstname + ' '+ data.lastname,
         };
         console.log(userInfo);
         const record = await pb.collection('users').create(userInfo);
@@ -48,22 +48,55 @@ const UserRegistration =()=>{
         reset();
     }
 
+    const [username,setUsername] = useState([]);
+    let inDb = false;
+
+    const fetchUsers = async () => {
+        try{
+            const authUser = await pb.collection('users').getList(1,100000,{
+                filter: 'created >= "2022-01-01 00:00:00"',
+            });  
+            setUsername(authUser.items);
+        } catch {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
     async function checkIfExists(data) {
         setIsLoading(true);
         try {
+            console.log(username);
+            username.map(({ username, email }) => {
+                console.log(username);
+                if(data.username === username || data.email === email){
+                    inDb = true;
+                }
+            })
             const authData = await pb.collection('users').authWithPassword(
                 data.email,
             );
-            alert(error);
             
         } catch (error) {
             setDoesExist(false);
-            registerUser(data);
+            console.log(inDb);
+            if(inDb === false){
+                registerUser(data);
+            }
         }
         setIsLoading(false);
     }
 
 
+    const userValidation = () => {
+        if (inDb === true) {
+          return "Username already exists";
+        }
+        return true;
+    };
 
     const emailValidation = (value) => {
         if (!emailPattern.test(value)) {
@@ -95,8 +128,12 @@ const UserRegistration =()=>{
             
             <p className=' flex items-center justify-center'> Please complete to create your account.</p>
 
-            {formState.errors.username && <p className="text-red-500">Username is required.</p>}
-            <input name="username" type="text" {...register('username', {required: true}, )} className=" w-96 grid justify-items-stretch 
+            {formState.errors.username && <p className="text-red-500">{
+            formState.errors.username.type === 'validate'
+            ? formState.errors.username.message
+            :'Username is required'}</p>}
+            
+            <input name="username" type="text" {...register('username', {required: true, validate: userValidation}, )} className=" w-96 grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
             border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Username"></input>
