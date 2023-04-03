@@ -63,7 +63,7 @@ const UserRegistration =()=>{
         setIsLoading(false);
     }
 
-    
+
 
     const emailValidation = (value) => {
         if (!emailPattern.test(value)) {
@@ -125,7 +125,7 @@ const UserRegistration =()=>{
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address"></input>
     
 
-            <p style={{ fontSize: '12px', textAlign: 'center' }}>Password must contain Upper case, lower case, special character and number</p>
+            <p style={{ fontSize: '12px', textAlign: 'justify-left' }}>Password must contain Upper case, lower case, special character and number</p>
             
             <label className="sr-only">Password</label>
             {formState.errors.password && <span className='text-red-500'> 
