@@ -43,7 +43,7 @@ const ImageContainerHome = (props) => {
                         <h2 className="text-xl font-medium"><span className="hover:text-[#A3A0FB]">{props.project_name}</span></h2>
                     </Link>
                     <div className="flex justify-between items-center w-full">
-                        <p className="text-sm text-gray-600 mt-2">Template - Blank Template</p>
+                        <p className="text-sm text-gray-600 mt-2">{props.description}</p>
                     </div>
                 </div>
                 <div className="h-full">

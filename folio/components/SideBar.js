@@ -34,9 +34,6 @@ const SideBar = () => {
                 </Link>
                 
                 <div className='fixed bottom-2 w-48'>
-                    <Link href="/accounts/settings" >
-                        <SideBarIconBottom icon={<IoSettingsSharp size="20" />} text={<p className='pl-2'>Settings</p>} />
-                    </Link>
                     <Link href='/' onClick={logoutWhileLoggedIn} >
                         <SideBarIconBottom icon={<IoIosLogOut size="20" />} text={<p className='pl-2'>Logout</p>} /> 
                     </Link>
