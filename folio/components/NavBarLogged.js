@@ -144,7 +144,6 @@ const NavBarlogged = () => {
           <SearchBar icon={<IoIosSearch size={20}/> } />
         </div>
         <div className="flex -space-x-2 col-start-3 justify-self-end pr-16 items-center">
-          <NavBarIcon icon={<IoNotifications size={18}/> } text={<p className='pr-8'></p>}/>
           <p className="flex pr-8 text-secondary justify-center xl:visible lg:visible md:visible md:w-36 min-[0px]:invisible max-sm:invisible whitespace-nowrap overflow-hidden">{user.username}</p>
           <div className="h-11 w-11 rounded-full" ref={dropdownRef}>
             <button onClick={handleImageClick}>
