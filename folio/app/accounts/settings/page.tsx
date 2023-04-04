@@ -8,6 +8,9 @@ import  { pb } from 'components/UserAuthentication';
 import Link from 'next/link';
 import UploadPhoto from 'components/UploadPhoto'
 
+
+
+
 export default function Settings() {
 
     const isLoggedIn = pb.authStore.isValid;
@@ -34,6 +37,32 @@ export default function Settings() {
         }
     }
 
+    const handleKeyPress = (event: any) => {
+        if (event.key === 'Enter') {
+          const inputValue:string = event.target.value;
+          console.log(inputValue);
+          updateGithub(inputValue);
+        }
+    };
+    
+    // useState to display error message and success message
+    const [githubLinkError, setGithubLinkError] = useState('');
+    const [githubLinkSuccess, setGithubLinkSuccess] = useState('');
+    const updateGithub = async (inputValue: any) => {
+        //Check to see if input starts with https://
+        if (!inputValue.startsWith('https://github.com/')) {
+        setGithubLinkError('Github link must start with https://github.com/');
+        return;
+        } else {
+        setGithubLinkError('');
+        }
+
+        const data = {"githubLink": inputValue}
+        const record = await pb.collection('users').update(user.id, data);
+        setGithubLinkSuccess("Github link updated successfully!");
+    };
+
+    
     if (isLoggedIn) {
         return (
             <div>
@@ -61,29 +90,39 @@ export default function Settings() {
                                     handleUpdatePicture={handleUpdatePicture} 
                                 />
                                 
-                                <div>
-                                    <p>Name</p>
-                                    <input name="name" type="name" className=" md:w-96 sm:w-80 grid justify-items-stretch justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder={user.name}></input>
-                                </div>
-                                        
-                                <div>
-                                    <p>Email</p>
-                                    <p className=" md:w-96 sm:w-80 grid justify-items-stretch justify-self-center appearance-none bg-white rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">{user.email}</p>
-                                </div>
+                                    <div>
+                                        <p>Name</p>
+                                        <p className=" md:w-96 sm:w-80 grid justify-items-stretch justify-self-center appearance-none bg-white rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">{user.name}</p>
+                                    </div>
+                                            
+                                    <div>
+                                        <p>Email</p>
+                                        <p className=" md:w-96 sm:w-80 grid justify-items-stretch justify-self-center appearance-none bg-white rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">{user.email}</p>
+                                    </div>
 
-                                <div>
-                                    <p>Github</p>
-                                    <input name="github" type="github" className=" md:w-96 sm:w-80 grid justify-items-stretch justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder={user.githubLink}></input>
+                                    <div>
+                                        <p>Github</p>
+                                        <input
+                                         name='github'
+                                         type='github'
+                                         className=" md:w-96 sm:w-80 grid justify-items-stretch justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder={user.githubLink}
+                                         onKeyDown={(e) => handleKeyPress(e)}
+                                         />
+                                         {githubLinkSuccess && <p className="text-green-500 text-sm">{githubLinkSuccess}</p>}
+                                         {githubLinkError && <p className="text-red-500 text-sm">{githubLinkError}</p>} 
 
-                                </div>
-        
+                                    </div>
+                                    
+
+
                                 
-                                <div className='grid md:grid-cols-2 sm:grid-cols-1 sm:gap-4 md:space-x-6'>
+                                
+                                <div className='grid  md:grid-cols-2 sm:grid-cols-1 sm:gap-4 md:space-x-6'>
 
                                     <Link href='/accounts/password-reset'>
-                                    <button className='bg-orange-400 w-40 h-9 self-center rounded  text-black bold'> Reset password </button>
+                                    <button className='bg-orange-400 w-40 h-9 self-center rounded text-black bold'> Reset password </button>
                                     </Link>
-                                    <button className='bg-indigo-900 w-40 h-9 self-center justify-self-center rounded text-white bold'> Delete account </button>
+                                    
                                 </div>
                                 
                             </div>
