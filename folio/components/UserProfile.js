@@ -8,7 +8,6 @@ import SideBar from './SideBar';
 import NavBarLogged from './NavBarLogged.js';
 import ImageContainerDashboard from './ImageContainerDashboard';
 import ImageContainerHome from './ImageContainerHome';
-import Image from 'next/image';
 
 const UserProfile = () => {
     const router = useRouter();
@@ -150,14 +149,14 @@ const UserProfile = () => {
                                         <div className='h-40 w-full self-start z-0 overflow-hidden'>
                                             {
                                                 banner ?
-                                                <Image className='rounded-t-2xl' src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${banner}`} alt='banner'/>
+                                                <img className='rounded-t-2xl' src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${banner}`} alt='banner'/>
                                                 :
                                                 <div className='w-full h-full rounded-t-2xl bg-zinc-400' />
                                             }
                                         </div>
                                         <div className='absolute flex flex-col w-full h-full items-center justify-center gap-y-8'>
                                             <div className='flex h-36 w-36 z-10 pt-10'>
-                                                <Image
+                                                <img
                                                     className='flex h-36 w-36 rounded-full'
                                                     src={avatar ? `https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${avatar}`: '/Default_PFP.jpg'}
                                                     alt='profile picture'

@@ -11,7 +11,7 @@ import ConnectionCards from '../../../../components/ConnectionsCard';
 import ConnectionsButtonFollowers from '../../../../components/ConnectionsButtonFollowers';
 
 
-export default function Followers() {
+const Followers = () => {
     const isLoggedIn = pb.authStore.isValid;
     const router = useRouter();
     const user: any = pb.authStore.model;
@@ -72,7 +72,7 @@ export default function Followers() {
     useEffect(() => {
         fetchFollowers();
         fetchFollowing();
-    }, []);
+    });
 
     useEffect(() => {
         if (followers.length > 0) {
@@ -123,3 +123,5 @@ export default function Followers() {
         router.push('/login')
     }
 }
+
+export default Followers;

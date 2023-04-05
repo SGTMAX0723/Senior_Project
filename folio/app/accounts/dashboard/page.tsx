@@ -11,7 +11,7 @@ import  { pb } from 'components/UserAuthentication';
 import { BsViewList } from "react-icons/bs";
 import { BsListUl } from "react-icons/bs";
 
-export default function Dashboard() {
+const Dashboard = () => {
     const isLoggedIn = pb.authStore.isValid;
     const router = useRouter();
     const user: any = pb.authStore.model;
@@ -35,7 +35,7 @@ export default function Dashboard() {
 
         useEffect(() => {
             fetchProjects();
-        }, []);
+        });
 
         let first_name = user.name.split(' ')[0];
 
@@ -112,3 +112,5 @@ export default function Dashboard() {
         router.push('/login');
     }
 }
+
+export default Dashboard;

@@ -3,15 +3,12 @@
 import { useRouter } from 'next/navigation';
 import SideBar from '../../../components/SideBar'
 import NavBarLogged from '../../../components/NavBarLogged'
-import { useEffect, useState } from 'react';
-import  { pb } from 'components/UserAuthentication';
+import { useState } from 'react';
+import  { pb } from '../../../components/UserAuthentication';
 import Link from 'next/link';
-import UploadPhoto from 'components/UploadPhoto'
+import UploadPhoto from '../../../components/UploadPhoto'
 
-
-
-
-export default function Settings() {
+const Settings = () => {
 
     const isLoggedIn = pb.authStore.isValid;
     const router = useRouter();
@@ -39,9 +36,9 @@ export default function Settings() {
 
     const handleKeyPress = (event: any) => {
         if (event.key === 'Enter') {
-          const inputValue:string = event.target.value;
-          console.log(inputValue);
-          updateGithub(inputValue);
+            const inputValue:string = event.target.value;
+            console.log(inputValue);
+            updateGithub(inputValue);
         }
     };
     
@@ -51,18 +48,22 @@ export default function Settings() {
     const updateGithub = async (inputValue: any) => {
         //Check to see if input starts with https://
         if (!inputValue.startsWith('https://github.com/')) {
-        setGithubLinkError('Github link must start with https://github.com/');
+            setGithubLinkError('Github link must start with https://github.com/');
         return;
         } else {
-        setGithubLinkError('');
+            setGithubLinkError('');
         }
 
         const data = {"githubLink": inputValue}
-        const record = await pb.collection('users').update(user.id, data);
+        await pb.collection('users').update(user.id, data);
         setGithubLinkSuccess("Github link updated successfully!");
     };
 
-    
+
+    if (!user) {
+        return <div>Loading...</div>;
+    }
+        
     if (isLoggedIn) {
         return (
             <div>
@@ -76,7 +77,7 @@ export default function Settings() {
                                 <div className='grid sm:grid-cols-1 md:grid-cols-2 gap-3 mt-4'>
                                     <div>
                                         <img className="inline-block h-36 w-36 rounded-full" 
-                                        src={profilePicture} />
+                                        src={profilePicture} alt='profile picture' />
                                     </div>
                                     <button onClick={() => setbuttonPopup(true)} className='bg-indigo-900 w-40 h-9 self-center justify-self-center rounded text-white bold'> Upload new photo </button>
 
@@ -103,13 +104,13 @@ export default function Settings() {
                                     <div>
                                         <p>Github</p>
                                         <input
-                                         name='github'
-                                         type='github'
-                                         className=" md:w-96 sm:w-80 grid justify-items-stretch justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder={user.githubLink}
-                                         onKeyDown={(e) => handleKeyPress(e)}
-                                         />
-                                         {githubLinkSuccess && <p className="text-green-500 text-sm">{githubLinkSuccess}</p>}
-                                         {githubLinkError && <p className="text-red-500 text-sm">{githubLinkError}</p>} 
+                                            name='github'
+                                            type='github'
+                                            className=" md:w-96 sm:w-80 grid justify-items-stretch justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder={user.githubLink}
+                                            onKeyDown={(e) => handleKeyPress(e)}
+                                            />
+                                            {githubLinkSuccess && <p className="text-green-500 text-sm">{githubLinkSuccess}</p>}
+                                            {githubLinkError && <p className="text-red-500 text-sm">{githubLinkError}</p>} 
 
                                     </div>
                                     
@@ -137,3 +138,5 @@ export default function Settings() {
         router.push('/login')
     }
 }
+
+export default Settings;

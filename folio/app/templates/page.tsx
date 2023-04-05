@@ -7,7 +7,7 @@ import TemplateContainer from '../../components/TemplateContainer';
 import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
 
-export default function Templates() {
+const Templates = () => {
     type MyRecord = Record<string, number>;
     const [templates, setTemplates] = useState([] as MyRecord[]);
     const router = useRouter();
@@ -28,7 +28,7 @@ export default function Templates() {
 
         useEffect(() => {
             fetchTemplates();
-        }, []);
+        });
 
         const topicList = [
             { name: 'Software Development', value: 'software' },
@@ -134,3 +134,5 @@ export default function Templates() {
         router.push('/login');
     }
 }
+
+export default Templates;
