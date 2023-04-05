@@ -56,8 +56,7 @@ export default function Home() {
                     </div>
                     <div className='flex w-full h-64 max-w-7xl justify-self-center items-center justify-center border-b-4 border-zinc-200'>
                         <p className="text-xl text-secondary font-semibold text-justify mb-8 mx-12">
-                            Our website is designed to help individuals build a powerful and effective portfolio that will increase their chances of getting hired. In today's competitive job market, it's essential to have a portfolio that stands out from the rest. Our platform provides users with the necessary tools and resources to create a portfolio that showcases their unique skills and accomplishments. With our intuitive and user-friendly interface, creating a portfolio has never been easier. 
-                        </p>
+                        Our website is designed to help individuals build a powerful and effective portfolio that will increase their chances of getting hired. In today&apos;s competitive job market, it&apos;s essential to have a portfolio that stands out from the rest. Our platform provides users with the necessary tools and resources to create a portfolio that showcases their unique skills and accomplishments. With our intuitive and user-friendly interface, creating a portfolio has never been easier.                         </p>
                     </div>
                     <div className='flex px-2 h-24 max-w-7xl justify-self-center justify-center items-center mt-8 mb-8 w-full'>
                         <h1 className='text-4xl text-center text-secondary font-semi-bold'>Featured User Projects</h1>
