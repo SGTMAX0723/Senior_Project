@@ -68,12 +68,16 @@ const Following = () => {
         setEmail(records.map((record: any) => record.email));
         setGithub(records.map((record: any) => record.githubLink));
         console.log(records);
-    };
+    };  
 
     useEffect(() => {
-        fetchFollowing();
-        fetchFollowers();
-    });
+        if (isLoggedIn) {
+            fetchFollowing();
+            fetchFollowers();
+        } else {
+            router.push('/login');
+        }
+    }, [isLoggedIn]);  
 
     useEffect(() => {
         if (following.length > 0) {
@@ -81,45 +85,53 @@ const Following = () => {
         }
     }, [following]);
 
-    if (isLoggedIn) {
-        return (
-            <main>
-                <div className='xl:h-screen lg:h-screen md:h-screen sm:h-screen pt-16 ml-48
-                                flex
-                                bg-primary'>
-                    
-                    <div className="container mt-5 sm:mt place-items-center grid lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 space-x-2 space-y-2 pt-16 ml-4 "> 
-                        {following.map(({ follows, followed, id }: any, index:number) => {
-                            followers.map(({ follows, followed }: any) => {
-                                if (followed === user.id && follows === followers[index].follows) {
-                                    match = true;
-                                }
-                            })
-                            return (
-                            <ConnectionCards    key={index} 
-                                                cardType='following'
-                                                currentUserId={user.id}
-                                                connection={id}
-                                                match={match}
-                                                following={follows === user.id}
-                                                followers={followed}
-                                                followerAvatar={users[index]} 
-                                                followerName={name[index]} 
-                                                followerEmail={email[index]}
-                                                githubLink={github[index]}
-                                                onFollow={() => fetchFollowing()}
-                                                onUnfollow={() => fetchFollowing()} />
-                        )})}
-                    </div>
-                </div>
-                <NavBarLogged />
-                <ConnectionsButtonFollowing />
-                <SideBar />
-            </main>
-        )
-    } else {
-        router.push('/login')
+    if (!isLoggedIn) {
+        return null;
     }
+
+    const [hydrated, setHydrated] = useState(false);
+    useEffect(() => {
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		return null;
+	}
+
+    return (
+        <main>
+            <div className='xl:h-screen lg:h-screen md:h-screen sm:h-screen pt-16 ml-48
+                            flex
+                            bg-primary'>
+                
+                <div className="container mt-5 sm:mt place-items-center grid lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 space-x-2 space-y-2 pt-16 ml-4 "> 
+                    {following.map(({ follows, followed, id }: any, index:number) => {
+                        followers.map(({ follows, followed }: any) => {
+                            if (followed === user.id && follows === followers[index].follows) {
+                                match = true;
+                            }
+                        })
+                        return (
+                        <ConnectionCards    key={index} 
+                                            cardType='following'
+                                            currentUserId={user.id}
+                                            connection={id}
+                                            match={match}
+                                            following={follows === user.id}
+                                            followers={followed}
+                                            followerAvatar={users[index]} 
+                                            followerName={name[index]} 
+                                            followerEmail={email[index]}
+                                            githubLink={github[index]}
+                                            onFollow={() => fetchFollowing()}
+                                            onUnfollow={() => fetchFollowing()} />
+                    )})}
+                </div>
+            </div>
+            <NavBarLogged />
+            <ConnectionsButtonFollowing />
+            <SideBar />
+        </main>
+    );
 }
 
 export default Following;
