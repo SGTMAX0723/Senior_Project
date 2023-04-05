@@ -5,7 +5,7 @@ import { HiTemplate, HiUsers, HiUser } from 'react-icons/hi';
 import { IoSettingsSharp } from 'react-icons/io5';
 import { IoIosLogOut } from "react-icons/io";
 import Link from 'next/link';
-import { logoutWhileLoggedIn } from "./UserAuthentication";
+import { LogoutWhileLoggedIn } from "./UserAuthentication";
 
 const SideBar = () => {
     return(
@@ -34,7 +34,7 @@ const SideBar = () => {
                 </Link>
                 
                 <div className='fixed bottom-2 w-48'>
-                    <Link href='/' onClick={logoutWhileLoggedIn} >
+                    <Link href='/' onClick={LogoutWhileLoggedIn} >
                         <SideBarIconBottom icon={<IoIosLogOut size="20" />} text={<p className='pl-2'>Logout</p>} /> 
                     </Link>
                 </div>

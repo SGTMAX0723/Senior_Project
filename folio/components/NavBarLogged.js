@@ -83,8 +83,8 @@ const SearchBar = ({ icon }) => {
           {searchResults.length === 0 && <div className='p-3 text-sm'>No results found</div>}
           {searchResults.length > 0 &&
             searchResults.map((result) => (
-            <a href={`/accounts/${result.id}/profile`}>
-              <div key={result.id} className='p-3'>
+            <a key={result.id} href={`/accounts/${result.id}/profile`}>
+              <div className='p-3'>
                 <p className="text-sm truncate">
                   {result.username ? result.username : result.project_name}
                 </p>
@@ -150,6 +150,7 @@ const NavBarlogged = () => {
               <img
                 className="h-full w-full rounded-full"
                 src={user.avatar?`https://folio-database.fly.dev/api/files/_pb_users_auth_/${user.id}/${user.avatar}`: Default}
+                alt="avatar"
               />
             </button>
             {isImageClicked && (
