@@ -47,7 +47,7 @@ const CreateForm = (props) => {
     useEffect(() => {
         fetchProjects();
         fetchTemplates();
-    }, []);
+    });
 
     async function handleSubmit(event) {
         event.preventDefault();

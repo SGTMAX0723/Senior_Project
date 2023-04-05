@@ -1,12 +1,12 @@
 'use client'
 
-import { IoNotifications } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { pb } from "./UserAuthentication";
 import Default from '../public/Default_PFP.jpg'
 import MenuDropdown from "./MenuDropdown";
+import Image from "next/image";
 
 const SearchBar = ({ icon }) => {
   const [users, setUsers] = useState([]);
@@ -147,7 +147,7 @@ const NavBarlogged = () => {
           <p className="flex pr-8 text-secondary justify-center xl:visible lg:visible md:visible md:w-36 min-[0px]:invisible max-sm:invisible whitespace-nowrap overflow-hidden">{user.username}</p>
           <div className="h-11 w-11 rounded-full" ref={dropdownRef}>
             <button onClick={handleImageClick}>
-              <img
+              <Image
                 className="h-full w-full rounded-full"
                 src={user.avatar?`https://folio-database.fly.dev/api/files/_pb_users_auth_/${user.id}/${user.avatar}`: Default}
                 alt="avatar"

@@ -19,7 +19,7 @@ const ProjectDropdown = (props) => {
     };
     useEffect(() => {
         fetchProjects();
-    }, []);
+    });
     const handleClick = async () => {
         const project = projects.find((p) => p.id === props.id);
         if (project) {
