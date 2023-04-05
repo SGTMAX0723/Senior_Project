@@ -1,5 +1,5 @@
 import { pb } from "./UserAuthentication";
-import { logoutWhileLoggedIn } from "./UserAuthentication";
+import { LogoutWhileLoggedIn } from "./UserAuthentication";
 import Link from "next/link";
  
  // for the dropdown menu
@@ -28,7 +28,7 @@ import Link from "next/link";
                     Settings
                     </a>
                 </Link>
-                {/* <Link href="/" onClick={logoutWhileLoggedIn}>
+                {/* <Link href="/" onClick={LogoutWhileLoggedIn}>
                     <a className="block px-4 py-3 text-sm text-red-600 hover:bg-gray-100" role="menuitem">
                     Sign out
                     </a>

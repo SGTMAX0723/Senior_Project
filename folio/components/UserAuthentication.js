@@ -13,18 +13,15 @@ pb.autoCancellation(false);
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-export function logoutWhileLoggedIn() {
+export const LogoutWhileLoggedIn = () => {
     pb.authStore.clear();
-    const [hydrated, setHydrated] = useState(false);
-    useEffect(() => {
-		// This forces a rerender, so the page is rendered
-		// the second time but not the first
-		setHydrated(true);
-	}, []);
-	if (!hydrated) {
-		// Returns null on first render, so the client and server match
-		return null;
-	}
+    // const [hydrated, setHydrated] = useState(false);
+    // useEffect(() => {
+	// 	setHydrated(true);
+	// }, []);
+	// if (!hydrated) {
+	// 	return null;
+	// }
 }
 
 const UserAuthentication = () => {
