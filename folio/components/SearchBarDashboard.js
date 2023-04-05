@@ -20,7 +20,7 @@ const SearchBarDashboard = () => {
         };
 
         fetchProjects();
-    }, []);
+    });
 
     const [searchTerm, setSearchTerm] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
