@@ -8,6 +8,7 @@ import SideBar from './SideBar';
 import NavBarLogged from './NavBarLogged.js';
 import ImageContainerDashboard from './ImageContainerDashboard';
 import ImageContainerHome from './ImageContainerHome';
+import Image from 'next/image';
 
 const UserProfile = () => {
     const router = useRouter();
@@ -59,12 +60,12 @@ const UserProfile = () => {
     useEffect(() => {
         fetchUsers();
         fetchProjects();
-    }, [isPublic]);
+    }, [isPublic, fetchProjects, fetchUsers]);
     
     const listView = () => {
         return(
             <div className='grid grid-cols-1 w-full max-w-7xl px-4 py-4 justify-items-center gap-10'>
-                {projects.map(({ project_name, project_img, project_url, updated, visibility, favorites, id }, index) => {
+                {projects.map(({ project_name, project_Image, project_url, updated, visibility, favorites, id }, index) => {
                     function loadProject() {
                         router.push(project_url);
                     }
@@ -73,9 +74,9 @@ const UserProfile = () => {
                             <div key={id} className='rounded-md w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
                                 {
                                     user.id === userId ?
-                                    <ImageContainerDashboard key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id}/>
+                                    <ImageContainerDashboard key={index} project_name={project_name} project_Image={project_Image} updated={updated} load_project={loadProject} id={id}/>
                                     :
-                                    <ImageContainerHome key={index} project_name={project_name} project_img={project_img} updated={updated} id={id}/>
+                                    <ImageContainerHome key={index} project_name={project_name} project_Image={project_Image} updated={updated} id={id}/>
                                 }
                             </div>
                         );
@@ -84,9 +85,9 @@ const UserProfile = () => {
                             <div key={id} className='rounded-md w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
                                 {
                                     user.id === userId ?
-                                    <ImageContainerDashboard key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id}/>
+                                    <ImageContainerDashboard key={index} project_name={project_name} project_Image={project_Image} updated={updated} load_project={loadProject} id={id}/>
                                     :
-                                    <ImageContainerHome key={index} project_name={project_name} project_img={project_img} updated={updated} favorites={favorites} id={id}/>
+                                    <ImageContainerHome key={index} project_name={project_name} project_Image={project_Image} updated={updated} favorites={favorites} id={id}/>
                                 }
                             </div>
                         );
@@ -112,7 +113,7 @@ const UserProfile = () => {
     const [refresh, setRefresh] = useState(false);
     useEffect(() => {
         fetchFollowing();
-    }, [refresh]);
+    }, [refresh, fetchFollowing]);
 
     const handleProfilePictureChange = () => {
         // Implement the functionality to change the profile picture
@@ -149,16 +150,17 @@ const UserProfile = () => {
                                         <div className='h-40 w-full self-start z-0 overflow-hidden'>
                                             {
                                                 banner ?
-                                                <img className='rounded-t-2xl' src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${banner}`} />
+                                                <Image className='rounded-t-2xl' src={`https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${banner}`} alt='banner'/>
                                                 :
                                                 <div className='w-full h-full rounded-t-2xl bg-zinc-400' />
                                             }
                                         </div>
                                         <div className='absolute flex flex-col w-full h-full items-center justify-center gap-y-8'>
                                             <div className='flex h-36 w-36 z-10 pt-10'>
-                                                <img
+                                                <Image
                                                     className='flex h-36 w-36 rounded-full'
                                                     src={avatar ? `https://folio-database.fly.dev/api/files/_pb_users_auth_/${id}/${avatar}`: '/Default_PFP.jpg'}
+                                                    alt='profile picture'
                                                 />
                                                 <button className='absolute hover:bg-zinc-900 hover:opacity-50 text-transparent hover:text-zinc-200 flex h-36 w-36 rounded-full items-center justify-center'>
                                                     <HiCamera size={36} />
@@ -213,14 +215,14 @@ const UserProfile = () => {
                                 let first_name = name.split(' ')[0];
                                 if (id === user.id) {
                                     return (
-                                        <div className='grid grid-cols-2'>
-                                            <h1 key={index} className='text-3xl text-secondary'><span className="font-semi-bold italic">Your</span> <span className='font-light'>Projects</span></h1>
+                                        <div key={index} className='grid grid-cols-2'>
+                                            <h1 className='text-3xl text-secondary'><span className="font-semi-bold italic">Your</span> <span className='font-light'>Projects</span></h1>
                                             <button className='text-xs font-semi-bold text-zinc-500 justify-self-end' onClick={handleClick}>{isPublic ? 'PUBLIC' : 'PRIVATE'}</button>
                                         </div>
                                     )
                                 } else {
                                     return (
-                                        <h1 key={index} className='text-3xl text-secondary'><span className="font-semi-bold italic">{first_name}'s</span> <span className='font-light'>Projects</span></h1>
+                                        <h1 key={index} className='text-3xl text-secondary'><span className="font-semi-bold italic">{first_name}&apos;s</span> <span className='font-light'>Projects</span></h1>
                                     )
                                 }
                             })}

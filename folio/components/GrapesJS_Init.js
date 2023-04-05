@@ -467,7 +467,7 @@ const GrapesJS = () => {
             console.log('Editor created');
             editorRef.current = editor;
         }
-    }, []);
+    });
 
     return (
         <div id="gjs">
