@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { pb } from 'components/UserAuthentication';
+const user = pb.authStore.model;
 
 function FollowButton(props) {
+  const [following, setFollowing] = useState([]);
   const [hydrated, setHydrated] = useState(false);
     useEffect(() => {
 		setHydrated(true);
@@ -11,16 +13,37 @@ function FollowButton(props) {
 	}
 
   async function unfollow() {
-    await pb.collection('connections').delete(props.connection);
-    props.onUnfollow();
+    let expandFollowers = 'follows = "' + user.id + '" && followed = "' + props.followId + '"';
+    try {
+        const records = await pb.collection('connections').getList(1, 100000000, /* batch size */ {
+            sort: '-created',
+            filter: expandFollowers
+        });
+        setFollowing(records.items)
+        following.map(async ({ id }) => {
+          await pb.collection('connections').delete(id);
+          console.log(id)
+          props.onUnfollow();
+        })
+    } catch (e) {
+        console.log('error', e);
+    }
   }
 
   async function follow() {
-    await pb.collection('connections').create({
-      'follows': props.userId,
-      'followed': props.followId,
-    });
-    props.onFollow();
+    let expandFollowers = 'follows = "' + user.id + '" && followed = "' + props.followId + '"';
+    try {
+        const records = await pb.collection('connections').getList(1, 100000000, /* batch size */ {
+            sort: '-created',
+            filter: expandFollowers
+        });
+    } catch (e) {
+      await pb.collection('connections').create({
+        'follows': props.userId,
+        'followed': props.followId,
+      });
+      props.onFollow();
+    }
   }
 
   return (
