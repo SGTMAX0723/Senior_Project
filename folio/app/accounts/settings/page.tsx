@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { pb } from '../../../components/UserAuthentication';
 
@@ -7,12 +8,14 @@ import NavBarLogged from '../../../components/NavBarLogged';
 import SideBar from '../../../components/SideBar';
 
 export default function Settings() {
+    const router = useRouter();
+    const isLoggedIn = pb.authStore.isValid;
     const user: any = pb.authStore.model;
 
     type MyRecord = Record<string, number>;
     const [users, setUsers] = useState([] as MyRecord[]);
     const fetchUsers = async () => {
-        let filters = 'created >= "2022-01-01 00:00:00" && id = "' + user.id + '"';
+        const filters = user && user.id ? 'created >= "2022-01-01 00:00:00" && id = "' + user.id + '"' : '';
         try {
             const userList = await pb.collection('users').getList(1, 100, {
             filter: filters
@@ -36,12 +39,28 @@ export default function Settings() {
 
     const [disabled, setDisabled] = useState(true);
     useEffect(() => {
-        if (usernameInput === user.username && confirmationInput === "I confirm the deletion of my account") {
-            setDisabled(false);
+        if (!isLoggedIn) {
+            router.push('/login');
         } else {
-            setDisabled(true);
+            if (usernameInput === user.username && confirmationInput === "I confirm the deletion of my account") {
+                setDisabled(false);
+            } else {
+                setDisabled(true);
+            }
         }
-    }, [usernameInput, confirmationInput, user.username]);
+    }, [usernameInput, confirmationInput, user && user.username]);
+
+    if (!isLoggedIn) {
+        return null;
+    }
+
+    const [hydrated, setHydrated] = useState(false);
+    useEffect(() => {
+        setHydrated(true);
+    }, []);
+    if (!hydrated) {
+        return null;
+    }
     
     return (
         <main className="min-h-screen text-center sm:text-left">
@@ -60,7 +79,7 @@ export default function Settings() {
                                 <img 
                                     src={user.avatar ? `https://folio-database.fly.dev/api/files/_pb_users_auth_/${user.id}/${user.avatar}` 
                                     : '../../../public/Default_PFP.jpg'} 
-                                    className='m-2 w-36 h-36' 
+                                    className='m-2 w-36 h-36 rounded-sm' 
                                     alt='pfp'
                                 />
                                 <div className='flex flex-col w-full h-full pt-2'>

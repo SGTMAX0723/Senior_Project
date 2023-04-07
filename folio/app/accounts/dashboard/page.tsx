@@ -7,7 +7,7 @@ import ImageContainerDashboard from '../../../components/ImageContainerDashboard
 import SearchBarDashboard from '../../../components/SearchBarDashboard';
 import ProjectContainerGrid from '../../../components/ProjectContainerGrid';
 import { useEffect, useState } from 'react';
-import  { pb } from 'components/UserAuthentication';
+import  { pb } from '../../../components/UserAuthentication';
 import { BsViewList } from "react-icons/bs";
 import { BsListUl } from "react-icons/bs";
 
