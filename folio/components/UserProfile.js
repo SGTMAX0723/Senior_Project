@@ -99,7 +99,7 @@ const UserProfile = () => {
     const fetchFollowing = async () => {
         let expandFollowers = 'follows = "' + user.id + '"';
         try {
-            const records = await pb.collection('connections').getList(1, 100000000, /* batch size */ {
+            const records = await pb.collection('connections').getList(1, 100, /* batch size */ {
                 sort: '-created',
                 filter: expandFollowers
             });
@@ -118,6 +118,7 @@ const UserProfile = () => {
         // Implement the functionality to change the profile picture
     };
 
+    const [loading, setLoading] = useState(false);
     return (
         <main className='min-h-screen'>
             <div className='h-screen ml-48 pt-28 pb-12 px-12
@@ -128,6 +129,7 @@ const UserProfile = () => {
                         <div className='grid grid-rows-2 gap-2 w-full h-full'>
                             {users.map(({ name, username, avatar, banner, id }, index) => {
                                 function unfollow() {
+                                    setLoading(true);
                                     following.map(async ({ follows, followed, id }) => {
                                         console.log(follows, followed, id);
                                         if (follows === user.id && followed === userId) {
@@ -135,14 +137,17 @@ const UserProfile = () => {
                                             setRefresh(!refresh);
                                         }
                                     });
+                                    setLoading(false);
                                 }
                                 
                                 async function follow() {
+                                    setLoading(true);
                                     await pb.collection('connections').create({
                                         'follows': user.id,
                                         'followed': id,
                                     });
                                     setRefresh(!refresh);
+                                    setLoading(false);
                                 }
                                 return (
                                     <div key={index} className='flex w-full h-full items-center justify-center'>
@@ -177,8 +182,9 @@ const UserProfile = () => {
                                                         <h1 className='text-2xl text-secondary font-regular'>{name}</h1>
                                                         <h1 className='text-sm text-zinc-700 font-regular'>@{username}</h1>
                                                     </div>
-                                                    <button onClick={() => {following.find(({ followed }) => followed === id) ? unfollow() : follow()}} className={`flex items-center justify-center w-22 mt-9 ml-6 ${following.find(({ followed }) => followed === id) ? 'bg-[#A3A0FB] hover:bg-[#b8b5ff]' : 'bg-zinc-900 hover:bg-zinc-700'} text-sm text-zinc-50 h-8 rounded-full`}>
+                                                    <button onClick={() => {following.find(({ followed }) => followed === id) ? unfollow() : follow()}} className={`flex items-center justify-center w-22 mt-9 ml-6 ${following.find(({ followed }) => followed === id) ? 'bg-[#A3A0FB] hover:bg-[#b8b5ff]' : 'bg-zinc-900 hover:bg-zinc-700'} text-sm text-zinc-50 h-8 rounded-full`} disabled={loading}>
                                                         {
+                                                            loading ? <p>Processing...</p> :
                                                             following.find(({ followed }) => followed === id) ?
                                                             <p>Unfollow</p>
                                                             :

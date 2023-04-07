@@ -76,7 +76,7 @@ const Followers = () => {
         } else {
             router.push('/login');
         }
-    }, [isLoggedIn]);  
+    }, [isLoggedIn, fetchFollowers, fetchFollowing]);  
 
     useEffect(() => {
         if (followers.length > 0) {

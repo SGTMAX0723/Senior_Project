@@ -77,7 +77,7 @@ const Following = () => {
         } else {
             router.push('/login');
         }
-    }, [isLoggedIn]);  
+    }, [isLoggedIn, fetchFollowing, fetchFollowers]);  
 
     useEffect(() => {
         if (following.length > 0) {
@@ -105,7 +105,7 @@ const Following = () => {
                 
                 <div className="container mt-5 sm:mt place-items-center grid lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 space-x-2 space-y-2 pt-16 ml-4 "> 
                     {following.map(({ follows, followed, id }: any, index:number) => {
-                        followers.map(({ follows, followed }: any) => {
+                        followers.map(({ follows, followed }: any, index:number) => {
                             if (followed === user.id && follows === followers[index].follows) {
                                 match = true;
                             }
