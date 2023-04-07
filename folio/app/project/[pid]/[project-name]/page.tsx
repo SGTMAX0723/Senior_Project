@@ -48,12 +48,14 @@ const Preview: React.FC = () => {
         }
 
         fetchJson();
-    }, []);
+    }, [jsonArray]);
 
     useEffect(() => {
         if (jsonArray.length > 0) {
-            //   const page = jsonArray[0].page_contents.pages[0];
-            setStyles(jsonArray[0].page_contents.styles);
+            // const page = jsonArray[0].page_contents.pages[0];
+            if (jsonArray[0].page_contents !== null) {
+                setStyles(jsonArray[0].page_contents.styles);
+            }
         }
     }, [jsonArray]);
 
@@ -76,35 +78,38 @@ const Preview: React.FC = () => {
         return React.createElement(tagName, { ...attributes, style }, ...children);
     };
 
-    const page = jsonArray.length > 0 ? jsonArray[0].page_contents.pages[0] : null;
-
-    if (!page) {
-        return <div>Loading...</div>;
-    }
-
-    const styleTags = styles.map((style, index) => (
-        <style key={index}>
-            {style.selectors.join(', ')} {
-                Object.keys(style.style).map((key) => {
-                    const value = style.style[key];
-                    return `${key}: ${value};`;
-                }).join(' ')
-            }
-        </style>
-    ));
-
-    return (
-        <>
-            <div>
-                {page.frames.map((frame:any, index:number) => (
-                    <React.Fragment key={index}>{renderComponent(frame.component)}</React.Fragment>
-                ))}
+    if (!jsonArray.length || jsonArray[0].page_contents === null) {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                Project is null
             </div>
-            <head>
-                {styleTags}
-            </head>
-        </>
-    );
+        );
+    } else {
+        const page = jsonArray[0].page_contents.pages[0];
+        const styleTags = styles.map((style, index) => (
+            <style key={index}>
+                {style.selectors.join(', ')} {
+                    Object.keys(style.style).map((key) => {
+                        const value = style.style[key];
+                        return `${key}: ${value};`;
+                    }).join(' ')
+                }
+            </style>
+        ));
+
+        return (
+            <>
+                <div>
+                    {page.frames.map((frame:any, index:number) => (
+                        <React.Fragment key={index}>{renderComponent(frame.component)}</React.Fragment>
+                    ))}
+                </div>
+                <head>
+                    {styleTags}
+                </head>
+            </>
+        );
+    }
 };
 
 export default Preview;
