@@ -49,7 +49,8 @@ const UserRegistration =()=>{
     }
 
     const [username,setUsername] = useState([]);
-    let inDb = false;
+    let userDb = false;
+    let emailDb = false;
 
     const fetchUsers = async () => {
         try{
@@ -64,7 +65,7 @@ const UserRegistration =()=>{
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+    }, [userDb, emailDb]);
 
     async function checkIfExists(data) {
         setIsLoading(true);
@@ -72,18 +73,29 @@ const UserRegistration =()=>{
             console.log(username);
             username.map(({ username, email }) => {
                 console.log(username);
-                if(data.username === username || data.email === email){
-                    inDb = true;
+                if(data.username === username){
+                    userDb = true;
+                }
+                if(data.email === email){
+                    emailDb = true;
                 }
             })
             const authData = await pb.collection('users').authWithPassword(
                 data.email,
             );
             
+            
         } catch (error) {
+            if(userDb){
+                alert('Username is already in use');
+            }
+            if(emailDb){
+                alert('Email is already in use');
+            }
             setDoesExist(false);
-            console.log(inDb);
-            if(inDb === false){
+            console.log(userDb);
+            console.log(emailDb);
+            if(userDb === false && emailDb === false){
                 registerUser(data);
             }
         }
@@ -92,29 +104,32 @@ const UserRegistration =()=>{
 
 
     const userValidation = () => {
-        if (inDb === true) {
-          return "Username already exists";
+        if (userDb === true) {
+            return "Username already exists";
         }
         return true;
     };
 
     const emailValidation = (value) => {
         if (!emailPattern.test(value)) {
-          return "Invalid email address";
+            return "Invalid email address";
+        }
+        if (emailDb === true){
+            return "Email already exists";
         }
         return true;
     };
 
     const passwordValidation = (value) => {
         if (!passPattern.test(value)) {
-          return 'Password does not contiain requirements';
+            return 'Password does not contiain requirements';
         }
         return true;
     };
     
     const passwordMatch = (value) => {
         if (value !== watch('password')) {
-          return 'Passwords do not match';
+            return 'Passwords do not match';
         }
         return true;
     };
@@ -129,9 +144,10 @@ const UserRegistration =()=>{
             <p className=' flex items-center justify-center'> Please complete to create your account.</p>
 
             {formState.errors.username && <p className="text-red-500">{
-            formState.errors.username.type === 'validate'
+            formState.errors.username.type == 'validate'
             ? formState.errors.username.message
             :'Username is required'}</p>}
+            
             
             <input name="username" type="text" {...register('username', {required: true, validate: userValidation}, )} className=" w-96 grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
