@@ -18,7 +18,7 @@ const UserRegistration =()=>{
     const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const passPattern  = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;;
 
-    async function registerUser(data){
+    async function registerUser(data) {
         const userInfo = {
             "username": data.username,
             "email": data.email,
@@ -28,9 +28,13 @@ const UserRegistration =()=>{
             "name": data.firstname + ' '+ data.lastname,
         };
         console.log(userInfo);
-        const record = await pb.collection('users').create(userInfo);
-        console.log(record);
-        setTimeout(() => {login(userInfo)});
+        try {
+            const record = await pb.collection('users').create(userInfo);
+            console.log(record);
+            setTimeout(() => {login(userInfo)});
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async function login(data) {
@@ -48,62 +52,63 @@ const UserRegistration =()=>{
         reset();
     }
 
-    const [username,setUsername] = useState([]);
-    let inDb = false;
-
-    const fetchUsers = async () => {
-        try{
-            const authUser = await pb.collection('users').getList(1,100000,{
-                filter: 'created >= "2022-01-01 00:00:00"',
-            });  
-            setUsername(authUser.items);
-        } catch {
-            console.log(error);
-        }
+    const [usernames, setUsernames] = useState([]);
+    const [emails, setEmails] = useState([]);
+  
+    async function fetchUsers() {
+      try {
+        const users = await pb.collection('users').getList(1, 100000, {
+          filter: 'created >= "2022-01-01 00:00:00"',
+        });
+        setUsernames(users.items.map((item) => item.username));
+        setEmails(users.items.map((item) => item.email));
+        console.log(usernames);
+        console.log(emails);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+    },  [usernames, emails]);
 
-    async function checkIfExists(data) {
-        setIsLoading(true);
-        try {
-            console.log(username);
-            username.map(({ username, email }) => {
-                console.log(username);
-                if(data.username === username || data.email === email){
-                    inDb = true;
-                }
-            })
-            const authData = await pb.collection('users').authWithPassword(
-                data.email,
-            );
-            
-        } catch (error) {
-            setDoesExist(false);
-            console.log(inDb);
-            if(inDb === false){
-                registerUser(data);
-            }
-        }
-        setIsLoading(false);
+
+    async function signup(data) {
+
+
+        registerUser(data);
+        return;
+
     }
 
 
-    const userValidation = () => {
-        if (inDb === true) {
+    const userValidation = (value) => {
+
+        if (usernames.includes(value)) {
           return "Username already exists";
         }
         return true;
     };
+
 
     const emailValidation = (value) => {
         if (!emailPattern.test(value)) {
           return "Invalid email address";
         }
         return true;
+      };
+
+    const emailValidation2 = (value) => {
+
+
+        if (emails.includes(value)) {
+            return "Email already exists";
+        }
+        return true;
+
     };
+
 
     const passwordValidation = (value) => {
         if (!passPattern.test(value)) {
@@ -123,7 +128,7 @@ const UserRegistration =()=>{
     
     return (
         <div className='h-100 grid grid-cols-1 gap-4 content-around '>
-          <form onSubmit={handleSubmit(checkIfExists)} className=" w-96 grid justify-items-stretch justify-self-center space-y-2">
+          <form onSubmit={handleSubmit(signup)} className=" w-96 grid justify-items-stretch justify-self-center space-y-2">
             <h1 className='flex items-center justify-center mt-20 font-bold text-3xl ' >FOLIO</h1>
             
             <p className=' flex items-center justify-center'> Please complete to create your account.</p>
@@ -156,7 +161,7 @@ const UserRegistration =()=>{
             <label className="sr-only">Email address</label>
                 {formState.errors.email && <p className='text-red-500'>
                 {formState.errors.email.type === "required" ? "Email is required": formState.errors.email.message} </p>}
-            <input name="email" type="text" {...register('email', {required: true,  validate: emailValidation})} className=" w-96 grid justify-items-stretch 
+            <input name="email" type="text" {...register('email', {required: true,  validate: {email1: emailValidation, email2: emailValidation2}})} className=" w-96 grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
             border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address"></input>
