@@ -13,9 +13,8 @@ const UserRegistration =()=>{
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit, formState, watch, reset } = useForm();
-    const [DoesExist, setDoesExist] = useState(true);
 
-    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.com$/i;
     const passPattern  = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;;
 
     async function registerUser(data) {
@@ -46,7 +45,8 @@ const UserRegistration =()=>{
             );
             router.push('/accounts/dashboard/');
         } catch (error) {
-            setIncorrectPassword(true);
+            alert('Something went wrong signing you in');
+            console.log(error);
         }
         setIsLoading(false);
         reset();
@@ -62,8 +62,6 @@ const UserRegistration =()=>{
         });
         setUsernames(users.items.map((item) => item.username));
         setEmails(users.items.map((item) => item.email));
-        console.log(usernames);
-        console.log(emails);
       } catch (error) {
         console.log(error);
       }
@@ -74,17 +72,7 @@ const UserRegistration =()=>{
     },  [usernames, emails]);
 
 
-    async function signup(data) {
-
-
-        registerUser(data);
-        return;
-
-    }
-
-
     const userValidation = (value) => {
-
         if (usernames.includes(value)) {
           return "Username already exists";
         }
@@ -96,18 +84,11 @@ const UserRegistration =()=>{
         if (!emailPattern.test(value)) {
           return "Invalid email address";
         }
-        return true;
-      };
-
-    const emailValidation2 = (value) => {
-
-
         if (emails.includes(value)) {
             return "Email already exists";
         }
         return true;
-
-    };
+      };
 
 
     const passwordValidation = (value) => {
@@ -128,7 +109,7 @@ const UserRegistration =()=>{
     
     return (
         <div className='h-100 grid grid-cols-1 gap-4 content-around '>
-          <form onSubmit={handleSubmit(signup)} className=" w-96 grid justify-items-stretch justify-self-center space-y-2">
+          <form onSubmit={handleSubmit(registerUser)} className=" w-96 grid justify-items-stretch justify-self-center space-y-2">
             <h1 className='flex items-center justify-center mt-20 font-bold text-3xl ' >FOLIO</h1>
             
             <p className=' flex items-center justify-center'> Please complete to create your account.</p>
@@ -161,7 +142,7 @@ const UserRegistration =()=>{
             <label className="sr-only">Email address</label>
                 {formState.errors.email && <p className='text-red-500'>
                 {formState.errors.email.type === "required" ? "Email is required": formState.errors.email.message} </p>}
-            <input name="email" type="text" {...register('email', {required: true,  validate: {email1: emailValidation, email2: emailValidation2}})} className=" w-96 grid justify-items-stretch 
+            <input name="email" type="text" {...register('email', {required: true,  validate: emailValidation})} className=" w-96 grid justify-items-stretch 
             justify-self-center appearance-none rounded-none rounded-t-md rounded-b-md 
             border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 
             focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address"></input>
@@ -194,9 +175,7 @@ const UserRegistration =()=>{
     
     
             <div className='flex items-center justify-center' >
-            
-                <button  className="bg-indigo-900 py-2 px-16 rounded text-white bold "> Sign up </button>
-    
+                <button className="bg-indigo-900 py-2 px-16 rounded text-white bold "> Sign up </button>
             </div>
           </form>
     
