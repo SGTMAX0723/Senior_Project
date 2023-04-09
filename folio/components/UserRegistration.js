@@ -27,9 +27,7 @@ const UserRegistration =()=>{
             "passwordConfirm": data.confirm_pass,
             "name": data.firstname + ' '+ data.lastname,
         };
-        console.log(userInfo);
         const record = await pb.collection('users').create(userInfo);
-        console.log(record);
         setTimeout(() => {login(userInfo)});
     }
 
@@ -70,9 +68,7 @@ const UserRegistration =()=>{
     async function checkIfExists(data) {
         setIsLoading(true);
         try {
-            console.log(username);
             username.map(({ username, email }) => {
-                console.log(username);
                 if(data.username === username){
                     userDb = true;
                 }
@@ -86,15 +82,18 @@ const UserRegistration =()=>{
             
             
         } catch (error) {
-            if(userDb){
+            if(userDb && emailDb){
+                alert('Username and Email is already in use');
+            }
+            else if(userDb){
                 alert('Username is already in use');
             }
-            if(emailDb){
+            else if(emailDb){
                 alert('Email is already in use');
             }
             setDoesExist(false);
-            console.log(userDb);
-            console.log(emailDb);
+            // console.log(userDb);
+            // console.log(emailDb);
             if(userDb === false && emailDb === false){
                 registerUser(data);
             }
