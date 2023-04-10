@@ -427,6 +427,14 @@ const GrapesJS = () => {
             el: '.panel__basic-actions',
             buttons: [
                 {
+                    id: 'back-button',
+                    className: 'btn-back',
+                    label: '<i class="fa fa-arrow-left"></i>',
+                    command(editor) {
+                      window.history.back();
+                    }
+                  },
+                {
                 id: 'visibility',
                 active: true, // active by default
                 className: 'btn-toggle-borders',
