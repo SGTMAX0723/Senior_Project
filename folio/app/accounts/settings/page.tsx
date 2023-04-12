@@ -156,8 +156,8 @@ export default function Settings() {
                                 <form  onSubmit={handleSubmit(onSubmit)}>
                                 
                                     <div className='grid grid-cols-2 grid-rows-2'> 
-                                        <p>FirstName:</p>
-                                        <p>LastName:</p>    
+                                        <p>First Name:</p>
+                                        <p>Last Name:</p>    
                                         <input {...register('firstName', { required: true })} defaultValue={user.firstName} type='text' className='w-full h-8  rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={firstname} />
                                         <input {...register('lastName', { required: true })} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={lastname} />
                                     </div>
