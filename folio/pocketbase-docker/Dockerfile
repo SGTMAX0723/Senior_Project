@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ARG PB_VERSION=0.10.1
+ARG PB_VERSION=0.14.3
 
 RUN apk add --no-cache \
     unzip \
@@ -11,7 +11,7 @@ RUN apk add --no-cache \
 ADD https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip /tmp/pb.zip
 RUN unzip /tmp/pb.zip -d /pb/
 
-EXPOSE 8080
+EXPOSE 8090
 
 # start PocketBase
-CMD ["/pb/pocketbase", "serve", "--http=0.0.0.0:8080"]
+CMD ["/pb/pocketbase", "serve", "--http=0.0.0.0:8090"]
