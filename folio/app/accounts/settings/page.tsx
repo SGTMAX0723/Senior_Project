@@ -43,7 +43,24 @@ export default function Settings() {
     // Add the useForm hook with defaultValues
     const { register, handleSubmit} = useForm();
 
+    const [firstname, Setfirstname] = useState("");
+    const [lastname, Setlastname] = useState("");
 
+    const parseName = () => {
+        const nameParts = user.name.trim().split(' ');
+    
+        if (nameParts.length > 0) {
+          Setfirstname(nameParts[0]);
+        }
+    
+        if (nameParts.length > 1) {
+          Setlastname(nameParts.slice(1).join(' '));
+        }
+      };
+    
+      useEffect(() => {
+        parseName();
+      }, []);
     
 
 
@@ -137,10 +154,12 @@ export default function Settings() {
                                 <p className='text-sm font-bold tracking-wider text-secondary'>Your Details</p>
                                 <p className='text-xs tracking-wide text-zinc-400'>Update your details here</p>
                                 <form  onSubmit={handleSubmit(onSubmit)}>
-                                    <p className='mt-3'>Name:</p>   
-                                    <div className='flex flex-row gap-2'>    
-                                        <input {...register('firstName', { required: true })} defaultValue={user.firstName} type='text' className='w-full h-8  rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder='First Name' />
-                                        <input {...register('lastName', { required: true })} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder='Last Name' />
+                                
+                                    <div className='grid grid-cols-2 grid-rows-2'> 
+                                        <p>FirstName:</p>
+                                        <p>LastName:</p>    
+                                        <input {...register('firstName', { required: true })} defaultValue={user.firstName} type='text' className='w-full h-8  rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={firstname} />
+                                        <input {...register('lastName', { required: true })} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={lastname} />
                                     </div>
                                    
                                     <p className='mt-3'>Email:</p>    
@@ -148,7 +167,7 @@ export default function Settings() {
                                     
                                     <p className='mt-3'>Username:</p>   
                                     <input {...register('username', { required: true })} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.username} />
-                                    <textarea {...register('bio', {maxLength: 300} )}  className='w-full h-28 mt-4 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder='Bio' />
+                                    <textarea {...register('bio', {maxLength: 300} )}  className='w-full h-28 mt-4 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.bio} />
                                     <button type='submit' className='w-32 self-center h-8 mt-4 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
                                 </form>
                             </div>
