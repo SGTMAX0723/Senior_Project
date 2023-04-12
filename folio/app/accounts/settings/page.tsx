@@ -6,6 +6,8 @@ import { pb } from '../../../components/UserAuthentication';
 
 import NavBarLogged from '../../../components/NavBarLogged';
 import SideBar from '../../../components/SideBar';
+import { useForm } from 'react-hook-form';
+
 
 export default function Settings() {
     const router = useRouter();
@@ -14,17 +16,53 @@ export default function Settings() {
 
     type MyRecord = Record<string, number>;
     const [users, setUsers] = useState([] as MyRecord[]);
-    const fetchUsers = async () => {
-        const filters = user && user.id ? 'created >= "2022-01-01 00:00:00" && id = "' + user.id + '"' : '';
+
+
+    // Get everyone's usernames and emails
+    const [usernames, setUsernames] = useState<string[]>([]);
+    const [emails, setEmails] = useState<string[]>([]);
+    async function fetchUsers() {
         try {
-            const userList = await pb.collection('users').getList(1, 100, {
-            filter: filters
-            });
-            setUsers(userList.items);
+          const users = await pb.collection('users').getList(1, 100000, {
+            filter: 'created >= "2022-01-01 00:00:00"',
+          });
+          setUsernames(users.items.map((item) => item.username));
+          setEmails(users.items.map((item) => item.email));
         } catch (error) {
-            console.error(error);
+          console.log(error);
         }
     };
+   
+    useEffect(() => {
+        fetchUsers();
+    },  [usernames, emails]);
+    // end of fetching emails and usernames
+
+
+
+    // Add the useForm hook with defaultValues
+    const { register, handleSubmit} = useForm();
+
+
+    
+
+
+
+
+    const onSubmit = (data: any) => {
+        // Handle form submission logic here
+        const userInfo = {
+            "username": data.username,
+            "email": data.email,
+            "name": data.firstName + ' '+ data.lastName,
+        };
+        
+
+        console.log(data);
+    };
+
+
+
 
     const [showDeleteForm, setShowDeleteForm] = useState(false);
     const deleteAccount = () => {
@@ -91,19 +129,34 @@ export default function Settings() {
                                     </div>
                                 </div>
                             </div>
+
+
+
                             <div className='h-0.5 w-full mt-2 bg-zinc-300' />
                             <div className='flex flex-col pt-2 h-max'>
                                 <p className='text-sm font-bold tracking-wider text-secondary'>Your Details</p>
                                 <p className='text-xs tracking-wide text-zinc-400'>Update your details here</p>
-                                <div className='flex flex-row gap-2'>
-                                    <input type='text' className='w-full h-8 mt-4 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder='First Name' />
-                                    <input type='text' className='w-full h-8 mt-4 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder='Last Name' />
-                                </div>
-                                <input type='text' className='w-full h-8 mt-4 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder='Email' />
-                                <input type='text' className='w-full h-8 mt-4 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder='Username' />
-                                <textarea className='w-full h-28 mt-4 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder='Bio' />
-                                <button className='w-32 self-center h-8 mt-4 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
+                                <form  onSubmit={handleSubmit(onSubmit)}>
+                                    <p className='mt-3'>Name:</p>   
+                                    <div className='flex flex-row gap-2'>    
+                                        <input {...register('firstName', { required: true })} defaultValue={user.firstName} type='text' className='w-full h-8  rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder='First Name' />
+                                        <input {...register('lastName', { required: true })} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder='Last Name' />
+                                    </div>
+                                   
+                                    <p className='mt-3'>Email:</p>    
+                                    <input {...register('email', { required: true })} type='text'  className='w-full h-8  rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.email} />
+                                    
+                                    <p className='mt-3'>Username:</p>   
+                                    <input {...register('username', { required: true })} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.username} />
+                                    <textarea {...register('bio', {maxLength: 300} )}  className='w-full h-28 mt-4 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder='Bio' />
+                                    <button type='submit' className='w-32 self-center h-8 mt-4 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
+                                </form>
                             </div>
+
+
+
+
+
                         </div>
                         <div className='flex flex-col w-fill h-full'>
                             <div className='flex flex-col justify-start px-3 pt-3'>
