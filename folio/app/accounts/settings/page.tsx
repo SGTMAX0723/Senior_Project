@@ -156,7 +156,6 @@ export default function Settings() {
 
 
 
-
                         </div>
                         <div className='flex flex-col w-fill h-full'>
                             <div className='flex flex-col justify-start px-3 pt-3'>
