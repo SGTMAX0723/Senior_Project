@@ -17,7 +17,7 @@ export default function Settings() {
     type MyRecord = Record<string, number>;
     const [users, setUsers] = useState([] as MyRecord[]);
 
-    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.com$/i;
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.+[a-zA-Z]{3}$/i;
 
     // Get everyone's usernames and emails
     const [usernames, setUsernames] = useState<string[]>([]);
@@ -71,6 +71,9 @@ export default function Settings() {
     };
     
       const emailValidation = (value: any) => {
+        if (value == ''){
+            return;
+        }
         if (!emailPattern.test(value)) {
           return "Invalid email address";
         }
