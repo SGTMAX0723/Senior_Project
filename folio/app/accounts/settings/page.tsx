@@ -169,6 +169,8 @@ export default function Settings() {
                                     
                                     <p className='mt-3'>Username:</p>   
                                     <input {...register('username', { required: true })} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.username} />
+                                    
+                                    <p className='mt-3'>Bio:</p> 
                                     <textarea {...register('bio', {maxLength: 300} )}  className='w-full h-28 mt-4 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.bio} />
                                     <button type='submit' className='w-32 self-center h-8 mt-4 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
                                 </form>
