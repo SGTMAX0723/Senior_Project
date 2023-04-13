@@ -17,6 +17,7 @@ export default function Settings() {
     type MyRecord = Record<string, number>;
     const [users, setUsers] = useState([] as MyRecord[]);
 
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.com$/i;
 
     // Get everyone's usernames and emails
     const [usernames, setUsernames] = useState<string[]>([]);
@@ -41,7 +42,7 @@ export default function Settings() {
 
 
     // Add the useForm hook with defaultValues
-    const { register, handleSubmit} = useForm();
+    const { register, handleSubmit, formState: {errors}} = useForm();
 
     const [firstname, Setfirstname] = useState("");
     const [lastname, Setlastname] = useState("");
@@ -62,11 +63,20 @@ export default function Settings() {
         parseName();
       }, []);
     
-
+      const emailValidation = (value: any) => {
+        if (!emailPattern.test(value)) {
+          return "Invalid email address";
+        }
+        if (emails.includes(value)) {
+            return "Email already exists";
+        }
+        return true;
+      };
 
 
 
     const onSubmit = (data: any) => {
+        
         // Handle form submission logic here
         const userInfo = {
             "username": data.username,
@@ -160,18 +170,19 @@ export default function Settings() {
                                     </div>
                                 
                                     <div className='grid grid-cols-2'>   
-                                        <input {...register('firstName', { required: true })} defaultValue={user.firstName} type='text' className='w-full h-8  rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={firstname} />
-                                        <input {...register('lastName', { required: true })} defaultValue={user.lastName} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={lastname} />
+                                        <input {...register('firstName')}  type='text' className='w-full h-8  rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={firstname} />
+                                        <input {...register('lastName')}  type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={lastname} />
                                     </div>
                                    
                                     <p className='mt-3'>Email:</p>    
-                                    <input {...register('email', { required: true })} type='text'  className='w-full h-8  rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.email} />
-                                    
+                                    <input {...register('email', { validate: emailValidation })} type='text'  className='w-full h-8  rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.email} />
+                                    {typeof errors.email?.message === 'string' && (<span className='text-red-500 text-sm'>{errors.email.message}</span>)}
+
                                     <p className='mt-3'>Username:</p>   
                                     <input {...register('username', { required: true })} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.username} />
                                     
                                     <p className='mt-3'>Bio:</p> 
-                                    <textarea {...register('bio', {maxLength: 300} )}  className='w-full h-28 mt-4 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.bio} />
+                                    <textarea {...register('bio', {maxLength: 300} )}  className='w-full h-28 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.bio} />
                                     <button type='submit' className='w-32 self-center h-8 mt-4 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
                                 </form>
                             </div>
