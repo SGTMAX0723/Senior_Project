@@ -62,6 +62,13 @@ export default function Settings() {
       useEffect(() => {
         parseName();
       }, []);
+
+      const userValidation = (value: string) => {
+        if (usernames.includes(value)) {
+          return "Username already exists";
+        }
+        return true;
+    };
     
       const emailValidation = (value: any) => {
         if (!emailPattern.test(value)) {
@@ -179,7 +186,8 @@ export default function Settings() {
                                     {typeof errors.email?.message === 'string' && (<span className='text-red-500 text-sm'>{errors.email.message}</span>)}
 
                                     <p className='mt-3'>Username:</p>   
-                                    <input {...register('username', { required: true })} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.username} />
+                                    <input {...register('username', { required: true, validate: userValidation})} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.username} />
+                                    {typeof errors.username?.message === 'string' && (<span className='text-red-500 text-sm'>{errors.username.message}</span>)}
                                     
                                     <p className='mt-3'>Bio:</p> 
                                     <textarea {...register('bio', {maxLength: 300} )}  className='w-full h-28 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.bio} />
