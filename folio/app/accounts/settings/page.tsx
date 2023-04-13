@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { pb } from '../../../components/UserAuthentication';
-
+import Link from 'next/link';
 import NavBarLogged from '../../../components/NavBarLogged';
 import SideBar from '../../../components/SideBar';
 import { useForm } from 'react-hook-form';
@@ -63,40 +63,72 @@ export default function Settings() {
         parseName();
       }, []);
 
-      const userValidation = (value: string) => {
+    const userValidation = (value: string) => {
+        if(value === ''){
+            return true;
+        }
         if (usernames.includes(value)) {
           return "Username already exists";
         }
         return true;
     };
     
-      const emailValidation = (value: any) => {
-        if (value == ''){
-            return;
-        }
-        if (!emailPattern.test(value)) {
-          return "Invalid email address";
-        }
-        if (emails.includes(value)) {
-            return "Email already exists";
+    const bioValidation = (value: string) => {
+
+        if (value.length > 300) {
+          return "Bio must not exceed 300 characters";
         }
         return true;
+    };
+
+    const [bioCharCount, setBioCharCount] = useState(0);
+
+    
+
+    const updateBioCharCount = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setBioCharCount(event.target.value.length);
       };
 
 
-
     const onSubmit = async (data: any) => {
-        
-        // Handle form submission logic here
-        const userInfo = {
-            "username": data.username,
-            "email": data.email,
-            "name": data.firstName + ' '+ data.lastName,
-        };
-        
-        const record = await pb.collection('users').update(user.id, data);
-        console.log(data);
+        try {
+          // Handle form submission logic here
+          const userInfo: any = {};
+      
+          if (data.username) {
+            userInfo.username = data.username;
+          }
+          if (data.bio){
+            userInfo.bio = data.bio;
+          }
+      
+          userInfo.name = updateName(data.firstName, data.lastName);
+      
+          const record = await pb.collection('users').update(user.id, userInfo);
+      
+          console.log(data);
+          window.location.reload();
+        } catch (error) {
+          console.error(error);
+        }
     };
+      
+
+    const updateName = (newFirstName: string, newLastName: string) => {
+        const currentNameParts = user.name.trim().split(' ');
+        const currentFirstName = currentNameParts[0] || '';
+        const currentLastName = currentNameParts.slice(1).join(' ') || '';
+      
+        if (newFirstName === '') {
+          newFirstName = currentFirstName;
+        }
+      
+        if (newLastName === '') {
+          newLastName = currentLastName;
+        }
+      
+        return newFirstName + ' ' + newLastName;
+      };
 
 
 
@@ -143,7 +175,7 @@ export default function Settings() {
                             flex justify-center items-start
                             bg-primary'>
                 <div className='w-2/3 max-w-7xl h-full rounded-lg bg-zinc-50 drop-shadow-lg'>
-                    <div className='flex flex-col justify-start px-3 pt-3'>
+                    <div className='flex flex-col sm:cols justify-start px-3 pt-3'>
                         <p className='text-md font-bold tracking-wider text-secondary'>SETTINGS</p>
                         <p className='text-sm tracking-wide text-zinc-400'>Update your personal details here</p>
                         <div className='h-0.5 w-full mt-4 bg-zinc-300' />
@@ -174,7 +206,7 @@ export default function Settings() {
                                 <p className='text-sm font-bold tracking-wider text-secondary'>Your Details</p>
                                 <p className='text-xs tracking-wide text-zinc-400'>Update your details here</p>
                                 <form  onSubmit={handleSubmit(onSubmit)}>
-                                    <div className='grid grid-cols-2 grid-rows-2'> 
+                                    <div className='grid grid-cols-2 grid-rows-2 mt-2'> 
                                         <p className='w-40 h-3'>First Name:</p>
                                         <p className='w-40 h-3'>Last Name:</p>    
                                     </div>
@@ -184,17 +216,17 @@ export default function Settings() {
                                         <input {...register('lastName')}  type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={lastname} />
                                     </div>
                                    
-                                    <p className='mt-3'>Email:</p>    
-                                    <input {...register('email', { validate: emailValidation })} type='text'  className='w-full h-8  rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.email} />
-                                    {typeof errors.email?.message === 'string' && (<span className='text-red-500 text-sm'>{errors.email.message}</span>)}
-
                                     <p className='mt-3'>Username:</p>   
-                                    <input {...register('username', { validate: userValidation})} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.username} />
+                                    <input {...register('username', {validate: userValidation})} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.username} />
                                     {typeof errors.username?.message === 'string' && (<span className='text-red-500 text-sm'>{errors.username.message}</span>)}
                                     
                                     <p className='mt-3'>Bio:</p> 
-                                    <textarea {...register('bio', {maxLength: 300} )}  className='w-full h-28 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.bio} />
+                                    <textarea {...register('bio', {validate: bioValidation} )} onChange={updateBioCharCount} className='w-full h-28 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.bio} />
+                                    <p>Bio character count: {bioCharCount}/300</p>
+                                    {typeof errors.bio?.message === 'string' && ( <span className='text-red-500 text-sm'>{errors.bio.message}</span> )}
+
                                     <button type='submit' className='w-32 self-center h-8 mt-4 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
+
                                 </form>
                             </div>
 
@@ -204,17 +236,29 @@ export default function Settings() {
                         </div>
                         <div className='flex flex-col w-fill h-full'>
                             <div className='flex flex-col justify-start px-3 pt-3'>
-                                <p className='text-sm font-bold tracking-wider text-secondary'>Your Github Link</p>
+                            <p className='text-sm font-bold tracking-wider text-secondary'>Your Email</p>
+                                <p className='text-xs tracking-wide text-zinc-400'>update your Email here</p>
+                                <div className='flex flex-row gap-2'>
+                                    <Link href='/accounts/email-reset'
+                                        className='w-full h-8 mt-1 rounded-md bg-zinc-100 pl-2  text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none hover:bg-gray-300' 
+                                        
+                                    > Click here to update your Email </Link>
+                                    
+                                </div>
+
+
+
+                                <p className='mt-3 text-sm font-bold tracking-wider text-secondary '>Your Github Link</p>
                                 <p className='text-xs tracking-wide text-zinc-400'>Update your Github link here</p>
                                 <div className='flex flex-row gap-2'>
                                     <input 
                                         type='text' 
-                                        className='w-full h-8 mt-4 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' 
-                                        placeholder='Github Link' 
+                                        className='w-full h-8 mt-1 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' 
+                                        placeholder={user.githubLink} 
                                         pattern='^https://github.com/.*' 
                                         required
                                     />
-                                    <button className='w-16 h-8 mt-4 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
+                                    <button className='w-16 h-8 mt-1 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
                                 </div>
                             </div>
                             <div className='h-0.5 w-full mt-4 bg-zinc-300' />
