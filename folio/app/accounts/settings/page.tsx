@@ -85,7 +85,7 @@ export default function Settings() {
 
 
 
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
         
         // Handle form submission logic here
         const userInfo = {
@@ -94,7 +94,7 @@ export default function Settings() {
             "name": data.firstName + ' '+ data.lastName,
         };
         
-
+        const record = await pb.collection('users').update(user.id, data);
         console.log(data);
     };
 
