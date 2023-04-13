@@ -154,12 +154,14 @@ export default function Settings() {
                                 <p className='text-sm font-bold tracking-wider text-secondary'>Your Details</p>
                                 <p className='text-xs tracking-wide text-zinc-400'>Update your details here</p>
                                 <form  onSubmit={handleSubmit(onSubmit)}>
-                                
                                     <div className='grid grid-cols-2 grid-rows-2'> 
-                                        <p>First Name:</p>
-                                        <p>Last Name:</p>    
+                                        <p className='w-40 h-3'>First Name:</p>
+                                        <p className='w-40 h-3'>Last Name:</p>    
+                                    </div>
+                                
+                                    <div className='grid grid-cols-2'>   
                                         <input {...register('firstName', { required: true })} defaultValue={user.firstName} type='text' className='w-full h-8  rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={firstname} />
-                                        <input {...register('lastName', { required: true })} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={lastname} />
+                                        <input {...register('lastName', { required: true })} defaultValue={user.lastName} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={lastname} />
                                     </div>
                                    
                                     <p className='mt-3'>Email:</p>    
