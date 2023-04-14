@@ -276,32 +276,33 @@ export default function Settings() {
                         <div className='flex flex-col w-fill h-full'>
                             <div className='flex flex-col justify-start px-3 pt-3'>
                             <p className='text-sm font-bold tracking-wider text-secondary'>Your Email</p>
-                                <p className='text-xs tracking-wide text-zinc-400'>update your Email here</p>
-                                <div className='flex flex-row gap-2'>
-                                    <Link href='/accounts/email-reset'
-                                        className='w-full h-8 mt-1 rounded-md bg-zinc-100 pl-2  text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none hover:bg-gray-300' 
-                                        
-                                    > Click here to update your Email </Link>
-                                    
+                            <p className='text-xs tracking-wide text-zinc-400'>update your Email here</p>
+                                <div>
+                                    <Link href='/accounts/email-reset'>
+                                        <a className='w-full h-8 mt-1 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 hover:border-indigo-300 outline-none hover:bg-gray-100 flex items-center justify-center'>
+                                            Click here to update your Email
+                                        </a>
+                                    </Link>
                                 </div>
-
 
 
                                 <p className='mt-3 text-sm font-bold tracking-wider text-secondary '>Your Github Link</p>
                                 <p className='text-xs tracking-wide text-zinc-400'>Update your Github link here</p>
-                                <div className='flex flex-row gap-2'>
+                                
                                 <form onSubmit={(e) => onSubmitGithubLink(e)}>
-                                    <input 
-                                        type='text' 
-                                        className='w-full h-8 mt-1 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' 
-                                        placeholder={user.githubLink} 
-                                        onChange={handleGithubLinkChange}
-                                    />
-                                    <button type="submit" className='w-16 h-8 mt-1 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
+                                    <div className='flex flex-row gap-2'>
+                                        <input 
+                                            type='text' 
+                                            className='w-full h-8 mt-1 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' 
+                                            placeholder={user.githubLink} 
+                                            onChange={handleGithubLinkChange}
+                                        />
+                                        <button type="submit" className='w-16 h-8 mt-1 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
+                                    </div>
                                 </form>
 
-                                </div>
-                                {githubLinkError && formSubmitted && <span className='text-red-500 text-sm'>Link must start with https://github.com/ </span>}
+                                
+                                {githubLinkError && formSubmitted && <span className='text-red-500 text-sm'>Link must start with https://github.com/</span>}
 
 
                             </div>
