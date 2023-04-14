@@ -302,7 +302,7 @@ export default function Settings() {
                                 </form>
 
                                 
-                                {githubLinkError && formSubmitted && <span className='text-red-500 text-sm'>Link must start with https://github.com/</span>}
+                                {githubLinkError && formSubmitted && <span className='text-red-500 text-sm mt-2'>Link must start with https://github.com/</span>}
 
 
                             </div>
