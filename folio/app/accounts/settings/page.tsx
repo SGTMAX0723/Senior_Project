@@ -88,7 +88,25 @@ export default function Settings() {
     const updateBioCharCount = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setBioCharCount(event.target.value.length);
       };
+    
+    
+      const updateName = (newFirstName: string, newLastName: string) => {
+        const currentNameParts = user.name.trim().split(' ');
+        const currentFirstName = currentNameParts[0] || '';
+        const currentLastName = currentNameParts.slice(1).join(' ') || '';
+      
+        if (newFirstName === '') {
+          newFirstName = currentFirstName;
+        }
+      
+        if (newLastName === '') {
+          newLastName = currentLastName;
+        }
+      
+        return newFirstName + ' ' + newLastName;
+    };
 
+    
 
     const onSubmit = async (data: any) => {
         try {
@@ -113,23 +131,44 @@ export default function Settings() {
         }
     };
       
+    const [githubLink, setGithubLink] = useState('');
+    const [githubLinkError, setGithubLinkError] = useState(false);
 
-    const updateName = (newFirstName: string, newLastName: string) => {
-        const currentNameParts = user.name.trim().split(' ');
-        const currentFirstName = currentNameParts[0] || '';
-        const currentLastName = currentNameParts.slice(1).join(' ') || '';
-      
-        if (newFirstName === '') {
-          newFirstName = currentFirstName;
-        }
-      
-        if (newLastName === '') {
-          newLastName = currentLastName;
-        }
-      
-        return newFirstName + ' ' + newLastName;
-      };
+    const [formSubmitted, setFormSubmitted] = useState(false);
 
+
+    const handleGithubLinkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const inputValue = event.target.value;
+        const githubPattern = /^https:\/\/github\.com\//;
+      
+        if (githubPattern.test(inputValue)) {
+          setGithubLink(inputValue);
+          setGithubLinkError(false);
+        } else {
+          setGithubLinkError(true);
+        }
+    };
+
+    const onSubmitGithubLink = async (event: any) => {
+        event.preventDefault();
+        setFormSubmitted(true);
+        if (!githubLinkError) {
+            try {
+                const userInfo = {
+                    githubLink,
+                };
+    
+                const record = await pb.collection('users').update(user.id, userInfo);
+                console.log('GitHub link updated:', githubLink);
+                window.location.reload();
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            return;
+        }
+    };
+      
 
 
 
@@ -251,16 +290,27 @@ export default function Settings() {
                                 <p className='mt-3 text-sm font-bold tracking-wider text-secondary '>Your Github Link</p>
                                 <p className='text-xs tracking-wide text-zinc-400'>Update your Github link here</p>
                                 <div className='flex flex-row gap-2'>
+                                <form onSubmit={(e) => onSubmitGithubLink(e)}>
                                     <input 
                                         type='text' 
                                         className='w-full h-8 mt-1 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' 
                                         placeholder={user.githubLink} 
-                                        pattern='^https://github.com/.*' 
-                                        required
+                                        onChange={handleGithubLinkChange}
                                     />
-                                    <button className='w-16 h-8 mt-1 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
+                                    <button type="submit" className='w-16 h-8 mt-1 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
+                                </form>
+
                                 </div>
+                                {githubLinkError && formSubmitted && <span className='text-red-500 text-sm'>Link must start with https://github.com/ </span>}
+
+
                             </div>
+
+
+
+
+
+
                             <div className='h-0.5 w-full mt-4 bg-zinc-300' />
                             <div className='flex flex-col w-fill h-full'>
                                 {showDeleteForm ? (
