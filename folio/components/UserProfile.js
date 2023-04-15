@@ -206,8 +206,8 @@ const UserProfile = () => {
                                         <br></br>
                                         <div className='flex flex-col text-zinc-500 text-md px-10'>
                                             <p className='font-bold pb-3'>Bio</p>
-                                            {/* <p className='text-zinc-500 text-md pl-10'>{bio}</p> */}
-                                            <p className='text-justify'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet explicabo illum optio ipsam incidunt sit neque alias voluptas, veniam tenetur perspiciatis ea distinctio dolore fugit magni quas voluptate, rem animi?</p>
+                                            <p className='text-zinc-500 text-md'>{bio}</p>
+                                            
                                         </div>
                                     </div>
                                 ))}
