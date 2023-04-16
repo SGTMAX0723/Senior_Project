@@ -15,7 +15,7 @@ const UserRegistration =()=>{
     const { register, handleSubmit, formState, watch, reset } = useForm();
 
     const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.com$/i;
-    const passPattern  = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;;
+    const passPattern  = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
     async function registerUser(data) {
         const userInfo = {
