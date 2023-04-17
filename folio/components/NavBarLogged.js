@@ -46,7 +46,7 @@ const SearchBar = ({ icon }) => {
   
   const [searchTerm, setSearchTerm] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState({});
   const searchInputRef = useRef(null);
 
   const handleInputChange = async (e) => {
@@ -60,7 +60,10 @@ const SearchBar = ({ icon }) => {
       const projectResults = projects.filter((project) => {
         return (project.project_name.toLowerCase().includes(term) && project.id);
       });
-      setSearchResults([...results, ...projectResults]);
+      setSearchResults([
+        ...results.map(result => ({ id: result.id, username: result.username, type: 'user' })),
+        ...projectResults.map(result => ({ id: result.id, projectName: result.project_name, type: 'project' })),
+      ]);
     } else {
       setShowDropdown(false);
       setSearchResults([]);
@@ -83,13 +86,13 @@ const SearchBar = ({ icon }) => {
           {searchResults.length === 0 && <div className='p-3 text-sm'>No results found</div>}
           {searchResults.length > 0 &&
             searchResults.map((result) => (
-            <a key={result.id} href={`/accounts/${result.id}/profile`}>
-              <div className='p-3'>
-                <p className="text-sm truncate">
-                  {result.username ? result.username : result.project_name}
-                </p>
-              </div>
-            </a>
+              <a key={result.id} href={result.type === 'user' ? `/accounts/${result.id}/profile` : `/project/${result.id}/${result.projectName}`}>
+                <div className='p-3'>
+                  <p className="text-sm truncate">
+                    {result.type === 'user' ? result.username ? result.username : result.projectName : result.projectName}
+                  </p>
+                </div>
+              </a>
           ))}
         </div>
       )}
