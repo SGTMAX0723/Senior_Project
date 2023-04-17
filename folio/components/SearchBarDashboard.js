@@ -27,20 +27,6 @@ const SearchBarDashboard = () => {
     const [searchResults, setSearchResults] = useState([]);
     const searchInputRef = useRef(null);
 
-    useEffect(() => {
-        const handleOutsideClick = (e) => {
-        if (searchInputRef.current && !searchInputRef.current.contains(e.target)) {
-            setShowDropdown(false);
-        }
-        };
-
-        document.addEventListener('mousedown', handleOutsideClick);
-
-        return () => {
-        document.removeEventListener('mousedown', handleOutsideClick);
-        };
-    });
-
     const handleInputChange = async (e) => {
         const term = e.target.value.toLowerCase();
         setSearchTerm(term);
@@ -74,7 +60,7 @@ const SearchBarDashboard = () => {
             {searchResults.length === 0 && <div className='p-3 text-sm'>No results found</div>}
             {searchResults.length > 0 &&
                 searchResults.map((result) => (
-                <a key={result.id} href={`/search/${result.id}`}>
+                <a key={result.id} href={`/project/${result.id}/${result.project_name}`}>
                     <div className='p-3 hover:bg-zinc-200'>
                         <p className="text-sm">
                             {result.project_name}
