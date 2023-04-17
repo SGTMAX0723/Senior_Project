@@ -8,11 +8,20 @@ const CreateForm = (props) => {
     const [showAlert, setShowAlert] = useState(false);
     const [projects, setProjects] = useState([]);
     const [templates, setTemplates] = useState([]);
+    const [projectNameError, setProjectNameError] = useState('');
     const router = useRouter();
     const user = pb.authStore.model;
 
     const handleProjectNameChange = (event) => {
-        setProjectName(event.target.value);
+        const name = event.target.value;
+        setProjectName(name);
+        setProjectNameError('');
+        // check if the project name already exists
+        projects.forEach((project) => {
+            if (project.project_name === name) {
+                setProjectNameError('Project with that name already exists.');
+            }
+        });
     }
 
     const handleDescriptionChange = (event) => {
@@ -47,30 +56,24 @@ const CreateForm = (props) => {
     useEffect(() => {
         fetchProjects();
         fetchTemplates();
-    });
+    }, []);
 
     async function handleSubmit(event) {
         event.preventDefault();
-        inDb = false;
-        projects.map((project) => {
-            if (project.project_name === projectName) {
-                setShowAlert(true);
-                inDb = true;
-            }
-        });
-
+        if (projectNameError) {
+            setShowAlert(true);
+            return;
+        }
         const selectedTemplate = templates.find(({ id }) => id === props.templateId);
         const templateJson = selectedTemplate ? selectedTemplate.template_json : {};
 
-        if (!inDb) {
-            const data = {
-                'project_name': projectName === '' ? `Project ${projects.length + 1}` : projectName,
-                'description': description,
-                'user_projects': user.id,
-                'page_contents': templateJson,
-            };
-            createProject(data);
-        }
+        const data = {
+            'project_name': projectName === '' ? `Project ${projects.length + 1}` : projectName,
+            'description': description,
+            'user_projects': user.id,
+            'page_contents': templateJson,
+        };
+        createProject(data);
     }
 
     const createProject = async (data) => { 
@@ -99,8 +102,11 @@ const CreateForm = (props) => {
                 placeholder={`Project ${projects.length + 1}`}
                 value={projectName}
                 onChange={handleProjectNameChange}
-                className="mt-1 mb-4 p-2 w-full border border-gray-300 rounded-md"
+                className="mt-1 mb-2 p-2 w-full border border-gray-300 rounded-md"
             />
+            {projectNameError && (
+                <p className="text-red-500 text-sm mb-2">{projectNameError}</p>
+            )}
             <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                 Description
             </label>
@@ -117,9 +123,16 @@ const CreateForm = (props) => {
             >
                 Save Project
             </button>
+            <button
+                type="button"
+                className="bg-red-400 text-white px-4 py-2 rounded-md hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ml-2"
+                onClick={props.onClose}
+            >
+                Close
+            </button>
             {showAlert && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-4 rounded relative" role="alert">
-                    <strong className="font-bold mr-10">Project with that name already exists.</strong>
+                    <strong className="font-bold mr-10">{projectNameError || 'An error occurred while creating the project.'}</strong>
                     <button className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setShowAlert(false)}>
                         <span className="sr-only">Close</span>
                         <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -131,5 +144,5 @@ const CreateForm = (props) => {
         </form>
     );
 }
-
+                
 export default CreateForm;
