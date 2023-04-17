@@ -42,7 +42,7 @@ export default function Settings() {
 
 
     // Add the useForm hook with defaultValues
-    const { register, handleSubmit, formState: {errors}} = useForm();
+    const { register, handleSubmit, watch, formState: {errors}} = useForm();
 
     const [firstname, Setfirstname] = useState("");
     const [lastname, Setlastname] = useState("");
@@ -72,6 +72,22 @@ export default function Settings() {
         }
         return true;
     };
+
+    const passPattern  = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    
+    const passwordValidation = (value: string) => {
+        if (!passPattern.test(value)) {
+          return 'Password does not contiain requirements';
+        }
+        return true;
+    };
+
+    const passwordMatch = (value: any) => {
+        if (value !== watch('password')) {
+          return 'Passwords do not match';
+        }
+        return true;
+    };
     
     const bioValidation = (value: string) => {
 
@@ -87,10 +103,10 @@ export default function Settings() {
 
     const updateBioCharCount = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setBioCharCount(event.target.value.length);
-      };
+    };
     
     
-      const updateName = (newFirstName: string, newLastName: string) => {
+    const updateName = (newFirstName: string, newLastName: string) => {
         const currentNameParts = user.name.trim().split(' ');
         const currentFirstName = currentNameParts[0] || '';
         const currentLastName = currentNameParts.slice(1).join(' ') || '';
@@ -118,6 +134,9 @@ export default function Settings() {
           }
           if (data.bio){
             userInfo.bio = data.bio;
+          }
+          if (data.password){
+            userInfo.password = data.password;
           }
       
           userInfo.name = updateName(data.firstName, data.lastName);
@@ -168,8 +187,8 @@ export default function Settings() {
             return;
         }
     };
-      
-
+    
+    
 
 
     const [showDeleteForm, setShowDeleteForm] = useState(false);
@@ -178,6 +197,14 @@ export default function Settings() {
     }
     const cancelDelete = () => {
         setShowDeleteForm(false);
+    }
+
+    const [updatePassForm, setUpdatePassForm] = useState(false);
+    const resetPassword = () =>{
+        setUpdatePassForm(true);
+    }
+    const cancelResetPassword = () => {
+        setUpdatePassForm(false);
     }
 
     const [usernameInput, setUsernameInput] = useState("");
@@ -195,6 +222,22 @@ export default function Settings() {
             }
         }
     }, [usernameInput, confirmationInput, user && user.username]);
+
+    const [passInput, setPassInput] = useState("");
+    const [confirmPassInput, setConfirmPassInput] = useState("");
+
+    const [disabledPass, setDisabledPass] = useState(true);
+    useEffect(() => {
+        if (!isLoggedIn) {
+            router.push('/login');
+        } else {
+            if (passInput.match(confirmPassInput)) {
+                setDisabled(false);
+            } else {
+                setDisabled(true);
+            }
+        }
+    }, [passInput, confirmPassInput]);
 
     if (!isLoggedIn) {
         return null;
@@ -345,10 +388,52 @@ export default function Settings() {
                                     </div>
                                 ) : (
                                     <div className='flex flex-col justify-start px-3 pt-3'>
-                                        <p className='text-sm font-bold tracking-wider text-secondary'>Delete Your Account</p>
-                                        <p className='text-xs tracking-wide text-zinc-400'>Permanently delete your account here</p>
-                                        <button onClick={deleteAccount} className={`h-7 w-20 self-center rounded-md mt-6 text-sm bg-red-500 text-zinc-50`}>Delete</button>
+                                    
+                                        {updatePassForm ? (
+                                            <form onSubmit={(e) => onSubmit(e)}>
+                                                <div className='flex flex-col justify-start px-3 pt-3'>
+                                                    <p className='text-sm font-bold tracking-wider text-secondary'>Update your password</p>
+                                                    <p className='text-xs tracking-wide text-justify text-amber-600 mt-2'>
+                                                        *Password must contain Upper case, lower case, special character and number.
+                                                    </p>
+                                                    <p className='text-xs tracking-wide mt-4 text-zinc-400'>Please enter new password</p>
+                                                    <input
+                                                        {...register('password' , { required: true, validate: passwordValidation, minLength: { value: 8, message: 'Password must be 8 or more characters'}, 
+                                                        maxLength:{value: 16, message: 'Password must be 16 or less characters'} })}
+                                                        value={passInput}
+                                                        onChange={(event) => setPassInput(event.target.value)}
+                                                        type="text"
+                                                        className="w-full h-8 py-1 mt-2 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none"
+                                                    />
+                                                    {typeof errors.password?.message === 'string' && (<span className='text-red-500 text-sm'>{errors.password.message}</span>)}
+                                                    
+                                                    <p className='text-xs tracking-wide mt-3 text-zinc-400'>Please confirm new password</p>
+                                                    <input
+                                                        {...register('confirm_pass', { required: true, validate: passwordMatch })}
+                                                        value={confirmPassInput}
+                                                        onChange={(event) => setConfirmPassInput(event.target.value)}
+                                                        type="text"
+                                                        className="w-full h-8 py-1 mt-2 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none"
+                                                    />
+                                                    <div className='flex flex-row self-center justify-center w-full h-full mt-6 text-sm gap-4'>
+                                                        <button onClick={cancelResetPassword} className='h-7 w-16 self-center rounded-md bg-zinc-500 text-zinc-50'>Cancel</button>
+                                                        <button className={`h-7 w-36 self-center rounded-md text-sm ${disabledPass ? 'bg-zinc-300' : 'bg-red-500'} text-zinc-50`} disabled={disabledPass}>Update my password</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        ): (
+                                            <div>
+                                                <p className='text-sm font-bold tracking-wider text-secondary'>Delete Your Account</p>
+                                                <p className='text-xs tracking-wide text-zinc-400'>Permanently delete your account here</p>
+                                                <button onClick={deleteAccount} className={`h-7 w-20 self-center rounded-md mt-6 text-sm bg-red-500 text-zinc-50`}>Delete</button>
+                                                <p className='h-8'></p>
+                                                <p className='text-sm font-bold tracking-wider text-secondary'>Update your password</p>
+                                                <button onClick={resetPassword} className={`h-7 w-40 self-center rounded-md mt-6 text-sm bg-indigo-500 text-zinc-50`}>Update Password</button>
+                                            </div>
+                                        )}
+                                        
                                     </div>
+                                    
                                 )}
                             </div>
                         </div>
