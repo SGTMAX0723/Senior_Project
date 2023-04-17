@@ -421,16 +421,16 @@ export default function Settings() {
                                                     </div>
                                                 </div>
                                             </form>
-                                ): (
-                                    <div>
-                                    <p className='text-sm font-bold tracking-wider text-secondary'>Delete Your Account</p>
-                                        <p className='text-xs tracking-wide text-zinc-400'>Permanently delete your account here</p>
-                                        <button onClick={deleteAccount} className={`h-7 w-20 self-center rounded-md mt-6 text-sm bg-red-500 text-zinc-50`}>Delete</button>
-                                        <p className='h-8'></p>
-                                        <p className='text-sm font-bold tracking-wider text-secondary'>Update your password</p>
-                                        <button onClick={resetPassword} className={`h-7 w-40 self-center rounded-md mt-6 text-sm bg-indigo-500 text-zinc-50`}>Update Password</button>
-                                    </div>
-                                )}
+                                        ): (
+                                            <div>
+                                                <p className='text-sm font-bold tracking-wider text-secondary'>Delete Your Account</p>
+                                                <p className='text-xs tracking-wide text-zinc-400'>Permanently delete your account here</p>
+                                                <button onClick={deleteAccount} className={`h-7 w-20 self-center rounded-md mt-6 text-sm bg-red-500 text-zinc-50`}>Delete</button>
+                                                <p className='h-8'></p>
+                                                <p className='text-sm font-bold tracking-wider text-secondary'>Update your password</p>
+                                                <button onClick={resetPassword} className={`h-7 w-40 self-center rounded-md mt-6 text-sm bg-indigo-500 text-zinc-50`}>Update Password</button>
+                                            </div>
+                                        )}
                                         
                                     </div>
                                     
