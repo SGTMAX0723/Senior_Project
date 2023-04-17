@@ -196,12 +196,12 @@ const UserProfile = () => {
                                         </div>
                                     </div>
                             )})}
-                            <div className='w-full h-full'>
+                            <div className='w-full h-full z-10'>
                                 {users.map(({ email, githubLink, bio }, index) => (
                                     <div key={index}>
                                         <div className='flex flex-col w-full h-full items-start px-10 text-zinc-500 text-md'>
-                                            <p>Email: {email}</p>
-                                            <p>Github: {githubLink}</p>
+                                            <p>Email: <a href={`mailto:${email}`} style={{ display: 'inline-block' }}>{email}</a></p>
+                                            <p>Github: <a href={`${githubLink}`} style={{ display: 'inline-block' }}>{githubLink}</a></p>
                                         </div>
                                         <br></br>
                                         <div className='flex flex-col text-zinc-500 text-md px-10'>
