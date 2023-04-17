@@ -75,7 +75,18 @@ const Preview: React.FC = () => {
         const children = (component.components || []).map(renderComponent);
         const style = component.attributes && component.attributes.id ? getStylesForComponent(component.attributes.id) : {};
 
-        return React.createElement(tagName, { ...attributes, style }, ...children);
+        if (attributes.src && attributes.src.startsWith('data:image/')) {
+            // If the src attribute starts with 'data:image/', assume it's a base64 encoded image
+            const imgSrc = `data:image/png;base64,${attributes.src.split(',')[1]}`;
+            return React.createElement('img', { ...attributes, src: imgSrc, style }, ...children);
+        } else if (attributes.src && attributes.src.startsWith('http')) {
+            return React.createElement('img', { ...attributes, style }, ...children);
+        } else if (component.type === 'link') {
+            return React.createElement('a', { ...attributes, href: attributes.href, style }, ...children);
+        }
+        else {
+            return React.createElement(tagName, { ...attributes, style }, ...children);
+        }
     };
 
     if (!jsonArray.length || jsonArray[0].page_contents === null) {
