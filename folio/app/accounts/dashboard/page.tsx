@@ -59,13 +59,13 @@ const Dashboard = () => {
     const listView = () => {
         return(
             <div className='grid grid-cols-1 justify-items-center gap-10'>
-                {projects.map(({ project_name, project_img, project_url, updated, id }:any, index:number) => {
+                {projects.map(({ project_name, project_img, project_url, updated, id, description }:any, index:number) => {
                     function loadProject() {
                         router.push(project_url);
                     }
                     return (
                         <div key={id + view} className='rounded-md w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
-                            <ImageContainerDashboard key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id}/>
+                            <ImageContainerDashboard key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id} description={description}/>
                         </div>
                     );
                 })}
@@ -75,13 +75,13 @@ const Dashboard = () => {
     const gridView = () => {
         return(
             <div className='grid gap-10 min-[0px]:gap-y-10 sm:grid-cols-1 sm:gap-y-10 md:grid-cols-1 md:gap-y-10 lg:grid-cols-2 lg:gap-y-10 xl:grid-cols-3 max-w-7xl place-self-center items-center'>
-                {projects.map(({ project_name, project_img, project_url, updated, id }:any, index:number) => {
+                {projects.map(({ project_name, project_img, project_url, updated, id, description }:any, index:number) => {
                         function loadProject() {
                             router.push(project_url);
                         }
                         return (
                             <div key={id + view} className='w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
-                                <ProjectContainerGrid key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id}/>
+                                <ProjectContainerGrid key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id} description={description}/>
                             </div>
                         );
                     })}
