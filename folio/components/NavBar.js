@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+const pathname = usePathname();
 
 const NavBar = () => {
     return(
@@ -6,11 +8,13 @@ const NavBar = () => {
             <div className="fixed top-0 h-16 w-screen 
                             flex justify-center items-center grid grid-cols-3
                             bg-zinc-50 text-zinc-50">
-
+                if(pathname != "localhost:3000/templates")
+                {
                 <Link href="/accounts/dashboard" class="text-gray-800 justify-self-center mr-42 px-4 py-2
                             font-semibold text-s tracking-[.20em]">
                     CREATE
                 </Link>
+                }
                 <div className='relative flex items-center justify-center
                                 h-16
                                 text-xl font-semibold tracking-[.20em] text-black'>
