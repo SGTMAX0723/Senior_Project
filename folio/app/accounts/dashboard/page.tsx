@@ -59,13 +59,13 @@ const Dashboard = () => {
     const listView = () => {
         return(
             <div className='grid grid-cols-1 justify-items-center gap-10'>
-                {projects.map(({ project_name, project_img, project_url, updated, id, description }:any, index:number) => {
+                {projects.map(({ project_name, project_img, project_url, updated, id, description, template }:any, index:number) => {
                     function loadProject() {
                         router.push(project_url);
                     }
                     return (
                         <div key={id + view} className='rounded-md w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
-                            <ImageContainerDashboard key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id} description={description}/>
+                            <ImageContainerDashboard key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id} description={description} template={template}/>
                         </div>
                     );
                 })}

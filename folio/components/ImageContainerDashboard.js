@@ -71,6 +71,9 @@ const ImageContainerDashboard = (props) => {
                     <div className="flex justify-between items-center w-full">
                         <p className="text-sm text-gray-600 mt-2">{props.description}</p>
                     </div>
+                    <div className="flex justify-between items-center w-full">
+                        <p className="text-sm text-gray-600 mt-2">Template used: {props.template}</p>
+                    </div>
                 </div>
                 <div className="h-full">
                     <button onClick={handleIconClick} className="place-self-start pt-4 pr-6" ref={projDropdownRef}>

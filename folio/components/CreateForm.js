@@ -68,6 +68,7 @@ const CreateForm = (props) => {
                 'description': description,
                 'user_projects': user.id,
                 'page_contents': templateJson,
+                'template': props.template_name
             };
             createProject(data);
         }
