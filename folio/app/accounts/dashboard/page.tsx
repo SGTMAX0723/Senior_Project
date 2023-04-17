@@ -107,7 +107,7 @@ const Dashboard = () => {
                             flex justify-center items-start
                             bg-primary'>
 
-                <div className='grid grid-cols-1 w-full mx-16 h-screen-64'>
+                <div className='grid grid-cols-1 w-full h-full mx-16 h-screen-64'>
                     <div className='px-2 h-36 max-w-7xl justify-self-center w-full'>
                         <div className='flex flex-row justify-between'>
                             <h1 className='text-4xl text-secondary font-semi-bold'>Welcome back, <span className="font-light italic">{first_name}</span></h1>
@@ -120,9 +120,15 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='grid w-full h-full z-0'>
-                        {view === 'list' ? listView() : gridView()}
-                    </div>
+                    {projects.length === 0 ? 
+                        <div className='flex w-full p-12 border border-zinc-300 justify-center items-center'>
+                            <a href='/templates' className='text-md text-zinc-400'>Let's create your first project</a>
+                        </div>
+                        : 
+                        <div className='grid w-full h-full z-0'>
+                            {view === 'list' ? listView() : gridView()}
+                        </div>
+                    }
                 </div>
             </div>
             <NavBarLogged />
