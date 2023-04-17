@@ -9,6 +9,7 @@ import SideBar from '../../../components/SideBar';
 import { useForm } from 'react-hook-form';
 
 
+
 export default function Settings() {
     const router = useRouter();
     const isLoggedIn = pb.authStore.isValid;
