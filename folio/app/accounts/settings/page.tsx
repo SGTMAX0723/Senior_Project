@@ -77,12 +77,12 @@ export default function Settings() {
     
     const passwordValidation = (value: string) => {
         if (!passPattern.test(value)) {
-          return 'Password does not contiain requirements';
+          return 'Password does not contain requirements';
         }
         return true;
     };
 
-    const passwordMatch = (value: any) => {
+    const passwordMatch = (value: string) => {
         if (value !== watch('password')) {
           return 'Passwords do not match';
         }
@@ -123,6 +123,24 @@ export default function Settings() {
     };
 
     
+    const onSubmitPass = async (data: any) => {
+        try {
+          // Handle form submission logic here
+          const userInfo: any = {};
+
+          if (data.password && data.confirm_pass){
+            userInfo.password = data.password;
+            userInfo.confirm_pass = data.confirm_pass;
+          }
+      
+          const record = await pb.collection('users').update(user.id, userInfo);
+      
+          console.log(data);
+          window.location.reload();
+        } catch (error) {
+          console.error(error);
+        }
+    };
 
     const onSubmit = async (data: any) => {
         try {
@@ -134,9 +152,6 @@ export default function Settings() {
           }
           if (data.bio){
             userInfo.bio = data.bio;
-          }
-          if (data.password){
-            userInfo.password = data.password;
           }
       
           userInfo.name = updateName(data.firstName, data.lastName);
@@ -350,11 +365,6 @@ export default function Settings() {
 
                             </div>
 
-
-
-
-
-
                             <div className='h-0.5 w-full mt-4 bg-zinc-300' />
                             <div className='flex flex-col w-fill h-full'>
                                 {showDeleteForm ? (
@@ -390,50 +400,74 @@ export default function Settings() {
                                     <div className='flex flex-col justify-start px-3 pt-3'>
                                     
                                         {updatePassForm ? (
-                                            <form onSubmit={(e) => onSubmit(e)}>
+                                            <form onSubmit={handleSubmit(onSubmitPass)}>
                                                 <div className='flex flex-col justify-start px-3 pt-3'>
                                                     <p className='text-sm font-bold tracking-wider text-secondary'>Update your password</p>
                                                     <p className='text-xs tracking-wide text-justify text-amber-600 mt-2'>
                                                         *Password must contain Upper case, lower case, special character and number.
                                                     </p>
                                                     <p className='text-xs tracking-wide mt-4 text-zinc-400'>Please enter new password</p>
+                                                    {errors.password && typeof errors.password === 'object' && (
+                                                        <span className='text-red-500'>
+                                                            {(errors.password as { type: string, message: string })?.type === 'minLength'
+                                                                ? (errors.password as { type: string, message: string }).message
+                                                                : (errors.password as { type: string, message: string }).type === 'maxLength'
+                                                                ? (errors.password as { type: string, message: string }).message
+                                                                : (errors.password as { type: string, message: string }).type === 'validate'
+                                                                ? (errors.password as { type: string, message: string }).message
+                                                                : 'Password is required'
+                                                            }
+                                                        </span>
+                                                    )}
+
                                                     <input
                                                         {...register('password' , { required: true, validate: passwordValidation, minLength: { value: 8, message: 'Password must be 8 or more characters'}, 
                                                         maxLength:{value: 16, message: 'Password must be 16 or less characters'} })}
                                                         value={passInput}
                                                         onChange={(event) => setPassInput(event.target.value)}
-                                                        type="text"
+                                                        type="password"
                                                         className="w-full h-8 py-1 mt-2 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none"
                                                     />
-                                                    {typeof errors.password?.message === 'string' && (<span className='text-red-500 text-sm'>{errors.password.message}</span>)}
+                                                    
                                                     
                                                     <p className='text-xs tracking-wide mt-3 text-zinc-400'>Please confirm new password</p>
+                                                    {errors.confirm_pass && typeof errors.confirm_pass === 'object' && (
+                                                        <span className='text-red-500'>
+                                                            {
+                                                                (errors.confirm_pass as { type: string, message: string })?.type === 'passwordMatch'
+                                                                ? null
+                                                                :(errors.confirm_pass as { type: string, message: string }).message
+                                                            }
+                                                        </span>
+                                                    )}
+                                                    
                                                     <input
-                                                        {...register('confirm_pass', { required: true, validate: passwordMatch })}
+                                                        {...register('confirm_pass', { required: true, validate: passwordMatch  })}
                                                         value={confirmPassInput}
                                                         onChange={(event) => setConfirmPassInput(event.target.value)}
-                                                        type="text"
+                                                        type="password"
                                                         className="w-full h-8 py-1 mt-2 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none"
                                                     />
                                                     <div className='flex flex-row self-center justify-center w-full h-full mt-6 text-sm gap-4'>
                                                         <button onClick={cancelResetPassword} className='h-7 w-16 self-center rounded-md bg-zinc-500 text-zinc-50'>Cancel</button>
-                                                        <button className={`h-7 w-36 self-center rounded-md text-sm ${disabledPass ? 'bg-zinc-300' : 'bg-red-500'} text-zinc-50`} disabled={disabledPass}>Update my password</button>
+                                                        <button className={`h-7 w-36 self-center rounded-md text-sm bg-indigo-300 text-zinc-50`}>Update my password</button>
                                                     </div>
                                                 </div>
                                             </form>
                                         ): (
                                             <div>
+                                                
+                                                <p className='text-sm font-bold tracking-wider text-secondary'>Update your password</p>
+                                                <button onClick={resetPassword} className={`h-7 w-40 self-center rounded-md mt-6 text-sm bg-indigo-500 text-zinc-50`}>Update Password</button>
+                                                <p className='h-8'></p>
                                                 <p className='text-sm font-bold tracking-wider text-secondary'>Delete Your Account</p>
                                                 <p className='text-xs tracking-wide text-zinc-400'>Permanently delete your account here</p>
                                                 <button onClick={deleteAccount} className={`h-7 w-20 self-center rounded-md mt-6 text-sm bg-red-500 text-zinc-50`}>Delete</button>
-                                                <p className='h-8'></p>
-                                                <p className='text-sm font-bold tracking-wider text-secondary'>Update your password</p>
-                                                <button onClick={resetPassword} className={`h-7 w-40 self-center rounded-md mt-6 text-sm bg-indigo-500 text-zinc-50`}>Update Password</button>
+                                                
                                             </div>
                                         )}
                                         
                                     </div>
-                                    
                                 )}
                             </div>
                         </div>

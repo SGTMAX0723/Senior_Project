@@ -93,7 +93,7 @@ const UserRegistration =()=>{
 
     const passwordValidation = (value) => {
         if (!passPattern.test(value)) {
-          return 'Password does not contiain requirements';
+          return 'Password does not contain requirements';
         }
         return true;
     };
