@@ -101,7 +101,7 @@ const Followers = () => {
             <div className='w-screen min-h-screen flex self-center bg-primary items-center justify-center pl-48'>
                 <div className="flex flex-col w-4/5 min-h-screen bg-zinc-50 border-l-2 border-r-2"> 
                     <ConnectionBar followers='followers'/>
-                    <div className='grid w-full items-center justify-center pt-8'>
+                    <div className='flex flex-col w-full items-center justify-center'>
                         {followers.map(({ follows, followed, id }: any, index:number) => {
                             following.map(({ follows, followed }: any) => {
                                 if (follows === user.id && followed === followers[index].follows) {
