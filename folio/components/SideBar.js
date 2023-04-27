@@ -1,8 +1,7 @@
 // Imports for icons using React Icons
 import { AiFillHome } from 'react-icons/ai';
 import { RiDashboard2Fill } from 'react-icons/ri';
-import { HiTemplate, HiUsers, HiUser } from 'react-icons/hi';
-import { IoSettingsSharp } from 'react-icons/io5';
+import { HiTemplate, HiUsers } from 'react-icons/hi';
 import { IoIosLogOut } from "react-icons/io";
 import Link from 'next/link';
 import { LogoutWhileLoggedIn } from "./UserAuthentication";
