@@ -151,7 +151,7 @@ const NavBarlogged = () => {
             <button onClick={handleImageClick}>
               <img
                 className="h-full w-full rounded-full"
-                src={user.avatar?`https://folio-database.fly.dev/api/files/_pb_users_auth_/${user.id}/${user.avatar}`: Default}
+                src={user.avatar ? `https://folio-database.fly.dev/api/files/_pb_users_auth_/${user.id}/${user.avatar}` : Default}
                 alt="avatar"
               />
             </button>
