@@ -64,7 +64,7 @@ const Templates = () => {
                     <div className='grid grid-cols-1 py-8 min-[0px]:gap-y-10 sm:grid-cols-1 sm:gap-y-10 md:grid-cols-1 md:gap-y-10 lg:grid-cols-2 lg:gap-y-10 xl:grid-cols-3 h-full w-full justify-items-center items-center px-4'>
                         {templates.map(({ template_name, template_img, id }: any, index: number) => {
                             return (
-                                <TemplateContainer key={index} templateId={id} template_name={template_name} template_img={template_img} id={id} text={<p className="text-sm text-gray-600 mt-2">Template - Category</p>} alt_img={"flex w-full h-full bg-gradient-to-r from-[#A3A0FB] to-[#E53F71] justify-center items-center"} />
+                                <TemplateContainer key={index} templateId={id} template_name={template_name} template_img={template_img} id={id} alt_img={"flex w-full h-full bg-gradient-to-r from-[#A3A0FB] to-[#E53F71] justify-center items-center"} />
                             );
                         })}
                         <TemplateContainer template_name={<p>Blank Project</p>} text={<p className="text-sm text-gray-600 mt-2">A clean slate</p>} alt_img={"flex w-full h-full bg-gradient-to-r from-zinc-800 to-zinc-600 justify-center items-center"} />
