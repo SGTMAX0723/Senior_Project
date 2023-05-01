@@ -34,7 +34,7 @@ const FollowButton = (props) => {
   }
 
   return (
-    <button onClick={() => {props.following && props.match || props.cardType === 'following'? unfollow() : follow()}} className={'border-2 w-32 bg-blue-500 mt-2 rounded-full hover:from-pink-500 hover:bg-blue-600 text-white'} disabled={loading}>
+    <button onClick={() => {props.following && props.match || props.cardType === 'following'? unfollow() : follow()}} className={'w-24 h-8 bg-secondary rounded-full hover:bg-zinc-700 text-white'} disabled={loading}>
         {loading ? 'Processing...' : (props.following && props.match || props.cardType === 'following' ? 'Unfollow' : 'Follow')}
     </button>
   );

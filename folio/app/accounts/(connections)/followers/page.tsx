@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import  { pb } from 'components/UserAuthentication';
 import Link from 'next/link';
 import ConnectionCards from '../../../../components/ConnectionsCard';
-import ConnectionsButtonFollowers from '../../../../components/ConnectionsButtonFollowers';
+import ConnectionBar from '../../../../components/ConnectionBar';
 
 
 const Followers = () => {
@@ -76,7 +76,7 @@ const Followers = () => {
         } else {
             router.push('/login');
         }
-    }, [isLoggedIn, fetchFollowers, fetchFollowing]);  
+    }, [isLoggedIn]);  
 
     useEffect(() => {
         if (followers.length > 0) {
@@ -98,39 +98,35 @@ const Followers = () => {
 
     return (
         <main>
-            <div className='xl:h-screen lg:h-screen md:h-screen sm:h-screen min-h-screen pt-16 ml-48
-                            flex
-                            bg-primary'>
-
-                
-                <div className="container mt-5 sm:mt place-items-center grid lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 space-x-2 space-y-2 pt-16 ml-4 "> 
-                
-                    {followers.map(({ follows, followed, id }: any, index:number) => {
-                        following.map(({ follows, followed }: any) => {
-                            if (follows === user.id && followed === followers[index].follows) {
-                                match = true;
-                            }
-                        })
-                        return (
-                        <ConnectionCards    key={index}
-                                            cardType='followers'
-                                            currentUserId={user.id}
-                                            connection={id}
-                                            match={match}
-                                            following={followed === user.id}
-                                            followers={follows} 
-                                            followerAvatar={users[index]} 
-                                            followerName={name[index]} 
-                                            followerEmail={email[index]}
-                                            githubLink={github[index]}
-                                            onFollow={() => fetchFollowers()}
-                                            onUnfollow={() => fetchFollowers()} />
-                    )})}
+            <div className='w-screen min-h-screen flex self-center bg-primary items-center justify-center pl-48'>
+                <div className="flex flex-col w-4/5 min-h-screen bg-zinc-50 border-l-2 border-r-2"> 
+                    <ConnectionBar followers='followers'/>
+                    <div className='flex flex-col w-full items-center justify-center overflow-auto'>
+                        {followers.map(({ follows, followed, id }: any, index:number) => {
+                            following.map(({ follows, followed }: any) => {
+                                if (follows === user.id && followed === followers[index].follows) {
+                                    match = true;
+                                }
+                            })
+                            return (
+                            <ConnectionCards    key={index}
+                                                cardType='followers'
+                                                currentUserId={user.id}
+                                                connection={id}
+                                                match={match}
+                                                following={followed === user.id}
+                                                followers={follows} 
+                                                followerAvatar={users[index]} 
+                                                followerName={name[index]} 
+                                                followerEmail={email[index]}
+                                                githubLink={github[index]}
+                                                onFollow={() => fetchFollowers()}
+                                                onUnfollow={() => fetchFollowers()} />
+                        )})}
+                    </div>
                 </div>
             </div>
-            
             <NavBarLogged />
-            <ConnectionsButtonFollowers />
             <SideBar />
         </main>
     );
