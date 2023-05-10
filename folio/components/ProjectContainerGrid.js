@@ -72,7 +72,7 @@ const ProjectContainerGrid = (props) => {
                                     <p className="truncate">{props.project_name}</p>
                                 </div>
                             </button>
-                            <p className="flex w-full items-center justify-end pr-6 text-sm text-gray-600">Blank Template</p>
+                            <p className="flex w-full items-center justify-end pr-6 text-sm text-gray-600">{props.template}</p>
                         </div>
                     </div>
                     <div>

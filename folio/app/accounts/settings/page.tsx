@@ -221,7 +221,8 @@ export default function Settings() {
                     </div>
                     <div className='grid grid-cols-2 w-fill h-5/6 gap-2 mt-2 mx-3'>
                         <div className='flex flex-col w-fill h-full'>
-                            <div className='grid grid-cols-2 w-full'>
+                            {/* update user avatar */}
+                            {/* <div className='grid grid-cols-2 w-full'>
                                 <img 
                                     src={user.avatar ? `https://folio-database.fly.dev/api/files/_pb_users_auth_/${user.id}/${user.avatar}` 
                                     : '../../../public/Default_PFP.jpg'} 
@@ -238,30 +239,28 @@ export default function Settings() {
                                 </div>
                             </div>
 
-
-
-                            <div className='h-0.5 w-full mt-2 bg-zinc-300' />
+                            <div className='h-0.5 w-full mt-2 bg-zinc-300' /> */}
                             <div className='flex flex-col pt-2 h-max'>
                                 <p className='text-sm font-bold tracking-wider text-secondary'>Your Details</p>
                                 <p className='text-xs tracking-wide text-zinc-400'>Update your details here</p>
                                 <form  onSubmit={handleSubmit(onSubmit)}>
                                     <div className='grid grid-cols-2 grid-rows-2 mt-2'> 
-                                        <p className='w-40 h-3'>First Name:</p>
-                                        <p className='w-40 h-3'>Last Name:</p>    
+                                        <p className='w-40 h-3 text-sm font-regular tracking-wider text-secondary'>First Name:</p>
+                                        <p className='w-40 h-3 text-sm font-regular tracking-wider text-secondary'>Last Name:</p>    
                                     </div>
                                 
                                     <div className='grid grid-cols-2'>   
                                         <input {...register('firstName')}  type='text' className='w-full h-8  rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={firstname} />
                                         <input {...register('lastName')}  type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={lastname} />
                                     </div>
-                                   
-                                    <p className='mt-3'>Username:</p>   
+                                    
+                                    <p className='mt-3 mb-1 text-sm font-regular tracking-wider text-secondary'>Username:</p>   
                                     <input {...register('username', {validate: userValidation})} type='text' className='w-full h-8 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.username} />
                                     {typeof errors.username?.message === 'string' && (<span className='text-red-500 text-sm'>{errors.username.message}</span>)}
                                     
-                                    <p className='mt-3'>Bio:</p> 
-                                    <textarea {...register('bio', {validate: bioValidation} )} onChange={updateBioCharCount} className='w-full h-28 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.bio} />
-                                    <p>Bio character count: {bioCharCount}/300</p>
+                                    <p className='mt-3 mb-1 text-sm font-regular tracking-wider text-secondary'>Bio:</p> 
+                                    <textarea {...register('bio', {validate: bioValidation} )} onChange={updateBioCharCount} className='w-full h-28 max-h-64 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 focus:border-indigo-300 outline-none' placeholder={user.bio} />
+                                    <p className='mt-2 text-sm font-regular tracking-wider text-secondary'>Bio character count: {bioCharCount}/300</p>
                                     {typeof errors.bio?.message === 'string' && ( <span className='text-red-500 text-sm'>{errors.bio.message}</span> )}
 
                                     <button type='submit' className='w-32 self-center h-8 mt-4 rounded-md bg-[#A3A0FB] text-zinc-50'>Save</button>
@@ -279,7 +278,7 @@ export default function Settings() {
                             <p className='text-xs tracking-wide text-zinc-400'>update your Email here</p>
                                 <div>
                                     <Link href='/accounts/email-reset'>
-                                        <a className='w-full h-8 mt-1 rounded-md bg-zinc-100 pl-2 text-sm border-2 border-zinc-200 hover:border-indigo-300 outline-none hover:bg-gray-100 flex items-center justify-center'>
+                                        <a className='w-full h-8 mt-1 rounded-md bg-zinc-100 text-zinc-400 pl-2 text-sm border-2 border-zinc-200 hover:border-indigo-300 outline-none hover:bg-gray-100 flex items-center justify-center'>
                                             Click here to update your Email
                                         </a>
                                     </Link>

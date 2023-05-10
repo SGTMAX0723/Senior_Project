@@ -64,7 +64,7 @@ const UserProfile = () => {
     const listView = () => {
         return(
             <div className='grid grid-cols-1 w-full max-w-7xl px-4 py-4 justify-items-center gap-10'>
-                {projects.map(({ project_name, project_Image, project_url, updated, visibility, favorites, id }, index) => {
+                {projects.map(({ project_name, project_Image, project_url, updated, visibility, favorites, id, template }, index) => {
                     function loadProject() {
                         router.push(project_url);
                     }
@@ -73,9 +73,9 @@ const UserProfile = () => {
                             <div key={id} className='rounded-md w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
                                 {
                                     user.id === userId ?
-                                    <ImageContainerDashboard key={index} project_name={project_name} project_Image={project_Image} updated={updated} load_project={loadProject} id={id}/>
+                                    <ImageContainerDashboard key={index} project_name={project_name} project_Image={project_Image} updated={updated} load_project={loadProject} id={id} template={template} />
                                     :
-                                    <ImageContainerHome key={index} project_name={project_name} project_Image={project_Image} updated={updated} id={id}/>
+                                    <ImageContainerHome key={index} project_name={project_name} project_Image={project_Image} updated={updated} favorites={favorites} id={id} template={template}/>
                                 }
                             </div>
                         );
@@ -84,9 +84,9 @@ const UserProfile = () => {
                             <div key={id} className='rounded-md w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
                                 {
                                     user.id === userId ?
-                                    <ImageContainerDashboard key={index} project_name={project_name} project_Image={project_Image} updated={updated} load_project={loadProject} id={id}/>
+                                    <ImageContainerDashboard key={index} project_name={project_name} project_Image={project_Image} updated={updated} load_project={loadProject} id={id} template={template}/>
                                     :
-                                    <ImageContainerHome key={index} project_name={project_name} project_Image={project_Image} updated={updated} favorites={favorites} id={id}/>
+                                    <ImageContainerHome key={index} project_name={project_name} project_Image={project_Image} updated={updated} favorites={favorites} id={id} template={template}/>
                                 }
                             </div>
                         );

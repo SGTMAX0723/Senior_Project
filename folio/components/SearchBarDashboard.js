@@ -10,7 +10,7 @@ const SearchBarDashboard = () => {
         const fetchProjects = async () => {
         let filters = 'created >= "2022-01-01 00:00:00" && user_projects = "' + user.id + '"';
         try {
-            const projectList = await pb.collection('projects').getList(1, 100000, {
+            const projectList = await pb.collection('projects').getList(1, 100, {
             filter: filters,
             });
             setProjects(projectList.items);
