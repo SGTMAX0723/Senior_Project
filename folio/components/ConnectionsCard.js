@@ -3,6 +3,7 @@ import { SiGithub } from "react-icons/si";
 import {pb} from "./UserAuthentication";
 import FollowButton from './FollowButton';
 import Default from '../public/Default_PFP.jpg'
+import Link from "next/link";
 
 const ConnectionsCard = (props) => {
     const user = pb.authStore.model;
@@ -15,7 +16,9 @@ const ConnectionsCard = (props) => {
                 </div>
             </div>
             <div className="flex flex-col pl-16">
-                <h4 className="text-secondary text-xl font-bold">{props.followerName}</h4>
+                <Link href={`/accounts/${props.followers}/profile`}>
+                    <h4 className="text-secondary text-xl font-bold">{props.followerName}</h4>
+                </Link>
                 <p className="text-zinc-400">{props.followerEmail}</p>
             </div>
             <div className="flex items-center justify-end pr-8">

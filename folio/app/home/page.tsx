@@ -77,25 +77,28 @@ export default function Home() {
                         <h1 className='text-4xl text-center text-secondary font-semi-bold'>Featured User Projects</h1>
                     </div>
                     <div className='grid grid-cols-1 justify-items-center gap-10 mb-16'>
-                        {topProjects.map(({ user_projects, project_name, project_img, updated, favorites, id }:any, index:number) => {
-                            return (
-                                <div className='rounded-md w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
-                                    <ImageContainerHome
-                                        key={index}
-                                        user_name={users.map(({ id, name }: any, uKey: number) => {
-                                            if (user_projects == id) {
-                                                return <p key={uKey}>{name}</p>;
-                                            }
-                                        })}
-                                        user_id={user_projects}
-                                        project_name={project_name}
-                                        project_img={project_img}
-                                        updated={updated}
-                                        favorites={favorites}
-                                        id={id}
-                                    />
-                                </div>
-                            );
+                        {topProjects.map(({ user_projects, project_name, project_img, updated, favorites, id, visibility, template }:any, index:number) => {
+                            if (visibility == true) {
+                                return (
+                                    <div className='rounded-md w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
+                                        <ImageContainerHome
+                                            key={index}
+                                            user_name={users.map(({ id, name }: any, uKey: number) => {
+                                                if (user_projects == id) {
+                                                    return <p key={uKey}>{name}</p>;
+                                                }
+                                            })}
+                                            user_id={user_projects}
+                                            project_name={project_name}
+                                            project_img={project_img}
+                                            updated={updated}
+                                            favorites={favorites}
+                                            id={id}
+                                            template={template}
+                                        />
+                                    </div>
+                                );
+                            };
                         })}
                     </div>
                 </div>

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { pb } from "./UserAuthentication";
 import Default from '../public/Default_PFP.jpg'
 import MenuDropdown from "./MenuDropdown";
+import { usePathname } from "next/navigation";
 
 const SearchBar = ({ icon }) => {
   const [users, setUsers] = useState([]);
@@ -104,6 +105,7 @@ const NavBarlogged = () => {
   const [isImageClicked, setIsImageClicked] = useState(false);
   const dropdownRef = useRef(null);
 
+  const pathname = usePathname();
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (isImageClicked && !dropdownRef.current.contains(event.target)) {
@@ -130,14 +132,21 @@ const NavBarlogged = () => {
   return(
     <main>
       <div className="fixed top-0 h-16 w-screen pl-48 justify-center items-center grid grid-cols-3 bg-zinc-50 text-zinc-50 border-b-2">
-        <Link href='/templates' className="text-gray-800 
-        grid justify-self-center 
-        font-semibold text-s tracking-[.20em] 
-        col-start-1">
-          CREATE
-          
-        </Link>
-
+        {pathname !== '/templates' ?
+          <Link href='/templates' className="text-gray-800 
+          grid justify-self-center 
+          font-semibold text-s tracking-[.20em] 
+          col-start-1">
+            CREATE
+          </Link>
+          :
+          <Link href='/templates' className="text-gray-800 
+          grid justify-self-center 
+          font-semibold text-s tracking-[.20em] 
+          col-start-1 invisible">
+            CREATE
+          </Link>
+        }
         <div className="flex relative mx-auto text-zinc-500 xl:visible lg:visible md:invisible min-[0px]:invisible max-sm:invisible">
           {/* <input className="bg-zinc-50 h-10 w-64 pl-10 text-sm focus:outline-none tracking-[.07em]" type="search" name="search" placeholder="Search users or projects"/> */}
           {/* <button type="submit" className="absolute inset-y-0 left-0 mx-auto items-center">

@@ -22,7 +22,7 @@ const Dashboard = () => {
     const fetchProjects = async () => {
         const filters = user && user.id ? `created >= "2022-01-01 00:00:00" && user_projects = "${user.id}"` : '';
         try {
-            const resultList = await pb.collection('projects').getList(1, 1000000, {
+            const resultList = await pb.collection('projects').getList(1, 25, {
                 filter: filters,
                 sort: '-created',
             });
@@ -59,13 +59,13 @@ const Dashboard = () => {
     const listView = () => {
         return(
             <div className='grid grid-cols-1 justify-items-center gap-10'>
-                {projects.map(({ project_name, project_img, project_url, updated, id }:any, index:number) => {
+                {projects.map(({ project_name, project_img, project_url, updated, id, description, template }:any, index:number) => {
                     function loadProject() {
                         router.push(project_url);
                     }
                     return (
                         <div key={id + view} className='rounded-md w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
-                            <ImageContainerDashboard key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id}/>
+                            <ImageContainerDashboard key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id} description={description} template={template} />
                         </div>
                     );
                 })}
@@ -75,16 +75,16 @@ const Dashboard = () => {
     const gridView = () => {
         return(
             <div className='grid gap-10 min-[0px]:gap-y-10 sm:grid-cols-1 sm:gap-y-10 md:grid-cols-1 md:gap-y-10 lg:grid-cols-2 lg:gap-y-10 xl:grid-cols-3 max-w-7xl place-self-center items-center'>
-                {projects.map(({ project_name, project_img, project_url, updated, id }:any, index:number) => {
-                        function loadProject() {
-                            router.push(project_url);
-                        }
-                        return (
-                            <div key={id + view} className='w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
-                                <ProjectContainerGrid key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id}/>
-                            </div>
-                        );
-                    })}
+                {projects.map(({ project_name, project_img, project_url, updated, id, description, template }:any, index:number) => {
+                    function loadProject() {
+                        router.push(project_url);
+                    }
+                    return (
+                        <div key={id + view} className='w-full max-w-7xl fade-in' style={{animationDelay: `${index * 0.15}s`}}>
+                            <ProjectContainerGrid key={index} project_name={project_name} project_img={project_img} updated={updated} load_project={loadProject} id={id} description={description} template={template} />
+                        </div>
+                    );
+                })}
             </div>
         )
     }
